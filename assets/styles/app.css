@@ -1,3 +1,22 @@
 body {
-    background-color: skyblue;
+    background-color: #eb87b6;
+}
+
+/* Style pour le addFlash */
+@keyframes bounce {
+    0% { transform: translateY(-20px); }
+    50% { transform: translateY(20px); }
+}
+
+.alert {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+    padding: 15px;
+    margin: 20px auto;
+    width: 50%;
+    border-radius: 5px;
+    text-align: center;
+    animation: bounce 1s ease infinite; /* Applique l'animation bounce */
+    animation-iteration-count: 1; /* Définit le nombre de fois que l'animation se répète à 1 */
 }

@@ -4,8 +4,12 @@
 
 {% block title %} Inscription {% endblock %}
 
-
 {% block body %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-error">
+            {{ message }}
+        </div>
+    {% endfor %}
     <h1>{{ pageName }}</h1>
 
     {% if form is defined %}
