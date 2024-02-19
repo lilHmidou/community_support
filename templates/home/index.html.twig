@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Home Page
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <!-- Intégration de Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .top {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100%; /* Hauteur de 100% pour occuper toute la hauteur de la colonne */
+        }
+
+        .col-md-6 {
+            display: flex;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <body style="background-color: #F3F2E7;">
+    <hr>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- Contenu texte à gauche -->
+                <div class="top">
+                    <h1>Offrir de l'aide<br>aux moins<br>chanceux</h1><br>
+                    <h5>Il s'agit de contribuer à la communauté et<br>d'améliorer le monde.</h5><br>
+                    <button class="btn" style="background-color: #7E8AB8; color: white; padding: 10px 20px; border-radius: 20px; font-size: 14px;">Faire un don</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <!-- Image à droite -->
+                <img src="{{ asset ('images/child.jpeg') }}" class="img-fluid" alt="Image" width="500" height="200">
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <!-- Intégration de Bootstrap JavaScript pour le fonctionnement complet -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}
+
