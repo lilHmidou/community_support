@@ -17,6 +17,11 @@
                 {{ message }}
             </div>
         {% endfor %}
-        {% block body %}{% endblock %}
+        {% include 'fragments/header.html.twig' %}
+       <main>
+           {% block body %}{% endblock %}
+       </main>
+
+        {% include 'fragments/footer.html.twig' %}
     </body>
 </html>

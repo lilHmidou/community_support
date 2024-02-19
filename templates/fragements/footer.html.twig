@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Footer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Manrope', sans-serif;
+        }
+        .footer {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-section {
+            padding: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .footer-icon-container {
+            flex: 0 0 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .footer-text-container {
+            flex: 1;
+            padding-left: 30px;
+        }
+
+        .footer-icon {
+            width: 80px;
+            height: auto;
+        }
+
+        .footer-heading {
+            font-size: 18px;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .footer-data {
+            font-size: 16px;
+            margin: 0;
+        }
+
+        .bottom-footer {
+            background-color: #007BFF;
+            color: white;
+            padding: 40px;
+        }
+
+        .menu, .service, .footer-policies {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .menu li, .service li {
+            padding-bottom: 8px;
+        }
+
+        .footer-policies a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #FFFFFF; /* Separator line */
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between; /* Aligns copyright and policies */
+            align-items: center;
+        }
+
+        .mt-4, .pt-4 {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+        .container-fluid {
+            padding-right: 0;
+            padding-left: 0;
+        }
+    </style>
+</head>
+<body></body>
+
+<!-- 1ere partie du footer -->
+
+<footer class="footer">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4 footer-section" style="background-color: #EAE9DA;">
+                <div class="footer-icon-container">
+                    <img src="tel.jpeg" alt="Téléphone" class="footer-icon">
+                </div>
+                <div class="footer-text-container">
+                    <p class="footer-heading">Téléphone</p>
+                    <p class="footer-data">+33 123-456-789</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 footer-section" style="background-color: #E3E1CB;">
+                <div class="footer-icon-container">
+                    <img src="email.jpeg" alt="Email" class="footer-icon">
+                </div>
+                <div class="footer-text-container">
+                    <p class="footer-heading">Email</p>
+                    <p class="footer-data">info@communitysupport.com</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 footer-section" style="background-color: #CBC8AD;">
+                <div class="footer-icon-container">
+                    <img src="addresse.jpeg" alt="Addresse" class="footer-icon">
+                </div>
+                <div class="footer-text-container">
+                    <p class="footer-heading">Addresse</p>
+                    <p class="footer-data">90, Rue Tolbiac, 75013 Paris</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2e partie du footer -->
+        <div class="bottom-footer">
+            <div class="row no-gutters">
+                <div class="col-lg-6">
+                    <h1 class="footer-title">Community<br>Support</h1>
+                </div>
+                <div class="col-lg-3">
+                    <h2>Menu</h2>
+                    <ul class="menu">
+                        <li>À propos</li>
+                        <li>Éducation</li>
+                        <li>Solidarité</li>
+                        <li>Contact</li>
+                    </ul>
+                </div>
+                <div class="col-lg-3">
+                    <h2>Service</h2>
+                    <ul class="service">
+                        <li>Aide Directe</li>
+                        <li>Fournir des Informations</li>
+                        <li>Sensibilisation</li>
+                        <li>Lutte Contre la Pauvreté</li>
+                        <br>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>Droits d'auteur © 2024 Tous droits réservés.</p>
+                <div class="footer-policies">
+                    <a href="#">Conditions d'Utilisation</a>
+                    <a href="#">Politique de Confidentialité</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+</html>
