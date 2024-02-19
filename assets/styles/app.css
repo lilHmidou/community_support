@@ -1,5 +1,11 @@
 body {
-    background-color: #eb87b6;
+    background-color: #F3F2E7;
+    font-family: 'Manrope', sans-serif;
+    overflow-x: hidden; <!-- Empêche le défilement horizontal -->
+}
+
+.container-message {
+    background-color: #F3F2E7;
 }
 
 /* Style pour le addFlash */

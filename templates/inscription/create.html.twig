@@ -5,14 +5,17 @@
 {% block title %} Inscription {% endblock %}
 
 {% block body %}
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-error">
-            {{ message }}
-        </div>
-    {% endfor %}
-    <h1>{{ pageName }}</h1>
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/inscription.css') }}">
+    {% endblock %}
 
-    {% if form is defined %}
+    <body>
+    <div class="inscription">
+        <div class="title">
+        <h1>{{ pageName }}</h1> </div>
+
+        {% if form is defined %}
         {{ form_start(form) }}
             <div class="form-group">
                 {{ form_label(form.FirstName) }}
@@ -55,4 +58,6 @@
             </div>
         {{ form_end(form) }}
     {% endif %}
+    </div>
+    </body>
 {% endblock %}

@@ -1,0 +1,13 @@
+.inscription {
+    background-color: #F3F2E7;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column; /* Afficher les éléments en colonne */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.title {
+     /* Utilisation de position: absolute */
+    margin:0 0 70px 0; /* Ajustez la valeur selon vos besoins */
+}

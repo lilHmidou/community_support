@@ -1,0 +1,35 @@
+.header {
+    background-color: #F3F2E7;
+    padding: 10px 0 10px 10px;
+}
+
+.header-title {
+    font-size: 40px;
+    font-weight: bold;
+    color: #3A1700;
+    margin: 0;
+}
+
+/* Sélecteur d'élément */
+nav a {
+    color: #3A1700;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 25px;
+}
+
+.header-btn {
+    background-color: #7E8AB8;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    margin: 10px;
+    border: none;
+}
+
+.separator {
+    border: none;
+    border-top: 2px solid #ccc;
+    margin: 10px;
+}

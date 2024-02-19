@@ -1,0 +1,17 @@
+
+.top {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%; /* Hauteur de 100% pour occuper toute la hauteur de la colonne */
+}
+
+.col-md-6 {
+    display: flex;
+    align-items: center;
+}
+
+h1 {
+    font-size: 40px;
+    font-family: 'Montserrat', sans-serif;
+}

@@ -5,98 +5,11 @@
     <title>Footer</title>
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Manrope', sans-serif;
-        }
-        .footer {
-            min-height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .footer-section {
-            padding: 40px;
-            display: flex;
-            align-items: center;
-        }
-
-        .footer-icon-container {
-            flex: 0 0 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .footer-text-container {
-            flex: 1;
-            padding-left: 30px;
-        }
-
-        .footer-icon {
-            width: 80px;
-            height: auto;
-        }
-
-        .footer-heading {
-            font-size: 18px;
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .footer-data {
-            font-size: 16px;
-            margin: 0;
-        }
-
-        .bottom-footer {
-            background-color: #007BFF;
-            color: white;
-            padding: 40px;
-        }
-
-        .menu, .service, .footer-policies {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .menu li, .service li {
-            padding-bottom: 8px;
-        }
-
-        .footer-policies a {
-            color: white;
-            text-decoration: none;
-            padding: 0 15px;
-        }
-
-        .footer-bottom {
-            border-top: 1px solid #FFFFFF; /* Separator line */
-            padding: 15px 0;
-            display: flex;
-            justify-content: space-between; /* Aligns copyright and policies */
-            align-items: center;
-        }
-
-        .mt-4, .pt-4 {
-            margin-top: 0 !important;
-            padding-top: 0 !important;
-        }
-
-        .container-fluid {
-            padding-right: 0;
-            padding-left: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('styles/footer.css') }}">
 </head>
-<body></body>
-
 <!-- 1ere partie du footer -->
 
 <footer class="footer">
-    <div class="container-fluid">
         <div class="row">
             <div class="col-md-4 footer-section" style="background-color: #EAE9DA;">
                 <div class="footer-icon-container">
@@ -118,7 +31,7 @@
                 </div>
             </div>
 
-            <div class="col-md-4 footer-section" style="background-color: #CBC8AD;">
+            <div class="col-md-4 footer-section" style="background-color: #CBC8AD; ">
                 <div class="footer-icon-container">
                     <img src="{{ asset ('images/adresse.jpeg') }}" alt="Adresse" class="footer-icon">
                 </div>
@@ -165,6 +78,4 @@
         </div>
     </div>
 </footer>
-
-
 </html>

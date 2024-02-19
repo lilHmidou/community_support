@@ -13,16 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class InscriptionController extends AbstractController
 {
-
-    #[Route('/ind', name: 'app_inscription')]
-    public function index(): Response
-    {
-        return $this->render('inscription/index.html.twig', [
-            'controller_name' => 'InscriptionController',
-        ]);
-    }
-
-    #[Route('/inscription', name: 'community_support_inscription', methods: ['GET', 'POST'])]
+    #[Route('/inscription', name: 'inscription', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
@@ -42,7 +33,7 @@ class InscriptionController extends AbstractController
                 $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
 
                 // Redirigez l'utilisateur vers la page d'inscription
-                return $this->redirectToRoute('community_support_inscription');
+                return $this->redirectToRoute('inscription');
             }
 
             $entityManager->persist($user);
@@ -52,7 +43,7 @@ class InscriptionController extends AbstractController
             $this->addFlash('success', 'L\'inscription a été réalisé avec succès.');
 
             // Redirigez l'utilisateur vers une autre page après l'enregistrement réussi
-            return $this->redirectToRoute('app_inscription');
+            return $this->redirectToRoute('home');
         }
 
         return $this->render('inscription/create.html.twig', [

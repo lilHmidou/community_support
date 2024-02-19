@@ -8,29 +8,11 @@
     {{ parent() }}
     <!-- Intégration de Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .top {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            height: 100%; /* Hauteur de 100% pour occuper toute la hauteur de la colonne */
-        }
-
-        .col-md-6 {
-            display: flex;
-            align-items: center;
-        }
-
-        h1 {
-            font-size: 40px;
-            font-family: 'Montserrat', sans-serif;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
 {% endblock %}
 
 {% block body %}
-    <body style="background-color: #F3F2E7;">
-    <hr>
+    <body>
     <div class="container">
         <div class="row">
             <div class="col-md-6">
