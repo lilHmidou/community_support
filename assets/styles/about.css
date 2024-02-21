@@ -1,0 +1,188 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Rowdies', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F3F2E7;
+}
+
+
+/* 1ere page */
+
+
+.main-container {
+    display: flex;
+    flex-grow: 1; /* Permet au conteneur de croître pour remplir l'espace */
+}
+
+.left-side, .right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.left-side img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+    padding-left: 30px;
+}
+
+.right-side {
+    flex-direction: column;
+    align-items: flex-start; /* Alignez les textes à gauche */
+    margin-bottom: 0.5em;
+}
+
+.right-side h2 {
+    color: #3A1700;
+    font-weight: 700; /* bold */
+    font-size: 50px;
+    margin: 0;
+}
+
+.right-side p {
+    color: #3A1700;
+    font-weight: 300; /* light */
+    font-size: 20px;
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 28px; /* Ajout de la hauteur de ligne */
+}
+
+
+/* 2eme page */
+
+.statistique{
+    background-color: #FFFFFF;
+    padding: 100px;
+}
+
+.header-text {
+    text-align: center;
+    color: #3A1700;
+    font-size: 22px;
+    font-weight: bolder;
+    padding-bottom: 110px;
+}
+
+.stats-container {
+    color: #3A1700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: left;
+}
+
+.stat {
+    display: flex;
+    margin: 0 75px; /* Espace entre les statistiques */
+    background-color: #FFFFFF;
+}
+
+.number-container {
+    margin-right: 28px;
+}
+
+.number-container h1 {
+    font-size: 72px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.titre {
+    font-size: 20px;
+}
+
+.description {
+    font-size: 16px;
+    font-weight: lighter;
+    font-style: italic;
+}
+
+
+/* 3eme page */
+
+
+.third-container {
+    display: flex;
+    flex-grow: 1; /* Permet au conteneur de croître pour remplir l'espace */
+    flex-direction: row-reverse; /* Inverse l'ordre des éléments enfants */
+    padding: 40px;
+    padding-left: 100px;
+}
+
+.third-container .left-side, .third-container .right-side {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.third-container .right-side img {
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+}
+
+.third-container .left-side {
+    flex-direction: column;
+    align-items: flex-start; /* Alignez les textes à gauche */
+}
+
+.third-container .left-side h2 {
+    color: #3A1700;
+    font-weight: 700; /* bold */
+    font-size: 50px;
+    margin: 0;
+}
+
+.third-container .left-side p {
+    color: #3A1700;
+    font-weight: 300; /* light */
+    font-size: 20px;
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 28px; /* Ajout de la hauteur de ligne */
+}
+
+.button-container {
+    display: flex;
+    justify-content: center; /* Centrer le bouton horizontalement */
+    padding-top: 25px;
+}
+
+.volunteer-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 14px;
+    color: #7E8AB8;
+    border: 2px solid rgba(126, 138, 184, 0.305);
+    border-radius: 20px; /* Arrondissement des coins */
+    text-decoration: none;
+    font-weight: bold;
+    background-color: transparent;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.volunteer-button:hover {
+    background-color: rgba(126, 138, 184, 0.305);
+    color: white;
+}
+
+
+/* 4eme page */
+
+
+
