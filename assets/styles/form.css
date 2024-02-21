@@ -1,5 +1,5 @@
 /* Styles spécifiques pour la section d'inscription */
-.inscription {
+.form {
     background-color: #f9f9f9;
     font-family: Arial, sans-serif;
     padding: 30px;
@@ -15,7 +15,7 @@
 }
 
 /* Style pour le titre du formulaire */
-.inscription .title h1 {
+.form .title h1 {
     font-size: 28px;
     font-weight: bold;
     color: #333;

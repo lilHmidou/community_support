@@ -1,0 +1,36 @@
+{# templates/inscription/create.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %} Authentification {% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+    {% endblock %}
+
+    <body>
+    <div class="form">
+        <div class="title">
+            <h1>{{ pageName }}</h1> </div>
+
+        {% if form is defined %}
+            {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.Email) }}
+                {{ form_widget(form.Email) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.Password) }}
+                {{ form_widget(form.Password) }}
+            </div>
+            <div class="form-group">
+                {{ form_row(form.submit) }}
+            </div>
+            {{ form_end(form) }}
+        {% endif %}
+    </div>
+    </body>
+{% endblock %}
