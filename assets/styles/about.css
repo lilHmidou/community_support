@@ -17,7 +17,7 @@ body {
 
 .main-container {
     display: flex;
-    flex-grow: 1; /* Permet au conteneur de croître pour remplir l'espace */
+    flex-grow: 1;
 }
 
 .left-side, .right-side {
@@ -116,7 +116,7 @@ body {
 
 .third-container {
     display: flex;
-    flex-grow: 1; /* Permet au conteneur de croître pour remplir l'espace */
+    flex-grow: 1;
     flex-direction: row-reverse; /* Inverse l'ordre des éléments enfants */
     padding: 40px;
     padding-left: 100px;
@@ -185,4 +185,61 @@ body {
 /* 4eme page */
 
 
+.volunteers-container {
+    max-width: 1200px;
+    margin: auto;
+    padding-top: 80px;
+    padding-bottom: 100px;
+}
 
+.title-section {
+    text-align: left;
+    margin-bottom: 80px; /* Espacement en dessous de la section titre */
+}
+
+.title-section .subtitle {
+    color: #3A1700;
+    font-size: 20px;
+}
+
+.title-section h2 {
+    color: #3A1700;
+    margin: 0;
+    font-size: 50px;
+    font-weight: 700; /* bold */
+}
+
+.cards-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ombre pour les cartes */
+    border-radius: 20px;  /* ne fonctionne pas */
+    width: 250px;
+    margin: 10px;
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+}
+
+.card-info {
+    padding: 14px;
+    text-align: left;
+}
+
+.card-info h3 {
+    margin: 22px 0;
+    color: #3A1700; /* Couleur du nom */
+    font-size: 18px;
+}
+
+.card-info p {
+    color: rgba(58, 23, 0, 0.5);  ; /* Couleur de la description */
+    font-size: 14px;
+    margin: 0;
+}
