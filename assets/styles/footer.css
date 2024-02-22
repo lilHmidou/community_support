@@ -50,6 +50,8 @@ body {
 
 .menu, .service, .footer-policies {
     list-style-type: none;
+    margin: 0;
+    padding: 0;
 }
 
 .menu li, .service li {
