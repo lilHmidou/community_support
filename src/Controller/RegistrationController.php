@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\InscriptionType;
+use App\Form\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,14 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class InscriptionController extends AbstractController
+class RegistrationController extends AbstractController
 {
-    #[Route('/inscription', name: 'inscription', methods: ['GET', 'POST'])]
+    #[Route('/registration', name: 'registration', methods: ['GET', 'POST'])]
     public function create(Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $user = new User();
 
-        $form = $this->createForm(InscriptionType::class, $user);
+        $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);
 
@@ -29,8 +29,8 @@ class InscriptionController extends AbstractController
                 // Ajoutez un message flash pour informer l'utilisateur que cet e-mail existe déjà
                 $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
 
-                // Redirigez l'utilisateur vers la page d'inscription
-                return $this->redirectToRoute('inscription');
+                // Redirigez l'utilisateur vers la page d'registration
+                return $this->redirectToRoute('registration');
             }
 
             // Validation du mot de passe
@@ -40,8 +40,8 @@ class InscriptionController extends AbstractController
                 // Ajout d'un message d'erreur flash si les conditions de validation du mot de passe ne sont pas remplies
                 $this->addFlash('error', $passwordError);
 
-                // Redirection de l'utilisateur vers la page d'inscription pour corriger le formulaire
-                return $this->redirectToRoute('inscription');
+                // Redirection de l'utilisateur vers la page d'registration pour corriger le formulaire
+                return $this->redirectToRoute('registration');
             }
 
             // Vérification de la correspondance entre les mots de passe et leur confirmation
@@ -49,8 +49,8 @@ class InscriptionController extends AbstractController
                 // Ajout d'un message d'erreur flash si les mots de passe ne correspondent pas
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
 
-                // Redirection de l'utilisateur vers la page d'inscription pour corriger le formulaire
-                return $this->redirectToRoute('inscription');
+                // Redirection de l'utilisateur vers la page d'registration pour corriger le formulaire
+                return $this->redirectToRoute('registration');
             }
 
             // Hachez le mot de passe avant de l'enregistrer
@@ -61,13 +61,13 @@ class InscriptionController extends AbstractController
             $entityManager->flush();
 
             // Ajoutez un message flash pour informer l'utilisateur du succès
-            $this->addFlash('success', 'L\'inscription a été réalisé avec succès.');
+            $this->addFlash('success', 'L\'registration a été réalisé avec succès.');
 
             // Redirigez l'utilisateur vers une autre page après l'enregistrement réussi
             return $this->redirectToRoute('home');
         }
 
-        return $this->render('inscription/create.html.twig', [
+        return $this->render('registration/create.html.twig', [
             'pageName' => 'Inscription',
             'form' => $form,
         ]);
