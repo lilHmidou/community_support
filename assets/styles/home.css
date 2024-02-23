@@ -11,8 +11,7 @@
 }
 
 h1 {
-    font-size: 40px;
-    font-family: 'Montserrat', sans-serif;
+    font-size: 50px;
     font-weight:bold;
 }
 
@@ -90,12 +89,13 @@ progress {
 .number {
     color: #007BFF;
     font-weight: bold;
-    font-size: 30px;
+    font-size: 40px;
 }
 
 .text1{
     color: darkslategrey;
     font-weight: bold;
+    font-size: 17px;
 }
 
 .col1{
@@ -105,9 +105,12 @@ progress {
 
 
 .band {
-    background-color: #007BFF;
-    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.5);
+    background-color: #F3F2E7;
+    height: 200px;
+    text-align: center;
+    box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.5);
 }
+
 
 .button3 {
     background-color: white;
@@ -115,7 +118,7 @@ progress {
     padding: 10px 20px;
     border-radius: 20px;
     font-size: 14px;
-    border: #7E8AB8;
+    border: solid 2px #7E8AB8;
     font-weight: bold;
     transition: transform 0.3s ease;
 }
