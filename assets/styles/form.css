@@ -60,3 +60,36 @@
 .form-group button:hover {
     background-color: #0056b3;
 }
+
+/* Style pour bouton du mdp */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-input-wrapper .eye-toggle-button {
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    margin-top: -15px;
+    right: 5px;
+    background-color: transparent;
+}
+
+.password-input-wrapper .eye-toggle-button i {
+    font-size: 18px; /* Ajustez la taille de l'icône selon vos besoins */
+    color: #555; /* Couleur de l'icône */
+}
+
+.password-input-wrapper .eye-toggle-button:hover i {
+    color: #007bff; /* Couleur de l'icône au survol */
+}
+
+.eye-toggle-button:hover {
+    background-color: transparent !important;
+}
+
+.eye-toggle-button:focus {
+    outline: none; /* Style pour enlever la bordure autour de l'oeil */
+}

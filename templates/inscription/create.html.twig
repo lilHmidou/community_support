@@ -4,6 +4,8 @@
 
 {% block title %} Inscription {% endblock %}
 
+
+
 {% block body %}
     {% block stylesheets %}
         {{ parent() }}
@@ -54,8 +56,30 @@
 
             <div class="form-group">
                 {{ form_label(form.Password) }}
-                {{ form_widget(form.Password) }}
+                <div class="password-input-wrapper">
+                    {{ form_widget(form.Password,{'id': 'passwordField'}) }}
+                    <button type="button" id="toggleButton" class="eye-toggle-button"><i class="fa-regular fa-eye"></i></button>
+                </div>
+
+                <small>
+                    <strong>
+                        {{ form_help(form.Password) }}
+                    </strong>
+                    <ul>
+                        <li>au moins 8 caractères</li>
+                        <li>une lettre majuscule</li>
+                        <li>une lettre minuscule</li>
+                        <li>un chiffre</li>
+                        <li>un caractère spécial @ $ ! % * ? & .</li>
+                    </ul>
+                </small>
             </div>
+
+            <div class="form-group">
+                {{ form_label(form.confirmPassword) }}
+                {{ form_widget(form.confirmPassword) }}
+            </div>
+
             <div class="form-group">
                 {{ form_row(form.submit) }}
             </div>
@@ -63,4 +87,7 @@
     {% endif %}
     </div>
     </body>
+    {# Inclure le fichier JavaScript pour la gestion du mot de passe #}
+    <script src="{{ asset('controllers/password-toggle.js') }}"></script>
+    <script src="https://kit.fontawesome.com/d3a313e584.js" crossorigin="anonymous"></script>
 {% endblock %}

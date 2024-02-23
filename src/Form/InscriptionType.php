@@ -48,6 +48,11 @@ class InscriptionType extends AbstractType
             ])
             ->add('Password', PasswordType::class, [
                 'label' => 'Mot de passe',
+                'help' => 'Votre mot de passe doit contenir : ',
+                ])
+            ->add('confirmPassword', PasswordType::class, [
+                'label' => 'Confirmez le mot de passe',
+                'mapped' => false, //ne sera pas mappé dans l'entité
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Créer un compte',

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class InscriptionController extends AbstractController
 {
     #[Route('/inscription', name: 'inscription', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
         $user = new User();
 
@@ -23,10 +23,7 @@ class InscriptionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Hachez le mot de passe avant de l'enregistrer
-            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-            $user->setPassword($hashedPassword);
-
+            // Validation unique de l'email
             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['Email' => $user->getEmail()]);
             if ($existingUser) {
                 // Ajoutez un message flash pour informer l'utilisateur que cet e-mail existe déjà
@@ -35,6 +32,30 @@ class InscriptionController extends AbstractController
                 // Redirigez l'utilisateur vers la page d'inscription
                 return $this->redirectToRoute('inscription');
             }
+
+            // Validation du mot de passe
+            $passwordError = $this->validatePassword($user->getPassword());
+
+            if ($passwordError) {
+                // Ajout d'un message d'erreur flash si les conditions de validation du mot de passe ne sont pas remplies
+                $this->addFlash('error', $passwordError);
+
+                // Redirection de l'utilisateur vers la page d'inscription pour corriger le formulaire
+                return $this->redirectToRoute('inscription');
+            }
+
+            // Vérification de la correspondance entre les mots de passe et leur confirmation
+            if ($user->getPassword() !== $form->get('confirmPassword')->getData()) {
+                // Ajout d'un message d'erreur flash si les mots de passe ne correspondent pas
+                $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
+
+                // Redirection de l'utilisateur vers la page d'inscription pour corriger le formulaire
+                return $this->redirectToRoute('inscription');
+            }
+
+            // Hachez le mot de passe avant de l'enregistrer
+            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
+            $user->setPassword($hashedPassword);
 
             $entityManager->persist($user);
             $entityManager->flush();
@@ -50,5 +71,17 @@ class InscriptionController extends AbstractController
             'pageName' => 'Inscription',
             'form' => $form,
         ]);
+    }
+    // Méthode de validation du mot de passe
+    private function validatePassword(string $password): ?string
+    {
+        if (strlen($password) < 8) {
+            return 'Le mot de passe doit contenir au moins 8 caractères.';
+        }
+
+        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]+$/', $password)) {
+            return 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial.';
+        }
+        return null;
     }
 }
