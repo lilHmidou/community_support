@@ -93,3 +93,8 @@
 .eye-toggle-button:focus {
     outline: none; /* Style pour enlever la bordure autour de l'oeil */
 }
+
+/* Style pour la validation du mdp */
+.criteria-list li.criteria-met {
+    color: green;
+}
