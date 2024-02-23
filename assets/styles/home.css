@@ -29,6 +29,10 @@ h3, h4 {
     border-radius: 10px; /* Bord arrondi */
 }
 
+.col:hover {
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
+}
+
 .table-container1 {
     display: grid;
     grid-template-columns: repeat(2, 400px);
@@ -67,4 +71,88 @@ progress {
     border-radius: 20px;
     font-size: 14px;
     border: none;
+    font-weight: bold;
 }
+
+.purple:hover {
+    background-color: white;
+    color: #7E8AB8;
+    border: 2px solid #7E8AB8;
+}
+
+.table-container0 {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 20px; /* Ajoute de l'espace entre chaque case */
+    justify-content: center; /* Centre horizontalement */
+    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
+}
+
+.number {
+    color: #007BFF;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.text1{
+    color: darkslategrey;
+    font-weight: bold;
+}
+
+.col1{
+    text-align: center;
+    margin-top: 10%;
+}
+
+
+.band {
+    background-color: #007BFF;
+    box-shadow: 0 0 15px 10px rgba(0, 0, 0, 0.5);
+}
+
+.button3 {
+    background-color: white;
+    color: #007BFF;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: #7E8AB8;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.button3:hover {
+    background-color: cornflowerblue;
+    color: white;
+    transform: scale(1.1);
+}
+
+h5 {
+    font-weight: bold;
+}
+
+.table-container3 {
+    display: grid;
+    grid-template-columns: repeat(3, 300px);
+    gap: 30px; /* Ajoute de l'espace entre chaque case */
+    justify-content: center; /* Centre horizontalement */
+}
+
+.explore {
+    background-color: whitesmoke;
+    color: #7E8AB8;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: 2px solid #7E8AB8;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
+
+.explore:hover {
+    background-color: white;
+    color: #7E8AB8;
+    border: 2px solid #7E8AB8;
+    transform: scale(1.1);
+}
+
