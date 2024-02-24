@@ -59,6 +59,7 @@ body {
 
 /* 2eme page */
 
+
 .statistique{
     background-color: #FFFFFF;
     padding: 100px;
@@ -216,7 +217,7 @@ body {
 .card {
     background-color: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* ombre pour les cartes */
-    border-radius: 20px;  /* ne fonctionne pas */
+    border-radius: 10px !important; /* Arrondissement des coins */
     width: 250px;
     margin: 10px;
 }
@@ -224,6 +225,7 @@ body {
 .card img {
     width: 100%;
     height: auto;
+    border-radius: 10px 10px 0 0; /* Arrondissement des coins */
 }
 
 .card-info {
@@ -303,7 +305,7 @@ body {
     font-size: 15px;
     font-style: italic;
     text-align: justify;
-    line-height: 1.5;
+    line-height: 1.7;
 }
 
 .faq-toggle {
