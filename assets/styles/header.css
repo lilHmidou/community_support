@@ -34,3 +34,17 @@ nav a {
     border-top: 2px solid #ccc;
     margin: 10px;
 }
+
+/* Style pour le bouton de déclenchement du menu déroulant */
+.btn.dropdown-toggle {
+    background-color: transparent; /* Fond transparent */
+    color: #000; /* Couleur du texte */
+    border: none; /* Suppression de la bordure */
+    font-size: 30px; /* Taille de la police */
+    padding: 5px 10px; /* Espacement interne */
+    margin-left: -100px; /* Ajustement de la position vers la gauche */
+}
+
+.btn.dropdown-toggle:hover {
+    color: #007bff; /* Couleur du texte au survol */
+}

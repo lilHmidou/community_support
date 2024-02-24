@@ -9,12 +9,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class AuthentificationController extends AbstractController
 {
     #[Route('/authentification', name: 'authentification', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager): Response
+    public function create(Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
+
         $form = $this->createForm(AuthentificationType::class);
         $form->handleRequest($request);
 
@@ -27,6 +29,7 @@ class AuthentificationController extends AbstractController
 
             if ($existingUser && password_verify($password, $existingUser->getPassword())) {
                 // Authentification réussie
+                $session->set('is_logged_in', false);
                 $this->addFlash('success', 'Ravi de vous voir, ' . $existingUser->getFirstName() . ' !');
                 return $this->redirectToRoute('home');
             } else {
@@ -41,5 +44,13 @@ class AuthentificationController extends AbstractController
             'pageName' => 'Authentification',
             'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/logout', name: 'logout', methods: ['GET'])]
+    public function logout(SessionInterface $session): Response
+    {
+        $session->remove('is_logged_in');
+        $this->addFlash('success', 'Vous avez été déconnecté.');
+        return $this->redirectToRoute('home');
     }
 }

@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // Ajoutez un message flash pour informer l'utilisateur du succès
-            $this->addFlash('success', 'L\'registration a été réalisé avec succès.');
+            $this->addFlash('success', 'L\'inscription a été réalisé avec succès.');
 
             // Redirigez l'utilisateur vers une autre page après l'enregistrement réussi
             return $this->redirectToRoute('home');
