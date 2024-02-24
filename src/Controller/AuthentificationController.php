@@ -28,6 +28,8 @@ class AuthentificationController extends AbstractController
             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['Email' => $email]);
 
             if ($existingUser && password_verify($password, $existingUser->getPassword())) {
+
+
                 // Authentification réussie
                 $session->set('is_logged_in', false);
                 $this->addFlash('success', 'Ravi de vous voir, ' . $existingUser->getFirstName() . ' !');
@@ -45,6 +47,7 @@ class AuthentificationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/logout', name: 'logout', methods: ['GET'])]
     public function logout(SessionInterface $session): Response
