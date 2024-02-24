@@ -283,13 +283,16 @@ body {
     border-bottom: none;
 }
 
-
 .faq-item-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-weight: bold;
     padding: 6px;
+}
+
+.faq-item-content.active-content {
+    border-top: none; /* Enlève la bordure lorsqu'une réponse est active */
 }
 
 .faq-item-content {
