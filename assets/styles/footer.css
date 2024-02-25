@@ -1,11 +1,25 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* Assure que padding et border sont inclus dans la largeur totale */
+}
+
 body {
+    width: 100%;
+    min-height: 100%;
     background-color: #F3F2E7;
 }
 
 .footer {
-    min-height: 100%;
     display: flex;
     flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+}
+
+.row, .col-md-4 {
+    margin: 0;
+    padding: 0;
 }
 
 .footer-section {
@@ -46,12 +60,24 @@ body {
     background-color: #007BFF;
     color: white;
     padding: 40px;
+    width: 100%;
+    flex: 1;
 }
 
 .menu, .service, .footer-policies {
     list-style-type: none;
     margin: 0;
     padding: 0;
+}
+
+.menu a, .service a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.menu a:hover, .service a:hover, .footer-policies a:hover{
+    text-decoration: underline;
 }
 
 .menu li, .service li {
@@ -68,8 +94,10 @@ body {
     border-top: 1px solid #FFFFFF; /* Separator line */
     padding: 15px 0;
     display: flex;
+    flex: 1;
     justify-content: space-between; /* Aligns copyright and policies */
     align-items: center;
+    width: 100%;
 }
 
 .mt-4, .pt-4 {
@@ -78,6 +106,7 @@ body {
 }
 
 .container-fluid {
+    width: 100%;
     padding-right: 0;
     padding-left: 0;
 }
