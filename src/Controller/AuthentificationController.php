@@ -31,7 +31,7 @@ class AuthentificationController extends AbstractController
 
 
                 // Authentification réussie
-                $session->set('is_logged_in', false);
+                $session->set('is_logged_in', true);
                 $this->addFlash('success', 'Ravi de vous voir, ' . $existingUser->getFirstName() . ' !');
                 return $this->redirectToRoute('home');
             } else {
