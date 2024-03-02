@@ -14,10 +14,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class RegistrationController extends AbstractController
 {
     #[Route('/registration', name: 'registration', methods: ['GET', 'POST'])]
-    public function create(Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
+    public function create(User $user, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
     {
-        $user = new User();
-
         $form = $this->createForm(RegistrationType::class, $user);
 
         $form->handleRequest($request);

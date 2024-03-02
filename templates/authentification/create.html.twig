@@ -24,7 +24,12 @@
 
             <div class="form-group">
                 {{ form_label(form.Password) }}
-                {{ form_widget(form.Password) }}
+                <div class="password-input-wrapper">
+                    {{ form_widget(form.Password,{'id': 'passwordField'}) }}
+                    <button type="button" id="toggleButton" class="eye-toggle-button">
+                        <i class="fa-regular fa-eye-slash"></i>
+                    </button>
+                </div>
             </div>
             <div class="form-group">
                 {{ form_row(form.submit) }}
@@ -33,4 +38,5 @@
         {% endif %}
     </div>
     </body>
+    <script src="{{ asset('controllers/password/password-toggle.js') }}"></script>
 {% endblock %}
