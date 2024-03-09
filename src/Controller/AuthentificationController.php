@@ -204,7 +204,7 @@ class AuthentificationController extends AbstractController
         $user = $userRepository->find($userId);
 
         // Vérifier si l'utilisateur est connecté
-        if (!$userId) {
+        if (!$userId || !$user) {
             // Ajouter un message flash pour informer l'utilisateur qu'il a été déconnecté
             $this->addFlash('error', 'Erreur : Vous avez été déconnecté. Veuillez vous reconnecter.');
 

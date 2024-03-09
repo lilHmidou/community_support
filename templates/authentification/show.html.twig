@@ -18,34 +18,34 @@
                         <!-- Dans chaque input, je rjt un name = val que j'ai donné ds mon User. Utile pour modif les données-->
                         <div class="col-sm-6">
                             {{ form_label(form.FirstName, 'Prénom', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.FirstName,{'attr': {'class': 'form-control editable', 'id': 'FirstName'}}) }}
+                            {{ form_widget(form.FirstName,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
 
                         <div class="col-sm-6">
                             {{ form_label(form.LastName, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.LastName,{'attr': {'class': 'form-control editable', 'id': 'LastName'}}) }}
+                            {{ form_widget(form.LastName,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
 
                         <div class="col-12">
                             {{ form_label(form.Adress, 'Adresse', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.Adress,{'attr': {'class': 'form-control editable', 'id': 'Adress'}}) }}
+                            {{ form_widget(form.Adress,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
 
                         <div class="col-12">
                             {{ form_label(form.Phone, 'Numéro de téléphone', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.Phone,{'attr': {'class': 'form-control editable', 'id': 'Phone'}}) }}
+                            {{ form_widget(form.Phone,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
                         <div class="col-12">
-                            {{ form_label(form.gender, 'Genre', {'label_attr': {'class': 'form-label', 'style': 'margin-top: 20px;'}}) }}
-                            {{ form_widget(form.gender, {'attr': {'class': 'form-select editable', 'id': 'gender'}}) }}
+                            {{ form_label(form.Gender, 'Genre', {'label_attr': {'class': 'form-label', 'style': 'margin-top: 20px;'}}) }}
+                            {{ form_widget(form.Gender, {'attr': {'class': 'form-select'}}) }}
                         </div>
                         <div class="col-12">
                             {{ form_label(form.DOB, 'Date de naissance', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.DOB,{'attr': {'class': 'form-control editable', 'id': 'DOB'}}) }}
+                            {{ form_widget(form.DOB,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
                         <div class="col-12">
                             {{ form_label(form.Email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
-                            {{ form_widget(form.Email,{'attr': {'class': 'form-control editable', 'id': 'Email'}}) }}
+                            {{ form_widget(form.Email,{'attr': {'class': 'form-control editable'}}) }}
                         </div>
                     </div>
                 </div>
@@ -85,7 +85,6 @@
             {% endif %}
         </div>
     </body>
-    <script src="{{ asset('controllers/password/password-toggle.js') }}"></script>
     <script src="{{ asset('controllers/activate-update.js') }}"></script>
     <script src="{{ asset('controllers/delete-confirmed.js') }}"></script>
 {% endblock %}

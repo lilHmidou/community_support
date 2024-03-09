@@ -20,6 +20,12 @@ class RegistrationController extends AbstractController
 
         $form->handleRequest($request);
 
+        /* Vérifier si l'utilisateur est déjà connecté */
+        if ($session->get('is_logged_in')) {
+            // Rediriger vers la page d'accueil ou toute autre page appropriée
+            return $this->redirectToRoute('home');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             // Validation unique de l'email
             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['Email' => $user->getEmail()]);

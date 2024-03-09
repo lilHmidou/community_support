@@ -31,7 +31,7 @@ class RegistrationType extends AbstractType
             ->add('Phone', TextType::class, [
                 'label' => 'Téléphone',
             ])
-            ->add('gender', ChoiceType::class, [
+            ->add('Gender', ChoiceType::class, [
                 'label' => 'Genre',
                 'choices' => [
                     'Homme' => 'homme',
