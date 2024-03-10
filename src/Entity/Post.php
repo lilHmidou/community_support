@@ -149,4 +149,39 @@ class Post
 
         return $this;
     }
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $userId;
+
+    // Autres annotations...
+
+    public function getUserId(): ?int
+    {
+        return $this->userId;
+    }
+
+    public function setUserId(int $userId): self
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    // Autres méthodes...
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setUserIdOnPrePersist(): void
+    {
+        // Obtenez l'utilisateur connecté à partir du service de sécurité Symfony
+        $user = $this->security->getUser();
+
+        // Si un utilisateur est connecté, définissez l'ID de l'utilisateur sur l'entité Post
+        if ($user) {
+            $this->setUserId($user->getId());
+        }
+    }
 }

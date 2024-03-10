@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Solidarity
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/solidarity.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <br><br>
+        <div class="row">
+            <div class="col-md-6">
+                <h1 class="title1">Bienvenue sur la page solidarité</h1><br>
+                <p class="text1">Ici je peux suivre les événements de solidarité et y participer !<br>Je peux meme poster mes propres événements.</p><br>
+                <a href="{{ path('solidarity_form') }}">
+                    <button class="purple">Je poste un événement</button>
+                </a>
+            </div>
+            <div class="col-md-6"><br>
+                <img src="{{ asset ('images/solidarity/top.jpeg') }}" class="img-fluid" alt="Image" width="500" height="200">
+            </div>
+        </div>
+        <br><br>
+    </div>
+    <div class="container2">
+        <br><br>
+        <p class="blue">LES DERNIERS EVENEMENTS</p>
+        <h3>Consultez les événements d'actualité</h3>
+        <h1>Liste des événements de solidarité</h1>
+        <table>
+            <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Date de création</th>
+                <!-- Autres colonnes si nécessaire -->
+            </tr>
+            </thead>
+            <tbody>
+            {% for event in events %}
+                <tr>
+                    <td>{{ event.title }}</td>
+                    <td>{{ event.description }}</td>
+                    <td>{{ event.createdAtP|date('Y-m-d H:i:s') }}</td>
+                    <!-- Autres colonnes si nécessaire -->
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+
+{% endblock %}
