@@ -1,37 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %} Connexion {% endblock %}
 
 {% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+    {% endblock %}
     <section class="container">
-        <div class="row">
-            <div class="col">
+        <div class="form">
+            <div class="title">
                 <form method="post">
-                    {% if error %}
-                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-                    {% endif %}
-
-                    {% if app.user %}
-                        <div class="mb-3">
-                            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+                    <fieldset>
+                        <h1 class="h3 mb-3 font-weight-normal"> Connexion </h1>
+                        <label for="inputEmail">Email</label>
+                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
+                        <label for="inputPassword">Mot de passe</label>
+                        <div class="password-input-wrapper">
+                            <input type="password" name="password" id="passwordField" class="form-control" autocomplete="current-password" required>
+                            <button type="button" id="toggleButton" class="eye-toggle-button">
+                                <i class="fa-regular fa-eye-slash"></i>
+                            </button>
                         </div>
-                    {% endif %}
 
-                    <h1 class="h3 mb-3 font-weight-normal"> Connexion </h1>
-                    <label for="inputEmail">Email</label>
-                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                    <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
-                    <input type="hidden" name="_csrf_token"
-                           value="{{ csrf_token('authenticate') }}"
-                    >
-
-                    <button class="btn btn-lg btn-primary mt-3" type="submit">
-                        Se connecter
-                    </button>
+                        <input type="hidden" name="_csrf_token"
+                               value="{{ csrf_token('authenticate') }}"
+                        >
+                        <br>
+                        <div class="form-group">
+                            <button class="button button-submit" type="submit"> Se connecter </button>
+                        </div>
+                    </fieldset>
                 </form>
             </div>
         </div>
     </section>
+    <script src="{{ asset('controllers/password/password-toggle.js') }}"></script>
 {% endblock %}

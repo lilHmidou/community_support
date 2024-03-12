@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'L\'adresse e-mail existe déjà')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -65,6 +67,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ContactMessage = new ArrayCollection();
         $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
+        $this->CreatedAt_U = new \DateTimeImmutable();
+
     }
 
     public function getId(): ?int

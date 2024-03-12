@@ -1,9 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const confirmDeleteButton = document.getElementById('confirmDeleteButton');
+    const deleteButton = document.getElementById('deleteButton');
+    const confirmDeleteModal = new bootstrap.Modal(document.getElementById('confirmDeleteModal'));
 
-    confirmDeleteButton.addEventListener('click', function() {
-        // Mettre à jour le lien du bouton de confirmation avec l'ID de l'utilisateur à supprimer
-        const userId = document.getElementById('userId').value;
-        confirmDeleteButton.href = "{{ path('delete') }}?id=" + userId;
+    // Ajouter un gestionnaire d'événements pour le clic sur le bouton "Supprimer le compte"
+    deleteButton.addEventListener('click', function() {
+        // Afficher la fenêtre modale de confirmation de suppression
+        confirmDeleteModal.show();
     });
 });

@@ -19,8 +19,7 @@
                 <a href="#contact">Contact</a>
             </nav>
         </div>
-        {% if app.session.get('is_logged_in') %}
-            {# Afficher le menu de profil pour les utilisateurs connectés #}
+        {% if app.user %}            {# Afficher le menu de profil pour les utilisateurs connectés #}
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fa-solid fa-user"></i> <!-- Icône de l'utilisateur -->
@@ -31,15 +30,13 @@
                     <li><a class="dropdown-item" href="{{ path('logout') }}">Déconnexion</a></li>
                 </ul>
             </div>
-
-
         {% else %}
-            {# Afficher les boutons "Sign Up" et "Sign In" pour les utilisateurs non connectés #}
-            <a href="{{ path('registration') }}">
-                <button class="header-btn">Sign up</button>
+            {# Afficher les boutons pour les utilisateurs non connectés #}
+            <a href="{{ path('register') }}">
+                <button class="header-btn">S'inscrire</button>
             </a>
-            <a href="{{ path('authentification') }}">
-                <button class="header-btn">Sign in</button>
+            <a href="{{ path('login') }}">
+                <button class="header-btn">Se connecter</button>
             </a>
         {% endif %}
     </div>
