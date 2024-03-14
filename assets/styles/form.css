@@ -1,17 +1,13 @@
 /* Styles spécifiques pour la section d'registration */
 .form {
-    background-color: #f9f9f9;
+    background-color: #f2f2f2; /* Légèrement plus sombre pour un meilleur contraste */
     font-family: Arial, sans-serif;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 650px;
+    padding: 40px; /* Un peu plus d'espace intérieur */
+    border-radius: 20px; /* Bords plus arrondis */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légèrement plus prononcée */
+    max-width: 600px; /* Réduit légèrement la largeur pour une meilleure lisibilité */
     margin: 0 auto;
-    flex-direction: column; /* Afficher les éléments en colonne */
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px; /* Ajoute une marge en bas du formulaire */
-
+    margin-bottom: 40px;
 }
 
 /* Style pour le titre du formulaire */
@@ -61,6 +57,12 @@
     background-color: #0056b3;
 }
 
+.custom-checkbox {
+    transform: scale(1.5);
+    margin-left: 10px;
+    vertical-align: middle; /* Alignement vertical au centre */
+}
+
 /* Style pour bouton du mdp */
 .password-input-wrapper {
     position: relative;
@@ -72,7 +74,6 @@
     border: none;
     cursor: pointer;
     position: absolute;
-    margin-top: -15px;
     right: 5px;
     background-color: transparent;
 }

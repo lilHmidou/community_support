@@ -17,7 +17,7 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            #- '../src/Entity/' # Ici j'ai rajouté User.php afin de l'exclure de l'autowiring
+            - '../src/Entity/'
             - '../src/Kernel.php'
 
     # add more service definitions when explicit configuration is needed

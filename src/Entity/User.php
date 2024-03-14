@@ -7,11 +7,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\HasLifecycleCallbacks]
-class User
+#[UniqueEntity(fields: ['email'], message: 'L\'adresse e-mail existe déjà')]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -24,20 +26,23 @@ class User
     #[ORM\Column(length: 50)]
     private ?string $LastName = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Email = null;
-
-    #[ORM\Column(length: 100)]
-    private ?string $Password = null;
-
     #[ORM\Column(length: 150)]
-    private ?string $Adress = null;
+    private ?string $Address = null;
 
     #[ORM\Column(length: 15)]
-    private ?string $Phone = null;
+    private ?string $PhoneNumber = null;
 
     #[ORM\Column(length: 10)]
     private ?string $Gender = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
+
+    #[ORM\Column]
+    private array $roles = [];
+
+    #[ORM\Column]
+    private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $DOB = null;
@@ -62,6 +67,8 @@ class User
         $this->ContactMessage = new ArrayCollection();
         $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
+        $this->CreatedAt_U = new \DateTimeImmutable();
+
     }
 
     public function getId(): ?int
@@ -93,50 +100,26 @@ class User
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getAddress(): ?string
     {
-        return $this->Email;
+        return $this->Address;
     }
 
-    public function setEmail(string $Email): static
+    public function setAddress(string $Address): static
     {
-        $this->Email = $Email;
+        $this->Address = $Address;
 
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getPhoneNumber(): ?string
     {
-        return $this->Password;
+        return $this->PhoneNumber;
     }
 
-    public function setPassword(string $Password): static
+    public function setPhoneNumber(string $PhoneNumber): static
     {
-        $this->Password = $Password;
-
-        return $this;
-    }
-
-    public function getAdress(): ?string
-    {
-        return $this->Adress;
-    }
-
-    public function setAdress(string $Adress): static
-    {
-        $this->Adress = $Adress;
-
-        return $this;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->Phone;
-    }
-
-    public function setPhone(string $Phone): static
-    {
-        $this->Phone = $Phone;
+        $this->PhoneNumber = $PhoneNumber;
 
         return $this;
     }
@@ -181,6 +164,62 @@ class User
     public function setCreatedAtUValue(): void
     {
         $this->CreatedAt_U = new \DateTimeImmutable();
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * A visual identifier that represents this user.
+     *
+     * @see UserInterface
+     */
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->email;
+    }
+
+    /**
+    * @see UserInterface
+    */
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_USER';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): static
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @see PasswordAuthenticatedUserInterface
+     */
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): static
+    {
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
@@ -281,7 +320,15 @@ class User
                 $post->setUser(null);
             }
         }
-
         return $this;
+    }
+
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials(): void
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 }
