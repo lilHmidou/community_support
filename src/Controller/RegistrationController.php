@@ -3,89 +3,86 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\RegistrationType;
+use App\Form\RegistrationFormType;
+use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/registration', name: 'registration', methods: ['GET', 'POST'])]
-    public function create(User $user, Request $request, EntityManagerInterface $entityManager, SessionInterface $session): Response
+    #[Route('/register', name: 'register')]
+    public function create(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface $userAuthenticator,
+        UserAuthenticator $authenticator,
+        EntityManagerInterface $entityManager
+    ): Response
     {
-        $form = $this->createForm(RegistrationType::class, $user);
-
+        $user = new User();
+        $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-        /* Vérifier si l'utilisateur est déjà connecté */
-        if ($session->get('is_logged_in')) {
-            // Rediriger vers la page d'accueil ou toute autre page appropriée
+        //Si il est déjà connecté, on le redirige vers la page d'accueil
+        if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Validation unique de l'email
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['Email' => $user->getEmail()]);
+            // Vérifiez si l'adresse e-mail existe déjà
+            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
             if ($existingUser) {
-                // Ajoutez un message flash pour informer l'utilisateur que cet e-mail existe déjà
                 $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
-
-                // Redirigez l'utilisateur vers la page d'registration
-                return $this->redirectToRoute('registration');
+                return $this->redirectToRoute('register');
             }
 
-            // Validation du mot de passe
-            $passwordError = $this->validatePassword($user->getPassword());
+            // Comparez le mot de passe et le champ de confirmation
+            $plainPassword = $form->get('plainPassword')->getData();
+            $confirmPassword = $request->request->get('confirmPassword');
 
-            if ($passwordError) {
-                // Ajout d'un message d'erreur flash si les conditions de validation du mot de passe ne sont pas remplies
-                $this->addFlash('error', $passwordError);
-
-                // Redirection de l'utilisateur vers la page d'registration pour corriger le formulaire
-                return $this->redirectToRoute('registration');
-            }
-
-            // Vérification de la correspondance entre les mots de passe et leur confirmation
-            if ($user->getPassword() !== $form->get('confirmPassword')->getData()) {
-                // Ajout d'un message d'erreur flash si les mots de passe ne correspondent pas
+            if ($plainPassword !== $confirmPassword) {
+                // Ajoutez une erreur au formulaire
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-
-                // Redirection de l'utilisateur vers la page d'registration pour corriger le formulaire
-                return $this->redirectToRoute('registration');
+                // Retournez la vue du formulaire avec les erreurs
+                return $this->render('registration/register.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
             }
 
-            // Hachez le mot de passe avant de l'enregistrer
-            $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT);
-            $user->setPassword($hashedPassword);
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $plainPassword                )
+            );
 
             $entityManager->persist($user);
             $entityManager->flush();
 
-            // Ajoutez un message flash pour informer l'utilisateur du succès
-            $this->addFlash('success', 'L\'inscription a été réalisé avec succès.');
-
-            // Redirigez l'utilisateur vers une autre page après l'enregistrement réussi
-            return $this->redirectToRoute('home');
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+        } elseif ($form->isSubmitted()) {
+            // Récupérer toutes les erreurs de validation du formulaire
+            foreach ($form->getErrors(true) as $error) {
+                $errors[] = $error->getMessage();
+            }
         }
 
-        return $this->render('registration/create.html.twig', [
-            'pageName' => 'Inscription',
-            'form' => $form,
+        // Si des erreurs ont été trouvées, n'ajouter que la première erreur au flash error
+        if (!empty($errors)) {
+            $this->addFlash('error', $errors[0]);
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
         ]);
-    }
-    // Méthode de validation du mot de passe
-    private function validatePassword(string $password): ?string
-    {
-        if (strlen($password) < 8) {
-            return 'Le mot de passe doit contenir au moins 8 caractères.';
-        }
-
-        if (!preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]+$/', $password)) {
-            return 'Le mot de passe doit contenir au moins une minuscule, une majuscule, un chiffre et un caractère spécial.';
-        }
-        return null;
     }
 }
