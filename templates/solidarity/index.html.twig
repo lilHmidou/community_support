@@ -27,33 +27,49 @@
         </div>
         <br><br>
     </div>
-    <div class="container2">
+    <div class="contain">
         <br><br>
         <p class="blue">LES DERNIERS EVENEMENTS</p>
         <h3>Consultez les événements d'actualité</h3>
-        <h1>Liste des événements de solidarité</h1>
-        <table>
-            <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Date de création</th>
-                <!-- Autres colonnes si nécessaire -->
-            </tr>
-            </thead>
-            <tbody>
+        <br>
+        <div class="table-container1">
             {% for event in events %}
-                <tr>
-                    <td>{{ event.title }}</td>
-                    <td>{{ event.description }}</td>
-                    <td>{{ event.createdAtP|date('Y-m-d H:i:s') }}</td>
-                    <!-- Autres colonnes si nécessaire -->
-                </tr>
+            <div class="col">
+                {% if event.category == "alimentaire" %}
+                    <img src="{{ asset ('images/solidarity/alimentaire.jpeg') }}" class="image" alt="Image">
+                    <p class="date-creat">Evenèment alimentaire</p>
+                {% else %}
+                    {% if event.category == "communautaire" %}
+                        <img src="{{ asset ('images/solidarity/communautaire.jpeg') }}" class="image" alt="Image">
+                        <p class="date-creat">Evènement communautaire</p>
+                    {% else %}
+                        {% if event.category == "environnemental" %}
+                            <img src="{{ asset ('images/solidarity/environnemental.jpeg') }}" class="image" alt="Image">
+                            <p class="date-creat">Evènement environnemental</p>
+                        {% else %}
+                            {% if event.category == "sensibilisation" %}
+                                <img src="{{ asset ('images/solidarity/sensibilisation.jpeg') }}" class="image" alt="Image">
+                                <p class="date-creat">Evènement de sensibilisation</p>
+                            {% else %}
+                                <img src="{{ asset ('images/solidarity/solidarite.jpeg') }}" class="image" alt="Image">
+                                <p class="date-creat">Evènement de solidarité</p>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <br>
+                <p class="title-event">{{ event.title }}</p>
+                <br>
+                <p class="desc-event">Description : {{ event.description }}</p>
+                <br>
+                <button class="purple">JE PARTICIPE</button>
+                <br>
+                <button class="explore">CONTACTER L'ORGANISATEUR</button>
+                <br>
+                <p class="date-creat">Posté le {{ event.createdAtP|date('Y-m-d H:i:s') }}</p>
+            </div>
             {% endfor %}
-            </tbody>
-        </table>
-
-
+        </div>
     </div>
 
 

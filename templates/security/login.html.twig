@@ -7,6 +7,12 @@
         {{ parent() }}
         <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
     {% endblock %}
+    {# Affichage des messages flash #}
+    {% for flash_message in app.flashes('warning') %}
+        <div class="alert alert-warning">
+            {{ flash_message }}
+        </div>
+    {% endfor %}
     <section class="container">
         <div class="form">
             <div class="title">

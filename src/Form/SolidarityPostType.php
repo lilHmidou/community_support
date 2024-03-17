@@ -27,9 +27,11 @@ class SolidarityPostType extends AbstractType
             ->add('location', TextType::class)
             ->add('category', ChoiceType::class, [
                 'choices' => [
-                    'Category 1' => 'category1',
-                    'Category 2' => 'category2',
-                    // Ajoutez d'autres catégories ici si nécessaire
+                    'Alimentaire' => 'alimentaire',
+                    'Communautaire' => 'communautaire',
+                    'Environnemental' => 'environnemental',
+                    'Sensibilisation' => 'sensibilisation',
+                    'Autre' => 'autre',
                 ]])
             ->add('user_id', HiddenType::class, [
                 'mapped' => false,

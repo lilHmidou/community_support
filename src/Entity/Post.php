@@ -22,8 +22,8 @@ class Post
     #[ORM\Column(length: 255)]
     private ?string $Description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $CreatedAt_P = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    private ?\DateTimeImmutable $CreatedAt_P = null;
 
     #[ORM\Column(length: 50)]
     private ?string $Location = null;
@@ -34,13 +34,11 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
     private Collection $Message;
 
-    #[ORM\ManyToOne(inversedBy: 'Post')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     public function __construct()
     {
         $this->Message = new ArrayCollection();
+        $this->CreatedAt_P = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -72,16 +70,22 @@ class Post
         return $this;
     }
 
-    public function getCreatedAtP(): ?\DateTimeInterface
+    public function getCreatedAtP(): ?\DateTimeImmutable
     {
         return $this->CreatedAt_P;
     }
 
-    public function setCreatedAtP(\DateTimeInterface $CreatedAt_P): static
+    public function setCreatedAtP(\DateTimeImmutable $CreatedAt_P): static
     {
         $this->CreatedAt_P = $CreatedAt_P;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAtPValue(): void
+    {
+        $this->CreatedAt_P = new \DateTimeImmutable();
     }
 
     public function getLocation(): ?string
@@ -138,6 +142,10 @@ class Post
         return $this;
     }
 
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private ?User $user;
+
     public function getUser(): ?User
     {
         return $this->user;
@@ -150,38 +158,5 @@ class Post
         return $this;
     }
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $userId;
 
-    // Autres annotations...
-
-    public function getUserId(): ?int
-    {
-        return $this->userId;
-    }
-
-    public function setUserId(int $userId): self
-    {
-        $this->userId = $userId;
-
-        return $this;
-    }
-
-    // Autres méthodes...
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function setUserIdOnPrePersist(): void
-    {
-        // Obtenez l'utilisateur connecté à partir du service de sécurité Symfony
-        $user = $this->security->getUser();
-
-        // Si un utilisateur est connecté, définissez l'ID de l'utilisateur sur l'entité Post
-        if ($user) {
-            $this->setUserId($user->getId());
-        }
-    }
 }
