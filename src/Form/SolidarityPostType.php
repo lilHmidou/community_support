@@ -33,6 +33,9 @@ class SolidarityPostType extends AbstractType
                     'Sensibilisation' => 'sensibilisation',
                     'Autre' => 'autre',
                 ]])
+            ->add('nb_like', HiddenType::class, [
+                'mapped' => false,
+            ])
             ->add('user_id', HiddenType::class, [
                 'mapped' => false,
             ])

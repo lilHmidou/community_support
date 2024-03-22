@@ -67,7 +67,7 @@ h3{
 
 .table-container1 {
     display: grid;
-    grid-template-columns: repeat(2, 400px);
+    grid-template-columns: repeat(1, 400px);
     gap: 30px; /* Ajoute de l'espace entre chaque case */
     justify-content: center; /* Centre horizontalement */
 }
@@ -95,5 +95,43 @@ h3{
     transform: scale(1.1);
 }
 
+@keyframes heartBeat {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
 
+.like-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 16px;
+}
 
+.heart-icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.heart-icon path {
+    fill: red;
+    transition: fill 0.3s ease;
+}
+
+.like-button:hover .heart-icon path {
+    fill: crimson;
+}
+
+.like-button:active .heart-icon path {
+    animation: heartBeat 0.3s ease;
+    fill: crimson;
+}

@@ -8,6 +8,7 @@ use App\Form\SolidarityPostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -54,7 +55,9 @@ class SolidarityController extends AbstractController
             $this->addFlash('warning', 'Vous devez vous connecter pour poster un événement.');
             return $this->redirectToRoute('login');
         }
-      
+
+        $event->setLike(0);
+
         $form = $this->createForm(SolidarityPostType::class, $event);
 
         $form->handleRequest($request);
@@ -67,10 +70,30 @@ class SolidarityController extends AbstractController
             return $this->redirectToRoute('solidarity');
         }
 
+
         return $this->render('solidarity/form.html.twig', [
             'form' => $form->createView(),
         ]);
     }
 
+    #[Route('/add_like/{id}', name: 'add_like')]
+    public function addLike(Post $post): JsonResponse
+    {
+        $currentLikes = $post->getLike();
+        $post->setLike($currentLikes + 1);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['likes' => $post->getLike()]);
+    }
+
+    #[Route('/remove_like/{id}', name: 'remove_like')]
+    public function removeLike(Post $post): JsonResponse
+    {
+        $currentLikes = $post->getLike();
+        $post->setLike($currentLikes - 1);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['likes' => $post->getLike()]);
+    }
 
 }

@@ -31,6 +31,10 @@ class Post
     #[ORM\Column(length: 30)]
     private ?string $Category = null;
 
+    #[ORM\Column(type: 'integer')]
+    private ?int $Nb_Like = null;
+
+
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
     private Collection $Message;
 
@@ -108,6 +112,19 @@ class Post
     public function setCategory(string $Category): static
     {
         $this->Category = $Category;
+
+        return $this;
+    }
+
+    public function getLike(): ?int
+    {
+        return $this->Nb_Like;
+    }
+
+    // Setter pour l'attribut "like"
+    public function setLike(int $Nb_Like): self
+    {
+        $this->Nb_Like = $Nb_Like;
 
         return $this;
     }
