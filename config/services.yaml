@@ -13,6 +13,10 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+
+    App\EventListener\LogoutListener:
+        tags:
+            - { name: 'kernel.event_listener', event: 'Symfony\Component\Security\Http\Event\LogoutEvent' }
     App\:
         resource: '../src/'
         exclude:

@@ -79,7 +79,7 @@ class ProfilFormType extends AbstractType
                 'label' => 'Annuler les modifications',
                 'attr' => [
                     'class' => 'btn btn-secondary',
-                    'style' => 'background-color: red; margin-right: 15px;',
+                    'style' => 'background-color: red;',
                     'id' => 'cancelChangesButton',
                 ],
             ])
@@ -87,7 +87,7 @@ class ProfilFormType extends AbstractType
                 'label' => 'Enregistrer les modifications',
                 'attr' => [
                     'class' => 'btn btn-primary',
-                    'style' => 'background-color: forestgreen; margin-right: 15px; border: none;',
+                    'style' => 'background-color: forestgreen; border: none;',
                     'id' => 'saveChangesButton',
                 ],
             ]);

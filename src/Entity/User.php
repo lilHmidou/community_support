@@ -68,7 +68,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
         $this->CreatedAt_U = new \DateTimeImmutable();
-
     }
 
     public function getId(): ?int

@@ -10,29 +10,30 @@
     <div class="form" style="width: 650px">
         <h1>Profil</h1>
         {{ form_start(profilForm) }}
-        <div class="row g-3">
-            <div class="col-md-7 col-lg-8">
-                {% for field in profilForm %}
-                    {% if field.vars.name not in ['cancelChanges', 'saveChanges'] %}
-                        {% if field.vars.name == 'Gender' %}
-                            {{ form_row(field) }}
-                        {% else %}
-                            {% set attributes = field.vars.attr|merge({'class': 'form-control editable'}) %}
-                            {{ form_row(field, {'attr': attributes}) }}
+            <div class="row g-3">
+                <div class="col-md-7 col-lg-8">
+                    {% for field in profilForm %}
+                        {% if field.vars.name not in ['cancelChanges', 'saveChanges'] %}
+                            {% if field.vars.name == 'Gender' %}
+                                {{ form_row(field) }}
+                            {% else %}
+                                {% set attributes = field.vars.attr|merge({'class': 'form-control editable'}) %}
+                                {{ form_row(field, {'attr': attributes}) }}
+                            {% endif %}
                         {% endif %}
-                    {% endif %}
-                {% endfor %}
-                <div style="display: none;">
-                    {{ form_row(profilForm.cancelChanges) }}
-                    {{ form_row(profilForm.saveChanges) }}
+                    {% endfor %}
+                    <div style="display: none;">
+                        {{ form_row(profilForm.cancelChanges) }}
+                        {{ form_row(profilForm.saveChanges) }}
+                    </div>
                 </div>
             </div>
-        </div>
         {{ form_end(profilForm) }}
 
         <hr class="my-4">
 
-        <div class="col-12">
+        <div class="row">
+            <div class="col">
             <button id="deleteButton" type="button" class="btn btn-primary" style="background-color: red; border: none; margin-right: 15px;">Supprimer le compte</button>
             <!-- Modal -->
             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
@@ -52,10 +53,12 @@
                     </div>
                 </div>
             </div>
-
-            <a href="{{ path('update') }}">
-                <button id="editButton" type="button" class="btn btn-primary" style="background-color: forestgreen; border: none;">Modifier</button>
-            </a>
+            </div>
+            <div class="col">
+                <a href="{{ path('update') }}">
+                    <button id="editButton" type="button" class="btn btn-primary" style="background-color: forestgreen; border: none;">Modifier</button>
+                </a>
+            </div>
         </div>
     </div>
     <script src="{{ asset('controllers/activate-update.js') }}"></script>

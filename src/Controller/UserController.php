@@ -2,20 +2,31 @@
 
 namespace App\Controller;
 
+use App\Form\NewPasswordFormType;
 use App\Form\ProfilFormType;
+use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
+use MongoDB\Driver\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserController extends AbstractController
 {
     #[Route('/user', name: 'user')]
-    public function index(): Response
+    public function index(SessionInterface $session): Response
     {
-        $this->addFlash('success', 'Ravi de vous voir, ' . $this->getUser()->getFirstName() . ' !');
+        // Vérifier si le message de bienvenue a déjà été affiché
+        if (!$session->has('welcome_message_displayed')) {
+            $this->addFlash('success', 'Ravi de vous voir, ' . $this->getUser()->getFirstName() . ' !');
+            // Marquer que le message a été affiché pour ne pas le réafficher
+            $session->set('welcome_message_displayed', true);
+        }
         return $this->render('home/index.html.twig');
     }
 
@@ -40,12 +51,6 @@ class UserController extends AbstractController
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Vérifier si l'utilisateur existe
-        if (!$user) {
-            $this->addFlash('error', 'Utilisateur non trouvé.');
-            return $this->redirectToRoute('profil');
-        }
-
         // Créer le formulaire de profil avec les données de l'utilisateur
         $form = $this->createForm(ProfilFormType::class, $user);
         $form->handleRequest($request);
@@ -69,12 +74,6 @@ class UserController extends AbstractController
         // Récupérer l'utilisateur connecté
         $user = $this->getUser();
 
-        // Vérifier si l'utilisateur existe
-        if (!$user) {
-            $this->addFlash('error', 'Utilisateur non trouvé.');
-            return $this->redirectToRoute('profil');
-        }
-
         // Supprimer l'utilisateur de la base de données
         $entityManager->remove($user);
         $entityManager->flush();
@@ -86,6 +85,61 @@ class UserController extends AbstractController
 
         // Rediriger l'utilisateur vers la page d'accueil
         return $this->redirectToRoute('home');
+    }
 
+    #[Route('/user/update_password', name: 'changePassword', methods: ['GET','POST'])]
+    public function updateMdp(
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        UserAuthenticatorInterface $userAuthenticator,
+        UserAuthenticator $authenticator,
+        EntityManagerInterface $entityManager
+    ): Response
+    {
+        // Créer le formulaire de modification de mot de passe
+        $form = $this->createForm(NewPasswordFormType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupérer les données du formulaire
+            // Comparez les nouveaux mots de passe
+            $newPassword = $form->get('newPassword')->getData();
+            $confirmNewPassword = $form->get('confirmNewPassword')->getData();
+
+            if ($newPassword !== $confirmNewPassword) {
+                // Ajouter un message flash pour avertir que les mots de passe ne correspondent pas
+                $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
+                // Rediriger vers la route pour modifier le mot de passe
+                return $this->redirectToRoute('changePassword');
+            }
+
+            // Récupérer l'utilisateur connecté
+            $user = $this->getUser();
+
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $newPassword
+                ));
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+
+            // Rediriger l'utilisateur vers une page de confirmation
+            $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
+            return $this->redirectToRoute('home'); // Remplacez 'profile' par la route vers la page de profil de l'utilisateur
+        }
+
+        // Afficher le formulaire dans la vue
+        return $this->render('user/update_password.html.twig', [
+            'passwordForm' => $form->createView(),
+        ]);
     }
 }

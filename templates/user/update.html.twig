@@ -12,18 +12,31 @@
         {{ form_start(editForm) }}
             <div class="row g-3">
                 <div class="col-md-7 col-lg-8">
-                    <hr class="my-4">
-                    <div class="col-12">
-                        <a href="{{ path('profil') }}">
-                            {{ form_row(editForm.cancelChanges) }}
-                        </a>
-                            {{ form_row(editForm.saveChanges) }}
-                    </div>
+                    {% for field in editForm %}
+                        {% if field.vars.name not in ['cancelChanges', 'saveChanges'] %}
+                            {% if field.vars.name == 'Gender' %}
+                                {{ form_row(field) }}
+                            {% else %}
+                                {% set attributes = field.vars.attr|merge({'class': 'form-control editable'}) %}
+                                {{ form_row(field, {'attr': attributes}) }}
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col">
+                    <a href="{{ path('profil') }}">
+                        {{ form_row(editForm.cancelChanges) }}
+                    </a>
+                </div>
+                <div class="col">
+                    {{ form_row(editForm.saveChanges) }}
                 </div>
             </div>
         {{ form_end(editForm) }}
-
     </div>
-
-
 {% endblock %}
