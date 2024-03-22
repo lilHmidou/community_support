@@ -10,15 +10,21 @@
     align-items: center;
 }
 
-h1 {
-    font-size: 50px;
-    font-weight:bold;
+.col-md-6 h1{
+    color: #3A1700;
+    font-weight: 700; /* bold */
+    font-size: 45px;
 }
 
-h3, h4 {
-    font-weight:bold;
-    text-align:center;
+.col-md-6 h5{
+    color: #3A1700;
+    font-weight: 300; /* light */
+    font-size: 20px;
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 30px; /* Ajout de la hauteur de ligne */
+    word-spacing: 3px;
 }
+
 
 .col {
     background-color: #F3F2E7; /* Couleur de fond */
@@ -27,8 +33,28 @@ h3, h4 {
     border-radius: 10px; /* Bord arrondi */
 }
 
-.col:hover {
-    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
+
+.table-container0  {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 20px; /* Ajoute de l'espace entre chaque case */
+    justify-content: center; /* Centre horizontalement */
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
+}
+
+.white h4,.white h3 {
+    color: #3A1700;
+    font-weight: 700;
+    font-size: 30px; /* Vous pouvez ajuster cette taille selon vos préférences */
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 35px; /* Ajout de la hauteur de ligne */
+    word-spacing: 3px;
+    text-align: center;
+}
+
+.table-container0 .text1 {
+    color: #3A1700;
+    font-size: 15px;
 }
 
 .table-container1 {
@@ -37,6 +63,22 @@ h3, h4 {
     grid-template-rows: repeat(2, 250px);
     gap: 30px; /* Ajoute de l'espace entre chaque case */
     justify-content: center; /* Centre horizontalement */
+    color: #3A1700;
+}
+
+.table-container1 h5, .table-container3 h5 {
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.table-container1 p, .table-container3 p{
+    color: rgba(58, 23, 0, 0.5);
+    padding: 8px;
+    font-weight: 300;
+}
+
+.col:hover {
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
 
 .table-container2 {
@@ -53,6 +95,16 @@ progress {
 .blue {
     color:dodgerblue;
     font-weight:bold;
+    text-align:center;
+}
+
+.blue h3 {
+    color: #3A1700;
+    font-weight: 700;
+    font-size: 22px;
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 35px; /* Ajout de la hauteur de ligne */
+    word-spacing: 3px;
     text-align:center;
 }
 
@@ -78,13 +130,6 @@ progress {
     border: 2px solid #7E8AB8;
 }
 
-.table-container0 {
-    display: grid;
-    grid-template-columns: repeat(3, 200px);
-    gap: 20px; /* Ajoute de l'espace entre chaque case */
-    justify-content: center; /* Centre horizontalement */
-    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
-}
 
 .number {
     color: #007BFF;
@@ -103,14 +148,12 @@ progress {
     margin-top: 10%;
 }
 
-
 .band {
     background-color: #F3F2E7;
     height: 200px;
     text-align: center;
-    box-shadow: 0 0 20px 3px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3);
 }
-
 
 .button3 {
     background-color: white;
@@ -129,9 +172,6 @@ progress {
     transform: scale(1.1);
 }
 
-h5 {
-    font-weight: bold;
-}
 
 .table-container3 {
     display: grid;
