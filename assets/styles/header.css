@@ -1,22 +1,25 @@
+
+
 .header {
-    background-color: #F3F2E7;
-    padding: 10px 0 10px 10px;
+    padding: 15px 0 120px 10px;
 }
 
-.header-title {
+.logo {
     font-size: 40px;
     font-weight: bold;
     color: #3A1700;
     margin: 0;
     padding: 15px;
+    padding-bottom: 40px;
 }
 
 /* Sélecteur d'élément */
 nav a {
     color: #3A1700;
-    font-size: 20px;
+    font-size: 28px;
     font-weight: bold;
-    padding: 25px;
+    padding: 35px;
+    margin: 0 10px;
 }
 
 .header-btn {
@@ -48,4 +51,54 @@ nav a {
 
 .btn.dropdown-toggle:hover {
     color: #007bff; /* Couleur du texte au survol */
+}
+
+/* Style pour le nav bar dès que le User est connecté */
+
+.navbar {
+    position: absolute;
+    margin-bottom:-150px;
+    display: flex;
+}
+
+.navbar .menu{
+    position: absolute;
+    top: -100px;
+    right:50px;
+    font-size: 90px;
+    align-content: center;
+}
+
+
+@media  screen {
+    .nav-links {
+        top:0;
+        position: absolute;
+        background-color: rgba(255, 255, 255, 0.20);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        right: -150%; /* Cacher la barre latérale */
+        height: 100vh;
+        width: 100vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.5s ease;
+    }
+
+    .nav-links.mobile-menu {
+        right: 0; /* Déplacer la barre latérale à l'intérieur de l'écran lorsqu'elle est active */
+    }
+
+    .navbar .nav-links ul li a{
+        margin: 15px 0;
+        font-size: 1.5em;
+    }
+
+    .nav-links ul {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        list-style-type: none; /* Désactiver les puces */
+    }
 }
