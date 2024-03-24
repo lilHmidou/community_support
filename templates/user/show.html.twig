@@ -7,7 +7,7 @@
         {{ parent() }}
         <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
     {% endblock %}
-    <div class="form" style="width: 650px">
+    <div class="form">
         <h1>Profil</h1>
         {{ form_start(profilForm) }}
             <div class="row g-3">
@@ -34,21 +34,32 @@
 
         <div class="row">
             <div class="col">
-            <button id="deleteButton" type="button" class="btn btn-primary" style="background-color: red; border: none; margin-right: 15px;">Supprimer le compte</button>
+            <button id="deleteButton" type="button" class="btn btn-primary" style="background-color: red; border: none; margin-right: 15px;">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Supprimer le compte</span>
+            </button>
             <!-- Modal -->
             <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-unstyled" data-bs-dismiss="modal"><i class="fa-solid fa-xmark"></i></button>
                         </div>
                         <div class="modal-body">
                             Es-tu vraiment sûr de vouloir supprimer ton compte ?
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <a href="{{ path('delete') }}" id="confirmDeleteButton" class="btn btn-danger">Supprimer</a>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-delete-left"></i>
+                                <span>Annuler</span>
+                            </button>
+                            <button type="button" style="border: none;">
+                                <a href="{{ path('delete') }}" id="confirmDeleteButton" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    <span>Supprimer</span>
+                                </a>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -56,7 +67,10 @@
             </div>
             <div class="col">
                 <a href="{{ path('update') }}">
-                    <button id="editButton" type="button" class="btn btn-primary" style="background-color: forestgreen; border: none;">Modifier</button>
+                    <button id="editButton" type="button" class="btn btn-primary" style="background-color: forestgreen; border: none;">
+                        <i class="fa-solid fa-pencil"></i>
+                        <span>Modifier</span>
+                    </button>
                 </a>
             </div>
         </div>

@@ -61,14 +61,12 @@ class ProfilFormType extends AbstractType
                 'expanded' => true,  // Cette option génère des boutons radio au lieu d'une liste déroulante
                 'multiple' => false, // Sélection unique
             ])
-
             ->add('DOB', BirthdayType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Date de naissance',
             ])
-
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -76,7 +74,8 @@ class ProfilFormType extends AbstractType
                 'label' => 'Email',
             ])
             ->add('cancelChanges', ButtonType::class, [
-                'label' => 'Annuler les modifications',
+                'label' => '<i class="fa-solid fa-delete-left"></i> Annuler les modifications',
+                'label_html' => true,
                 'attr' => [
                     'class' => 'btn btn-secondary',
                     'style' => 'background-color: red;',
@@ -84,10 +83,11 @@ class ProfilFormType extends AbstractType
                 ],
             ])
             ->add('saveChanges', SubmitType::class, [
-                'label' => 'Enregistrer les modifications',
+                'label' => '<i class="fa-solid fa-square-check"></i> Enregistrer les modifications',
+                'label_html' => true,
                 'attr' => [
                     'class' => 'btn btn-primary',
-                    'style' => 'background-color: forestgreen; border: none;',
+                    'style' => 'background-color: forestgreen; border: none; ;',
                     'id' => 'saveChangesButton',
                 ],
             ]);

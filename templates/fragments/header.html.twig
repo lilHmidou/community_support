@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,80 +6,90 @@
 </head>
 
 <header class="header">
-                <div class="logo mr-3">
-                    <h1 class="header-title">Community<br>Support</h1>
-                </div>
+    <img src="{{ asset('images/header/logo.svg') }}" alt="logo" class="logo">
+    <hr class="separator">
 
-                    <nav class="nav align-items-center" style="padding-left: 35px;">
+    <nav class="nav align-items-center" style="padding-left: 35px;">
 
-                        <a href="{{ path('home') }}">
-                            <i class="fa-sharp fa-solid fa-house"></i>
-                            <span>Accueil</span>
-                        </a>
-                        <a href="{{ path('solidarity') }}">
-                            <i class="fa-solid fa-handshake-angle"></i>
-                            <span>Solidarité</span>
-                        </a>
-                        <a href="#education">
-                            <i class="fa-sharp fa-solid fa-user-graduate"></i>
-                            <span>Tutorat</span>
-                        </a>
-                        <a href="{{ path('about') }}">
-                            <i class="fa-solid fa-people-group"></i>
-                            <span>À Propos </span>
-                        </a>
-                        <a href="#contact">
-                            <i class="fa-solid fa-address-book"></i>
-                            <span>Contact</span>
-                        </a>
-                    </nav>
+        <a href="{{ path('home') }}">
+            <i class="fa-sharp fa-solid fa-house"></i>
+            <span>Accueil</span>
+        </a>
+        <a href="{{ path('solidarity') }}">
+            <i class="fa-solid fa-handshake-angle"></i>
+            <span>Solidarité</span>
+        </a>
+        <a href="#education">
+            <i class="fa-sharp fa-solid fa-user-graduate"></i>
+            <span>Tutorat</span>
+        </a>
+        <a href="{{ path('about') }}">
+            <i class="fa-solid fa-people-group"></i>
+            <span>À Propos </span>
+        </a>
+        <a href="#contact">
+            <i class="fa-solid fa-address-book"></i>
+            <span>Contact</span>
+        </a>
+    </nav>
 
-        {% if app.user %}
-            {# Afficher le menu de profil pour les utilisateurs connectés #}
-            <!--
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fa-solid fa-user"></i>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="{{ path('profil') }}">Mon profil</a></li>
-                    <li><a class="dropdown-item" href="{{ path('changePassword') }}">Changer mon mot de passe</a></li>
-                    <li><a class="dropdown-item" href="#">Mes posts</a></li>
-                    <li><a class="dropdown-item" href="#">Paramètres</a></li>
-                    <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
+    {% if app.user %}
+        {# Afficher le menu de profil pour les utilisateurs connectés #}
+
+        <nav class="navbar">
+            <div class="nav-links">
+                <ul>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('profil') }}">
+                            <i class="fa-solid fa-user"></i>
+                            <span>Mon profil</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="{{ path('changePassword') }}">
+                            <i class="fa-solid fa-key"></i>
+                            <span>Changer mon mot de passe</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>Mes posts</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="fa-solid fa-gear"></i>
+                            <span>Paramètres</span>
+                        </a>
+                    </li>
+                    <li><a class="dropdown-item" href="/logout">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                            <span>Se déconnecter</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
-            -->
+            <btn type="button">
+                <i class="fa-solid fa-circle-user menu" style="color: #7e8ab8;"></i>
+            </btn>
+        </nav>
+        <hr class="separator" style="margin-top: 134px;">
 
-            <nav class="navbar">
-                <div class="nav-links">
-                    <ul>
-                        <li><a class="dropdown-item" href="{{ path('profil') }}">Mon profil</a></li>
-                        <li><a class="dropdown-item" href="{{ path('changePassword') }}">Changer mon mot de passe</a></li>
-                        <li><a class="dropdown-item" href="#">Mes posts</a></li>
-                        <li><a class="dropdown-item" href="#">Paramètres</a></li>
-                        <li><a class="dropdown-item" href="/logout">Déconnexion</a></li>
-                    </ul>
-                </div>
-                <btn type="button">
-                    <i class="fa-solid fa-circle-user menu" style="color: #7e8ab8;"></i>
-                </btn>
-            </nav>
-
-        {% else %}
-            {# Afficher les boutons pour les utilisateurs non connectés #}
+    {% else %}
+        {# Afficher les boutons pour les utilisateurs non connectés #}
+        <div class="btn-side">
             <a href="{{ path('register') }}">
-                <button class="header-btn">S'inscrire</button>
+                <button class="btn-header">S'inscrire</button>
             </a>
             <a href="{{ path('login') }}">
-                <button class="header-btn">Se connecter</button>
+                <button class="btn-header">Se connecter</button>
             </a>
-        {% endif %}
-
-    <hr class="separator">
+        </div>
+        <hr class="separator">
+    {% endif %}
 </header>
 
-<hr class="separator">
 
 
 <!-- Scripts de Bootstrap -->
@@ -89,6 +98,8 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/d3a313e584.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 
 </html>

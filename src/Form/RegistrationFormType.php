@@ -59,43 +59,42 @@ class RegistrationFormType extends AbstractType
                 'expanded' => true,  // Cette option génère des boutons radio au lieu d'une liste déroulante
                 'multiple' => false, // Sélection unique
             ])
-
             ->add('DOB', BirthdayType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Date de naissance',
             ])
-
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Email',
             ])
-
             ->add('plainPassword', PasswordType::class, [
-                    // instead of being set onto the object directly,
-                    // this is read and encoded in the controller
-                    'mapped' => false,
-                    'attr' => [
-                        'autocomplete' => 'new-password',
-                        'class' => 'form-control'
-                    ],
-                    'constraints' => [
-                        new Length([
-                            'min' => 8,
-                            'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères.',
-                            // max length allowed by Symfony for security reasons
-                            'max' => 255,
-                        ]),
-                        new Regex([
-                            'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/',
-                            'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial "@$!%*?&.".',
-                        ]),
-                    ],
-                    'label' => 'Mot de passe',
-                ])
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'form-control'
+                ],
+                'constraints' => [
+                    new Length([
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit comporter au moins {{ limit }} caractères.',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 255,
+                    ]),
+                    new Regex([
+                        'pattern' => '/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&.])[A-Za-z\d@$!%*?&.]{8,}$/',
+                        'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial "@$!%*?&.".',
+                    ]),
+                ],
+                'label' => 'Mot de passe',
+                'help' => 'Votre mot de passe doit comporter au moins : ',
+
+            ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,
                 'attr' => [

@@ -5,7 +5,7 @@
     padding: 40px; /* Un peu plus d'espace intérieur */
     border-radius: 20px; /* Bords plus arrondis */
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Ombre légèrement plus prononcée */
-    max-width: 600px; /* Réduit légèrement la largeur pour une meilleure lisibilité */
+    max-width: 650px; /* Réduit légèrement la largeur pour une meilleure lisibilité */
     margin: 0 auto;
     margin-bottom: 40px;
 }
@@ -55,6 +55,21 @@
 /* Style pour les boutons du formulaire au survol */
 .form-group button:hover {
     background-color: #0056b3;
+}
+
+button {
+    transition: transform 0.3s ease; /* Ajouter une transition sur la propriété transform */
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+.btn-unstyled {
+    border: none;
+    background: none;
+    padding: 0;
+    color: red;
 }
 
 .custom-checkbox {

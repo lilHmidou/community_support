@@ -1,17 +1,20 @@
-
-
 .header {
-    padding: 15px 0 120px 10px;
+    padding: 15px 0 80px 10px;
+    position: relative;
 }
 
 .logo {
-    font-size: 40px;
-    font-weight: bold;
-    color: #3A1700;
-    margin: 0;
-    padding: 15px;
-    padding-bottom: 40px;
+    width: 200px; /* Définit la largeur du logo */
+    height: auto; /* Maintient le ratio de l'image */
+    transition: transform 0.3s ease;
+    margin-right: 20px; /* Décalage vers la droite */
+    margin-bottom: 30px; /* Ajout d'espace en bas */
 }
+
+.logo:hover {
+    transform: scale(1.1); /* Fait grossir le logo lorsqu'il est survolé */
+}
+
 
 /* Sélecteur d'élément */
 nav a {
@@ -19,66 +22,67 @@ nav a {
     font-size: 28px;
     font-weight: bold;
     padding: 35px;
-    margin: 0 10px;
 }
 
-.header-btn {
+.btn-side {
+    top: 285px;
+    right: 0;
+    position: absolute;
+}
+
+.btn-header {
+    width: 130px;
+    transition: transform 0.3s ease;
     background-color: #7E8AB8;
     color: white;
     padding: 10px 20px;
     border-radius: 20px;
     font-size: 14px;
-    margin: 10px;
     border: none;
+    margin: 0 20px 0 -5px;
+}
+
+.btn-header:hover {
+    transform: scale(1.1); /* Fait grossir le logo lorsqu'il est survolé */
 }
 
 .separator {
     border: none;
     border-top: 2px solid #ccc;
-    margin: 10px;
-}
-
-
-/* Style pour le bouton de déclenchement du menu déroulant */
-.btn.dropdown-toggle {
-    background-color: transparent; /* Fond transparent */
-    color: #000; /* Couleur du texte */
-    border: none; /* Suppression de la bordure */
-    font-size: 30px; /* Taille de la police */
-    padding: 5px 10px; /* Espacement interne */
-    margin-left: -100px; /* Ajustement de la position vers la gauche */
-}
-
-.btn.dropdown-toggle:hover {
-    color: #007bff; /* Couleur du texte au survol */
+    margin: 0 10px;
 }
 
 /* Style pour le nav bar dès que le User est connecté */
 
 .navbar {
     position: absolute;
-    margin-bottom:-150px;
+    margin-bottom: -150px;
     display: flex;
 }
 
-.navbar .menu{
+.navbar .menu {
     position: absolute;
-    top: -100px;
-    right:50px;
+    top: -105px;
+    right: 50px;
     font-size: 90px;
     align-content: center;
+    transition: transform 0.3s ease;
+}
+
+.navbar .menu:hover {
+    transform: scale(1.1); /* Fait grossir le logo lorsqu'il est survolé */
 }
 
 
-@media  screen {
+@media screen {
     .nav-links {
-        top:0;
+        top: 0;
         position: absolute;
         background-color: rgba(255, 255, 255, 0.20);
         backdrop-filter: blur(10px);
         z-index: 1000;
         right: -150%; /* Cacher la barre latérale */
-        height: 100vh;
+        height: 85vh;
         width: 100vw;
         display: flex;
         justify-content: center;
@@ -90,15 +94,23 @@ nav a {
         right: 0; /* Déplacer la barre latérale à l'intérieur de l'écran lorsqu'elle est active */
     }
 
-    .navbar .nav-links ul li a{
+    .navbar .nav-links ul li a {
         margin: 15px 0;
         font-size: 1.5em;
+        color: #3A1700;
+        font-weight: bold;
+        background-color: transparent;
+        transition: transform 0.3s ease; /* Ajouter une transition sur la propriété transform */
+    }
+
+    .navbar .nav-links ul li a:hover {
+        transform: translateX(5px);
     }
 
     .nav-links ul {
         display: flex;
         flex-direction: column;
         align-items: center;
-        list-style-type: none; /* Désactiver les puces */
+        list-style-type: none; /* Désactiver les puces*/
     }
 }
