@@ -25,33 +25,40 @@ class RegistrationFormType extends AbstractType
         $builder
             ->add('FirstName', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Prénom'
                 ],
-                'label' => 'Prénom',
+                'label' => '<i class="input-icon uil uil-user"></i>',
+                'label_html' => true,
             ])
             ->add('LastName', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Nom'
                 ],
-                'label' => 'Nom',
+                'label' => false,
             ])
             ->add('Address', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Adresse'
                 ],
-                'label' => 'Adresse',
+                'label' => '<i class="input-icon uil uil-home"></i>',
+                'label_html' => true,
             ])
             ->add('PhoneNumber', TextType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Numéro de téléphone'
                 ],
-                'label' => 'Numéro de téléphone',
+                'label' => '<i class="input-icon uil uil-phone"></i>',
+                'label_html' => true,
             ])
             ->add('Gender', ChoiceType::class, [
                 'attr' => [
-                    'class' => 'form-select'
+                    'class' => 'form-select',
                 ],
-                'label' => 'Genre',
+                'label' => false,
                 'choices' => [
                     'Homme' => 'homme',
                     'Femme' => 'femme',
@@ -61,23 +68,25 @@ class RegistrationFormType extends AbstractType
             ])
             ->add('DOB', BirthdayType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style yellow-calendar',
+                    'style' => 'margin-top:-15px; padding-left: 5px; width: 150px;' // Définissez la largeur maximale souhaitée
                 ],
                 'label' => 'Date de naissance',
             ])
             ->add('email', EmailType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Adresse e-mail'
                 ],
-                'label' => 'Email',
+                'label' => '<i class="input-icon uil uil-at"></i>',
+                'label_html' => true,
             ])
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
-                    'class' => 'form-control'
+                    'class' => 'form-style',
+                    'placeholder' => 'Mot de passe',
                 ],
                 'constraints' => [
                     new Length([
@@ -91,9 +100,19 @@ class RegistrationFormType extends AbstractType
                         'message' => 'Votre mot de passe doit contenir au moins une lettre majuscule, une lettre minuscule, un chiffre et un caractère spécial "@$!%*?&.".',
                     ]),
                 ],
-                'label' => 'Mot de passe',
+                'label' => '<i class="input-icon uil uil-lock-alt"></i>',
+                'label_html' => true,
                 'help' => 'Votre mot de passe doit comporter au moins : ',
-
+            ])
+->add('confirmPassword', PasswordType::class, [
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'class' => 'form-style',
+                    'placeholder' => 'Confirmer le mot de passe',
+                ],
+                'label' => '<i class="input-icon uil uil-lock-alt"></i>',
+                'label_html' => true,
             ])
             ->add('agreeTerms', CheckboxType::class, [
                 'mapped' => false,

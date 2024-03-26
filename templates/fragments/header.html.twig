@@ -79,11 +79,11 @@
     {% else %}
         {# Afficher les boutons pour les utilisateurs non connectés #}
         <div class="btn-side">
-            <a href="{{ path('register') }}">
-                <button class="btn-header">S'inscrire</button>
-            </a>
             <a href="{{ path('login') }}">
                 <button class="btn-header">Se connecter</button>
+            </a>
+            <a href="{{ path('register') }}">
+                <button class="btn-header">S'inscrire </button>
             </a>
         </div>
         <hr class="separator">

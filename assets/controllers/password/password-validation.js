@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const passwordField = document.getElementById('passwordField');
+    const passwordField = document.getElementById('passwordRegistrationField');
     const criteriaListItems = document.querySelectorAll('.criteria-list li');
 
     passwordField.addEventListener('input', function() {

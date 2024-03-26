@@ -1,61 +1,41 @@
-{% extends 'base.html.twig' %}
+<!DOCTYPE html>
+<body>
+<div class="card-front">
+    <div class="center-wrap">
+        <div class="section text-center">
+            <form method="post">
 
-{% block title %} Connexion {% endblock %}
+                <h4 class="mb-3 pb-3">Connexion</h4>
+                <div class="form-group">
+                    <input type="email" class="form-style" placeholder="Email" value="{{ last_username }}" name="email"
+                           id="inputEmail" autocomplete="email" required autofocus>
+                    <i class="input-icon uil uil-at"></i>
+                </div>
+                <div class="form-group mt-2">
+                    <div class="password-input-wrapper">
+                        <input type="password" class="form-style" placeholder="Mot de passe" name="password"
+                               id="passwordLogInField" autocomplete="current-password" required>
+                        <i class="input-icon uil uil-lock-alt"></i>
+                        <button type="button" id="toggleLogInButton" class="eye-toggle-button">
+                            <i class="fa-regular fa-eye-slash"></i>
+                        </button>
 
-{% block body %}
-    {% block stylesheets %}
-        {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
-    {% endblock %}
-    {# Affichage des messages flash #}
-    {% for flash_message in app.flashes('warning') %}
-        <div class="alert alert-warning">
-            {{ flash_message }}
+                    </div>
+
+
+                    <input type="hidden" name="_csrf_token"
+                           value="{{ csrf_token('authenticate') }}"
+                    >
+                    <br>
+
+                    <button class="button button-submit" type="submit"> Se connecter</button>
+                </div>
+                <p class="mb-0 mt-4 text-center"><a href="#" class="link">Mot de passe oublié ?</a>
+                </p>
+            </form>
         </div>
-    {% endfor %}
-    <section class="container">
-        <div class="form">
-            <div class="title">
-                <form method="post">
-                    <fieldset>
-                        <h1 class="h3 mb-3 font-weight-normal"> Connexion </h1>
-                        <label for="inputEmail">Email</label>
-                        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
-                        <label for="inputPassword">Mot de passe</label>
-                        <div class="password-input-wrapper">
-                            <input type="password" name="password" id="passwordField" class="form-control" autocomplete="current-password" required>
-                            <button type="button" id="toggleButton" class="eye-toggle-button">
-                                <i class="fa-regular fa-eye-slash"></i>
-                            </button>
-                        </div>
+    </div>
+</div>
+</body>
+</html>
 
-                        <input type="hidden" name="_csrf_token"
-                               value="{{ csrf_token('authenticate') }}"
-                        >
-                        <br>
-                        <div class="form-group">
-                            <button class="button button-submit" type="submit"> Se connecter </button>
-                        </div>
-
-                        <hr>
-                        <h1 class="h3 mb-3 font-weight-normal">
-                            <i class="fas fa-exclamation-circle"></i> Vous n'avez pas de compte ?
-                        </h1>
-                        <p>Rejoignez-nous dès maintenant pour profiter de tous nos services !</p>
-                        <br>
-
-                        <a href="{{ path('register') }}">
-                            <div class="form-group">
-                                <button class="button button-submit">
-                                    <i class="fas fa-user-plus"></i>
-                                    <span> S'inscrire </span>
-                                </button>
-                            </div>
-                        </a>
-                    </fieldset>
-                </form>
-            </div>
-        </div>
-    </section>
-    <script src="{{ asset('controllers/password/password-toggle.js') }}"></script>
-{% endblock %}
