@@ -88,6 +88,14 @@
 
                 if(pressed) {
 
+                    const requestOptions = {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json', // Assurez-vous que le contenu est JSON
+                        },
+                        body: JSON.stringify({ post_id: postId }), // Convertissez les données en JSON
+                    };
+
                     fetch(`/add_like/${postId}`)
                         .then(response => response.json())
                         .then(data => {

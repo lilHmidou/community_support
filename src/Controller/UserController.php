@@ -87,6 +87,7 @@ class UserController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
+
     #[Route('/user/update_password', name: 'changePassword', methods: ['GET','POST'])]
     public function updateMdp(
         Request $request,

@@ -38,11 +38,27 @@ class Post
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
     private Collection $Message;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="post")
+     */
+    private $likes;
+
+    // Autres méthodes de l'entité...
+
+    /**
+     * @return Collection|Like[]
+     */
+    public function getLikes(): Collection
+    {
+        return $this->likes;
+    }
+
 
     public function __construct()
     {
         $this->Message = new ArrayCollection();
         $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->likes = new ArrayCollection();
     }
 
     public function getId(): ?int
