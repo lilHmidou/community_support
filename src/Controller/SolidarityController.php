@@ -77,50 +77,5 @@ class SolidarityController extends AbstractController
         ]);
     }
 
-    #[Route('/add_like/{id}', name: 'add_like')]
-    public function addLike(Post $post): JsonResponse
-    {
-        $user = $this->security->getUser();
-        if($user){
-            $currentLikes = $post->getLike();
-            $post->setLike($currentLikes + 1);
-            $like = new PostLike();
-            $like->setPostId($post->getId());
-            $like->setUserId($user->getId());
-
-            $this->entityManager->persist($like);
-
-            $this->entityManager->flush();
-        }else{
-            //$this->addFlash('warning', 'Vous devez vous connecter pour liker un événement.');
-        }
-
-        return new JsonResponse(['likes' => $post->getLike()]);
-    }
-
-    #[Route('/save_like', name: 'save_like')]
-    public function saveLike(Post $post): void
-    {
-        $user = $this->security->getUser();
-
-        $like = new PostLike();
-        $like->setPostId($post);
-        $like->setUserId($user);
-
-        $this->entityManager->persist($like);
-        $this->entityManager->flush();
-
-
-    }
-
-    #[Route('/remove_like/{id}', name: 'remove_like')]
-    public function removeLike(Post $post): JsonResponse
-    {
-        $currentLikes = $post->getLike();
-        $post->setLike($currentLikes - 1);
-        $this->entityManager->flush();
-
-        return new JsonResponse(['likes' => $post->getLike()]);
-    }
 
 }

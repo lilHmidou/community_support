@@ -4,4 +4,8 @@
 
 {% block body %}
 
+    {% for like in likedPosts %}
+        <li>{{ like.title }}</li>
+    {% endfor %}
+
 {% endblock %}

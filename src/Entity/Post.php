@@ -39,7 +39,7 @@ class Post
     private Collection $Message;
 
     /**
-     * @ORM\OneToMany(targetEntity=Like::class, mappedBy="post")
+     * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
      */
     private $likes;
 
