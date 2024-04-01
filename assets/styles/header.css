@@ -19,7 +19,7 @@
 /* Sélecteur d'élément */
 nav a {
     color: #3A1700;
-    font-size: 28px;
+    font-size: 26px;
     font-weight: bold;
     padding: 35px;
 }
@@ -33,17 +33,22 @@ nav a {
 .btn-header {
     width: 130px;
     transition: transform 0.3s ease;
-    background-color: #7E8AB8;
-    color: white;
+    background-color: #CBC8AD;
+    color: #F1F0E5;
     padding: 10px 20px;
     border-radius: 20px;
-    font-size: 14px;
-    border: none;
+    font-size: 13px;
+    border: 2px solid #F1F0E5;
+    font-weight: bold;
     margin: 0 20px 0 -5px;
+
 }
 
+
 .btn-header:hover {
-    transform: scale(1.1); /* Fait grossir le logo lorsqu'il est survolé */
+    background-color: white;
+    color: #E3E1CB;
+    border: 2px solid #E3E1CB;
 }
 
 .separator {
