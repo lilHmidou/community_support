@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Post;
 use App\Form\NewPasswordFormType;
 use App\Form\ProfilFormType;
+use App\Repository\PostRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use MongoDB\Driver\Session;
@@ -142,5 +144,31 @@ class UserController extends AbstractController
         return $this->render('user/update_password.html.twig', [
             'passwordForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/list_users_posts', name: 'list_users_posts')]
+    public function listUsersPosts(PostRepository $postRepository): Response
+    {
+        $userId = $this->getUser()->getId();
+        $userPosts = $postRepository->findAllPostsByUserId($userId);
+
+        return $this->render('user/user_posts.html.twig', [
+            'userPosts' => $userPosts,
+        ]);
+    }
+
+    #[Route('/delete_post/{postId}', name: 'delete_post', methods: ['DELETE', 'POST'])]
+    public function deletePost(Request $request, EntityManagerInterface $entityManager, int $postId): Response
+    {
+        $post = $entityManager->getRepository(Post::class)->find($postId);
+
+        if (!$post) {
+            throw $this->createNotFoundException('Post not found');
+        }
+
+        $entityManager->remove($post);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('list_users_posts', ['userId' => $post->getUser()->getId()]);
     }
 }

@@ -25,6 +25,19 @@ class PostRepository extends ServiceEntityRepository
      * @param int $userId
      * @return Post[]
      */
+    public function findAllPostsByUserId(int $userId): array
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.user = :userId')
+            ->setParameter('userId', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param int $userId
+     * @return Post[]
+     */
 
 //    /**
 //     * @return Post[] Returns an array of Post objects

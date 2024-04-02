@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %} Mes Posts {% endblock %}
+
+{% block body %}
+
+    <h1>Mes Posts</h1>
+
+    {% for post in userPosts %}
+        <li>{{ post.title }}</li>
+        <form id="delete-form-{{ post.id }}" action="{{ path('delete_post', {'postId': post.id}) }}" method="post">
+            <input type="hidden" name="_method" value="DELETE">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+            <button type="button" onclick="confirmDelete({{ post.id }})">Supprimer</button>
+        </form>
+    {% endfor %}
+
+    <script>
+        function confirmDelete(postId) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer ce post ?')) {
+                var form = document.getElementById('delete-form-' + postId);
+                form.submit();
+            }
+        }
+    </script>
+
+{% endblock %}
