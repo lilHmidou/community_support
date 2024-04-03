@@ -171,4 +171,19 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('list_users_posts', ['userId' => $post->getUser()->getId()]);
     }
+
+    #[Route('/edit_post/{postId}', name: 'edit_post')]
+    public function editPost(Request $request, EntityManagerInterface $entityManager, int $postId): Response
+    {
+        $post = $entityManager->getRepository(Post::class)->find($postId);
+
+        if (!$post) {
+            throw $this->createNotFoundException('Post not found');
+        }
+
+        return $this->render('edit_post.html.twig', [
+            'post' => $post,
+        ]);
+    }
+
 }
