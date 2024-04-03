@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription étudiante{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Inscription étudiante</h1>
+
+        {{ form_start(etudiantForm) }}
+
+        {{ form_row(etudiantForm.Domain) }}
+        {{ form_row(etudiantForm.LearningChoice) }}
+        {{ form_row(etudiantForm.Comments) }}
+        {{ form_row(etudiantForm.LevelStudies) }}
+        {{ form_row(etudiantForm.Disability) }}
+
+        <div class="form-group">
+
+            <button type="submit" class="btn mt-4">S'inscrire</button>
+        </div>
+
+        {{ form_end(etudiantForm) }}
+    </div>
+{% endblock %}

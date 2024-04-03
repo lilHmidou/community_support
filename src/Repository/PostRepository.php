@@ -34,6 +34,19 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function updatePost(int $postId, array $data): void
+    {
+        $entityManager = $this->getEntityManager();
+        $post = $entityManager->getRepository(Post::class)->find($postId);
+
+
+        $post->setTitle($data['title']);
+
+        $post->setDescription($data['description']);
+
+        $entityManager->flush();
+    }
+
     /**
      * @param int $userId
      * @return Post[]

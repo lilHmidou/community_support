@@ -8,12 +8,11 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant extends UserTutorat
 {
-
     #[ORM\Column(length: 30)]
     private ?string $LevelStudies = null;
 
     #[ORM\Column]
-    private ?bool $Disabilty = null;
+    private ?bool $Disability = null; // Correction du nom de la propriété
 
     public function getLevelStudies(): ?string
     {
@@ -27,14 +26,14 @@ class Etudiant extends UserTutorat
         return $this;
     }
 
-    public function isDisabilty(): ?bool
+    public function getDisability(): ?bool // Correction du nom de la méthode getter
     {
-        return $this->Disabilty;
+        return $this->Disability;
     }
 
-    public function setDisabilty(bool $Disabilty): static
+    public function setDisability(bool $Disability): static
     {
-        $this->Disabilty = $Disabilty;
+        $this->Disability = $Disability;
 
         return $this;
     }

@@ -40,7 +40,7 @@ class LikeController extends AbstractController
             $this->entityManager->persist($like);
 
             $this->entityManager->flush();
-        }else{
+        } else {
             //$this->addFlash('warning', 'Vous devez vous connecter pour liker un événement.');
         }
 

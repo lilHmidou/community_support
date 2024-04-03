@@ -12,6 +12,7 @@
             <input type="hidden" name="_method" value="DELETE">
             <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
             <button type="button" onclick="confirmDelete({{ post.id }})">Supprimer</button>
+            <a href="{{ path('edit_post', {'postId': post.id}) }}" class="btn btn-primary">Modifier</a>
         </form>
     {% endfor %}
 
