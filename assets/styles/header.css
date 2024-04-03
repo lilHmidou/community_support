@@ -4,31 +4,26 @@
 }
 
 .logo {
-    width: 200px; /* Définit la largeur du logo */
+    width: 240px; /* Définit la largeur du logo */
     height: auto; /* Maintient le ratio de l'image */
-    transition: transform 0.3s ease;
-    margin-right: 20px; /* Décalage vers la droite */
-    margin-bottom: 30px; /* Ajout d'espace en bas */
-}
-
-.logo:hover {
-    transform: scale(1.1); /* Fait grossir le logo lorsqu'il est survolé */
+    margin-left: 2px;
 }
 
 
 /* Sélecteur d'élément */
 nav a {
-    color: #3A1700;
-    font-size: 26px;
+    color: rgba(70, 30, 5, 0.93);
+    font-size: 20px;
     font-weight: bold;
-    padding: 35px;
+    padding: 20px;
 }
 
 .btn-side {
-    top: 285px;
+    top: 98px;
     right: 0;
     position: absolute;
 }
+
 
 .btn-header {
     width: 130px;
@@ -41,9 +36,7 @@ nav a {
     border: 2px solid #F1F0E5;
     font-weight: bold;
     margin: 0 20px 0 -5px;
-
 }
-
 
 .btn-header:hover {
     background-color: white;
@@ -67,9 +60,9 @@ nav a {
 
 .navbar .menu {
     position: absolute;
-    top: -105px;
+    top: -145px;
     right: 50px;
-    font-size: 90px;
+    font-size: 70px;
     align-content: center;
     transition: transform 0.3s ease;
 }
@@ -83,8 +76,8 @@ nav a {
     .nav-links {
         top: 0;
         position: absolute;
-        background-color: rgba(255, 255, 255, 0.20);
-        backdrop-filter: blur(10px);
+        background-color: rgba(255, 255, 255, 0.42);
+        backdrop-filter: blur(80px);
         z-index: 1000;
         right: -150%; /* Cacher la barre latérale */
         height: 85vh;
