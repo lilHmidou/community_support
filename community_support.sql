@@ -81,7 +81,7 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 -- --------------------------------------------------------
 
 --
--- Structure de la table `etudiant`
+-- Structure de la table `tutorat`
 --
 
 DROP TABLE IF EXISTS `etudiant`;
@@ -216,7 +216,7 @@ ALTER TABLE `contact_message`
   ADD CONSTRAINT `FK_2C9211FEA76ED395` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
 
 --
--- Contraintes pour la table `etudiant`
+-- Contraintes pour la table `tutorat`
 --
 ALTER TABLE `etudiant`
   ADD CONSTRAINT `FK_717E22E3BF396750` FOREIGN KEY (`id`) REFERENCES `user_tutorat` (`id`) ON DELETE CASCADE;

@@ -22,7 +22,7 @@ final class Version20240131214328 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE TABLE config_module (id INT AUTO_INCREMENT NOT NULL, is_mentor_enabled TINYINT(1) NOT NULL, is_etudiant_enabled TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE contact_message (id INT AUTO_INCREMENT NOT NULL, user_id INT NOT NULL, created_at_cm DATETIME NOT NULL, topic VARCHAR(30) NOT NULL, content_cm VARCHAR(255) NOT NULL, INDEX IDX_2C9211FEA76ED395 (user_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE etudiant (id INT AUTO_INCREMENT NOT NULL, domain VARCHAR(30) NOT NULL, learning_choice VARCHAR(30) NOT NULL, comments VARCHAR(255) NOT NULL, level_studies VARCHAR(30) NOT NULL, disabilty TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE tutorat (id INT AUTO_INCREMENT NOT NULL, domain VARCHAR(30) NOT NULL, learning_choice VARCHAR(30) NOT NULL, comments VARCHAR(255) NOT NULL, level_studies VARCHAR(30) NOT NULL, disabilty TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE mentor (id INT AUTO_INCREMENT NOT NULL, domain VARCHAR(30) NOT NULL, learning_choice VARCHAR(30) NOT NULL, comments VARCHAR(255) NOT NULL, level_experience VARCHAR(20) NOT NULL, avaibility VARCHAR(50) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, post_id INT NOT NULL, send_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', content_m VARCHAR(255) NOT NULL, INDEX IDX_B6BD307F4B89032C (post_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE post (id INT AUTO_INCREMENT NOT NULL, title VARCHAR(50) NOT NULL, description VARCHAR(255) NOT NULL, created_at_p DATETIME NOT NULL, location VARCHAR(50) NOT NULL, category VARCHAR(30) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
@@ -44,7 +44,7 @@ final class Version20240131214328 extends AbstractMigration
         $this->addSql('ALTER TABLE user_tutorat DROP FOREIGN KEY FK_95455B99A76ED395');
         $this->addSql('DROP TABLE config_module');
         $this->addSql('DROP TABLE contact_message');
-        $this->addSql('DROP TABLE etudiant');
+        $this->addSql('DROP TABLE tutorat');
         $this->addSql('DROP TABLE mentor');
         $this->addSql('DROP TABLE message');
         $this->addSql('DROP TABLE post');

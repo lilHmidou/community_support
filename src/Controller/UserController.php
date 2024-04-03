@@ -30,7 +30,7 @@ class UserController extends AbstractController
             // Marquer que le message a été affiché pour ne pas le réafficher
             $session->set('welcome_message_displayed', true);
         }
-        return $this->render('home/index.html.twig');
+        return $this->render('home/homeTutorat.html.twig');
     }
 
     #[Route('/user/profil', name: 'profil', methods: ['GET', 'POST'])]

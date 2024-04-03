@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping\InheritanceType;
 //Heritage
 #[InheritanceType('JOINED')]
 #[DiscriminatorColumn(name: 'type', type: 'string')]
-#[DiscriminatorMap(['mentor' => Mentor::class, 'etudiant' => Etudiant::class])]
+#[DiscriminatorMap(['mentor' => Mentor::class, 'tutorat' => Etudiant::class])]
 
 #[ORM\Entity(repositoryClass: UserTutoratRepository::class)]
 class UserTutorat
