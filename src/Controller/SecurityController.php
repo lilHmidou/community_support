@@ -61,9 +61,10 @@ class SecurityController extends AbstractController
     {
 
         $user = new User();
-        $form = $userFormGenerator->createRegistrationForm($user);
+        $form = $userFormGenerator->createRegistrationForm($user, [
+            'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
+        ]);
         $form->handleRequest($request);
-        $viewData['registrationForm'] = $form;
 
         //Si il est déjà connecté, on le redirige vers la page d'accueil
         if ($this->getUser()) {
@@ -83,8 +84,7 @@ class SecurityController extends AbstractController
             // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
             if (!$userMdpGenerator->checkPasswordMatch($passwordData)) {
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-                return $this->render('security/login-signup.html.twig', $viewData);
-
+                return $this->redirectToRoute('signup');
             }
 
             // Hachage du mot de passe
@@ -114,6 +114,7 @@ class SecurityController extends AbstractController
         // Préparation des données pour le rendu de la vue
         $viewData = $userFormGenerator->prepareUserForm();
         $viewData['isCheckboxChecked'] = true;
+        $viewData['registrationForm'] = $form;
 
         return $this->render('security/login-signup.html.twig', $viewData);
     }

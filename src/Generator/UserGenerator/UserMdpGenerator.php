@@ -24,13 +24,14 @@ class UserMdpGenerator
     public function getPasswordData(FormInterface $form, Request $request): array
     {
         $plainPassword = $form->get('plainPassword')->getData();
-        $confirmPassword = $request->request->get('confirmPassword');
+        $confirmPassword = $form->get('confirmPassword')->getData();
 
         return [
             'plainPassword' => $plainPassword,
             'confirmPassword' => $confirmPassword,
         ];
     }
+
 
     /**
      * Vérifie si les deux mots de passe fournis dans le tableau correspondent.
