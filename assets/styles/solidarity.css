@@ -2,6 +2,10 @@
     background-color: #F3F2E7;
 }
 
+.row{
+    margin-top: 10px;
+}
+
 .purple {
     background-color: #7E8AB8;
     color: white;
@@ -20,9 +24,30 @@
     transform: scale(1.1);
 }
 
-.text1 {
-    font-size: 20px;
+
+.title1{
+    color: #3A1700;
+    font-weight: 700; /* bold */
+    font-size: 45px;
 }
+
+.text1 {
+    color: #3A1700;
+    font-weight: 300; /* light */
+    font-size: 20px;
+    margin-top: 0.5em; /* Ajoute un peu d'espace au-dessus du paragraphe */
+    line-height: 30px; /* Ajout de la hauteur de ligne */
+    word-spacing: 3px;
+    align-items: center;
+
+}
+
+.col-md-6 img {
+    margin-top: 0; /* Ajustez la valeur selon le besoin pour l'aligner avec le texte */
+
+}
+
+
 
 .blue {
     color:dodgerblue;
