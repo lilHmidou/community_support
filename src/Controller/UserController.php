@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Form\NewPasswordFormType;
 use App\Form\ProfilFormType;
+use App\Form\SolidarityPostType;
 use App\Repository\PostRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -177,13 +178,31 @@ class UserController extends AbstractController
     {
         $post = $entityManager->getRepository(Post::class)->find($postId);
 
-        if (!$post) {
-            throw $this->createNotFoundException('Post not found');
-        }
+        $form = $this->createForm(SolidarityPostType::class, $post);
+        $form->handleRequest($request);
 
-        return $this->render('edit_post.html.twig', [
+        return $this->render('user/edit_post.html.twig', [
+            'form' => $form->createView(),
             'post' => $post,
         ]);
     }
+
+    #[Route('/update_post/{postId}', name: 'update_post', methods: ['POST'])]
+    public function updatePost(Request $request, PostRepository $postRepository, int $postId): Response
+    {
+        // Récupérer les données du formulaire
+        $data = [
+            'title' => $request->request->get('title'),
+            'description' => $request->request->get('description'),
+        ];
+
+        // Mettre à jour le post
+        $postRepository->updatePost($postId, $data);
+
+        // Rediriger vers une autre page ou afficher un message de succès
+        return $this->redirectToRoute('list_users_posts');
+    }
+
+
 
 }
