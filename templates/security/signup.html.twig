@@ -61,8 +61,8 @@
             <div class="form-group mt-2">
                 {{ form_row(registrationForm.confirmPassword, {'id': 'confirmPasswordField'}) }}
             </div>
-            <div style="display: none">
-            </div>
+            {{ form_row(registrationForm.agreeTerms) }}
+
             <div class="form-group">
 
             <button type="submit" class="btn mt-4">S'inscrire</button>
