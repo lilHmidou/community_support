@@ -49,7 +49,7 @@ class SecurityController extends AbstractController
         return $this->render('security/login-signup.html.twig', $viewData);
     }
 
-    #[Route('/register', name: 'register')]
+    #[Route('/register', name: 'signup')]
     public function create(
         Request $request,
         UserAuthenticatorInterface $userAuthenticator,
@@ -63,18 +63,18 @@ class SecurityController extends AbstractController
         $user = new User();
         $form = $userFormGenerator->createRegistrationForm($user);
         $form->handleRequest($request);
+        $viewData['registrationForm'] = $form;
 
         //Si il est déjà connecté, on le redirige vers la page d'accueil
         if ($this->getUser()) {
             return $this->redirectToRoute('home');
         }
-
         if ($form->isSubmitted() && $form->isValid()) {
             // Vérifiez si l'adresse e-mail existe déjà
             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
             if ($existingUser) {
                 $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
-                return $this->redirectToRoute('register');
+                return $this->redirectToRoute('signup');
             }
 
             // Récupération des données de mot de passe via le service
@@ -83,7 +83,8 @@ class SecurityController extends AbstractController
             // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
             if (!$userMdpGenerator->checkPasswordMatch($passwordData)) {
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-                return $this->render('registration/register.html.twig', ['registrationForm' => $form->createView()]);
+                return $this->render('security/login-signup.html.twig', $viewData);
+
             }
 
             // Hachage du mot de passe
@@ -112,7 +113,6 @@ class SecurityController extends AbstractController
 
         // Préparation des données pour le rendu de la vue
         $viewData = $userFormGenerator->prepareUserForm();
-        $viewData['registrationForm'] = $form;
         $viewData['isCheckboxChecked'] = true;
 
         return $this->render('security/login-signup.html.twig', $viewData);

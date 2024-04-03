@@ -113,18 +113,6 @@ class RegistrationFormType extends AbstractType
                 ],
                 'label' => '<i class="input-icon uil uil-lock-alt"></i>',
                 'label_html' => true,
-            ])
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'custom-checkbox'
-                ],
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'Tu dois accepter les termes des conditions.',
-                    ]),
-                ],
-                'label' => 'Accepter les conditions d\'utilisation : ',
             ]);
     }
 
