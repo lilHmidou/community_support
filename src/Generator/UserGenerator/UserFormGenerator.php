@@ -2,7 +2,7 @@
 namespace App\Generator\UserGenerator;
 
 use App\Entity\User;
-use App\Form\RegistrationFormType;
+use App\Form\RegistrationType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -20,7 +20,7 @@ class UserFormGenerator
     public function createRegistrationForm(User $user = null) : \Symfony\Component\Form\FormInterface
     {
         $user = $user ?? new User();
-        $form = $this->formFactory->create(RegistrationFormType::class, $user);
+        $form = $this->formFactory->create(RegistrationType::class, $user);
         return $form;
     }
 

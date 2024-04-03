@@ -3,7 +3,7 @@
 namespace App\Controller\TutoratController;
 
 use App\Entity\Etudiant;
-use App\Form\EtudiantFormType;
+use App\Form\EtudiantType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ class EtudiantController extends AbstractController
     public function create(Request $request, EntityManagerInterface $entityManager): Response
     {
         $etudiant = new Etudiant();
-        $form = $this->createForm(EtudiantFormType::class, $etudiant);
+        $form = $this->createForm(EtudiantType::class, $etudiant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -28,7 +28,7 @@ class EtudiantController extends AbstractController
         }
 
         return $this->render('tutorat/etudiantForm.html.twig', [
-            'form' => $form->createView(),
+            'etudiantForm' => $form->createView(),
             'controller_name' => 'EtudiantController',
         ]);
     }

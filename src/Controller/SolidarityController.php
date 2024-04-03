@@ -33,7 +33,7 @@ class SolidarityController extends AbstractController
     public function index(PostRepository $postRepository): Response
     {
         $events = $postRepository->findAll();
-        return $this->render('solidarity/homeTutorat.html.twig', [
+        return $this->render('solidarity/index.html.twig', [
             'events' => $events,
         ]);
     }

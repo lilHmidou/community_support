@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Post;
-use App\Form\NewPasswordFormType;
-use App\Form\ProfilFormType;
+use App\Form\NewPasswordType;
+use App\Form\ProfilType;
 use App\Form\SolidarityPostType;
 use App\Repository\PostRepository;
 use App\Security\UserAuthenticator;
@@ -30,7 +30,7 @@ class UserController extends AbstractController
             // Marquer que le message a été affiché pour ne pas le réafficher
             $session->set('welcome_message_displayed', true);
         }
-        return $this->render('home/homeTutorat.html.twig');
+        return $this->render('home/index.html.twig');
     }
 
     #[Route('/user/profil', name: 'profil', methods: ['GET', 'POST'])]
@@ -40,7 +40,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         // Créer le formulaire de profil avec les données de l'utilisateur
-        $form = $this->createForm(ProfilFormType::class, $user);
+        $form = $this->createForm(ProfilType::class, $user);
 
         // Afficher le formulaire pré-rempli dans la vue
         return $this->render('user/show.html.twig', [
@@ -55,7 +55,7 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         // Créer le formulaire de profil avec les données de l'utilisateur
-        $form = $this->createForm(ProfilFormType::class, $user);
+        $form = $this->createForm(ProfilType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -101,7 +101,7 @@ class UserController extends AbstractController
     ): Response
     {
         // Créer le formulaire de modification de mot de passe
-        $form = $this->createForm(NewPasswordFormType::class);
+        $form = $this->createForm(NewPasswordType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
