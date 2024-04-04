@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Contact{% endblock %}
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+    {% endblock %}
+    <div class="form-container">
+        <div class="title">
+            <h1>Contactez-nous</h1>
+        </div>
+        {{ form_start(contactForm, {'attr': {'class': 'form'}}) }}
+        {{ form_row(contactForm.topic, {'attr': {'class': 'form-control'}}) }}
+        {{ form_row(contactForm.contentCM, {'attr': {'class': 'form-control'}}) }}
+        <div class="form-group">
+            <button type="submit" class="button-submit">Envoyer</button>
+        </div>
+        {{ form_end(contactForm) }}
+    </div>
+{% endblock %}
+
+
+ {# Layal quand tu travaillera les pages, rend-toi sur form.css pour supprimer ce que j'ai fait si tu dois changer... #}

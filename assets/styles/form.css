@@ -101,3 +101,39 @@ label {
 .custom-input {
     width: 500px; /* Définissez la largeur désirée ici */
 }
+
+/* Style fais par Ahmed Amine - ne pas juger je voulais m'initier pour les formulaires */
+/* Ajoute ce CSS dans ton fichier styles/form.css */
+.form-container {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-control {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.button-submit {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.button-submit:hover {
+    background-color: #0056b3;
+}
+
+.title h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}

@@ -15,18 +15,22 @@ class ContactMessage
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $CreatedAt_CM = null;
+    private ?\DateTimeInterface $createdAt_CM = null;
 
     #[ORM\Column(length: 30)]
-    private ?string $Topic = null;
+    private ?string $topic = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ContentCM = null;
+    private ?string $contentCM = null;
 
     #[ORM\ManyToOne(inversedBy: 'ContactMessage')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    public function __construct()
+    {
+        $this->createdAt_CM = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -35,36 +39,36 @@ class ContactMessage
 
     public function getCreatedAtCM(): ?\DateTimeInterface
     {
-        return $this->CreatedAt_CM;
+        return $this->createdAt_CM;
     }
 
-    public function setCreatedAtCM(\DateTimeInterface $CreatedAt_CM): static
+    public function setCreatedAtCM(\DateTimeInterface $createdAt_CM): static
     {
-        $this->CreatedAt_CM = $CreatedAt_CM;
+        $this->createdAt_CM = $createdAt_CM;
 
         return $this;
     }
 
     public function getTopic(): ?string
     {
-        return $this->Topic;
+        return $this->topic;
     }
 
-    public function setTopic(string $Topic): static
+    public function setTopic(string $topic): static
     {
-        $this->Topic = $Topic;
+        $this->topic = $topic;
 
         return $this;
     }
 
     public function getContentCM(): ?string
     {
-        return $this->ContentCM;
+        return $this->contentCM;
     }
 
-    public function setContentCM(string $ContentCM): static
+    public function setContentCM(string $contentCM): static
     {
-        $this->ContentCM = $ContentCM;
+        $this->contentCM = $contentCM;
 
         return $this;
     }
