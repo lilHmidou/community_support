@@ -8,13 +8,15 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class MentorType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Domain', TextType::class, [
+            ->add('domain', TextType::class, [
                 'attr' => [
                     'class' => 'form-style',
                     'placeholder' => 'Domaine d\'études'
@@ -22,7 +24,7 @@ class MentorType extends AbstractType
                 'label' => '<i class="fa-solid fa-graduation-cap"></i>',
                 'label_html' => true,
             ])
-            ->add('LearningChoice', ChoiceType::class, [
+            ->add('learningChoice', ChoiceType::class, [
                 'choices' => [
                     'Langues étrangères' => 'Langues étrangères',
                     'Informatique et programmation' => 'Informatique et programmation',
@@ -38,11 +40,11 @@ class MentorType extends AbstractType
                 'attr' => [
                     'class' => 'form-style',
                 ],
-                'placeholder' => 'Choisissez ce que vous voulez apprendre',
+                'placeholder' => 'Choisissez ce que vous voulez enseignez',
                 'label' => '<i class="fa-solid fa-book"></i>',
                 'label_html' => true,
             ])
-            ->add('Comments', TextType::class, [
+            ->add('comments', TextType::class, [
                 'attr' => [
                     'class' => 'form-style',
                     'placeholder' => 'Commentaires'
@@ -50,7 +52,7 @@ class MentorType extends AbstractType
                 'label' => '<i class="fa-solid fa-comment"></i>',
                 'label_html' => true,
             ])
-            ->add('LevelExperience', ChoiceType::class, [
+            ->add('levelExperience', ChoiceType::class, [
                 'choices' => [
                     'Débutant' => 'Débutant',
                     'Intermédiaire' => 'Intermédiaire',
@@ -65,7 +67,7 @@ class MentorType extends AbstractType
                 'label' => '<i class="fa-solid fa-graduation-cap"></i>',
                 'label_html' => true,
             ])
-            ->add('Avaibility', ChoiceType::class, [
+            ->add('availability', ChoiceType::class, [
                 'choices' => [
                     'Matin' => 'Matin',
                     'Après-midi' => 'Après-midi',
@@ -79,6 +81,20 @@ class MentorType extends AbstractType
                 'placeholder' => 'Disponibilité',
                 'label' => '<i class="fa-solid fa-clock"></i>',
                 'label_html' => true,
+            ])
+            ->add('doc', FileType::class, [
+                'label' => 'Document (PDF)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
             ])
         ;
     }

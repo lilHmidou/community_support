@@ -4,37 +4,42 @@ namespace App\Entity;
 
 use App\Repository\MentorRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MentorRepository::class)]
 class Mentor extends UserTutorat
 {
 
     #[ORM\Column(length: 20)]
-    private ?string $LevelExperience = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 20)]
+    private ?string $levelExperience = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Avaibility = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
+    private ?string $availability = null;
 
     public function getLevelExperience(): ?string
     {
-        return $this->LevelExperience;
+        return $this->levelExperience;
     }
 
-    public function setLevelExperience(string $LevelExperience): static
+    public function setLevelExperience(string $levelExperience): static
     {
-        $this->LevelExperience = $LevelExperience;
+        $this->levelExperience = $levelExperience;
 
         return $this;
     }
 
-    public function getAvaibility(): ?string
+    public function getAvailability(): ?string
     {
-        return $this->Avaibility;
+        return $this->availability;
     }
 
-    public function setAvaibility(string $Avaibility): static
+    public function setAvailability(string $availability): static
     {
-        $this->Avaibility = $Avaibility;
+        $this->availability = $availability;
 
         return $this;
     }

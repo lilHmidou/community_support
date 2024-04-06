@@ -3,22 +3,35 @@
 {% block title %}Inscription du mentor{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Inscription du mentor</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Inscription du mentor</h1>
 
-        {{  form_start(mentorForm) }}
+        {{ form_start(mentorForm, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
 
-        {{  form_row(mentorForm.Domain) }}
-        {{  form_row(mentorForm.LearningChoice) }}
-        {{  form_row(mentorForm.Comments) }}
-        {{  form_row(mentorForm.LevelExperience) }}
-        {{  form_row(mentorForm.Avaibility) }}
-
-        <div class=" form-group">
-
-            <button type="submit" class="btn mt-4">S'inscrire</button>
+        <div class="mb-3">
+            {{ form_row(mentorForm.domain, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(mentorForm.learningChoice, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(mentorForm.comments, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(mentorForm.levelExperience, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(mentorForm.availability, {'attr': {'class': 'form-control'}}) }}
         </div>
 
-        {{  form_end(mentorForm) }}
+        <!-- Ajout du champ de téléchargement du document -->
+        <div class="mb-3">
+            {{ form_row(mentorForm.doc, {'label': 'Télécharger un document (CV ou lettre de motivation)', 'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
+
+        {{ form_end(mentorForm) }}
     </div>
 {% endblock %}
+
