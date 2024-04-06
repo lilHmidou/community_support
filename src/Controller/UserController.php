@@ -199,6 +199,7 @@ class UserController extends AbstractController
         // Mettre à jour le post
         $postRepository->updatePost($postId, $data);
 
+        $this->addFlash('success', 'Votre publication a été modifiée.');
         // Rediriger vers une autre page ou afficher un message de succès
         return $this->redirectToRoute('list_users_posts');
     }
