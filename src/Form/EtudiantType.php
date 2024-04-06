@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 
 class EtudiantType extends AbstractType
 {
@@ -75,7 +77,22 @@ class EtudiantType extends AbstractType
                 'expanded' => true,
                 'label' => '<i class="fa-solid fa-wheelchair"></i>',
                 'label_html' => true,
-            ]);
+            ])
+            ->add('doc', FileType::class, [
+                'label' => 'Document (PDF)',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
