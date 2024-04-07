@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block title %}
+    <h1>Ajouter un Témoignage</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+    <a href="{{ path('temoignage_index') }}">Retour à la liste</a>
+
+{% endblock %}
+
