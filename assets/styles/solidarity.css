@@ -24,7 +24,6 @@
     transform: scale(1.1);
 }
 
-
 .title1{
     color: #3A1700;
     font-weight: 700; /* bold */
@@ -47,78 +46,133 @@
 
 }
 
-
+/* 2nd page */
 
 .blue {
+    padding-top: 50px;
     color:dodgerblue;
     font-weight:bold;
     text-align:center;
-}
-
-.col {
-    background-color: #F3F2E7;
-    border-radius: 10px;
-    padding: 20px; /* Espacement intérieur */
-    margin: 10px; /* Marge extérieure */
-}
-
-.col:hover {
-    box-shadow: 0 0 20px 10px rgba(0, 0, 0, 0.5);
-}
-
-.col button {
-    display: block;
-    margin: auto;
 }
 
 .contain{
     background-color: white;
 }
 
-h3{
+.contain h3{
     font-weight:bold;
     text-align:center;
+    color: #3A1700;
+    font-size: 32px;
+    padding-bottom: 30px;
 }
 
-.title-event{
-    font-weight: bold;
-    font-size: 30px;
-}
-
-.date-creat{
-    text-align: right;
-    color: grey;
-}
+/* Start of the new CSS code for the events page */
 
 .table-container1 {
-    display: grid;
-    grid-template-columns: repeat(1, 400px);
-    gap: 30px; /* Ajoute de l'espace entre chaque case */
-    justify-content: center; /* Centre horizontalement */
-}
-
-.image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
+    padding: 20px;
 }
 
+.table-container1 .col {
+    background-color: #F3F2E7;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 920px;
+    margin-bottom: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.contain .col {
+    box-sizing: border-box;
+    background-color: #F3F2E7;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 920px;
+    margin-bottom: 30px;
+    padding: 40px 40px 40px 40px; /* Padding pour tous les côtés sauf le haut */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.image {
+    width: calc(100% + 80px);
+    margin-left: -40px;
+    margin-right: -40px;
+    margin-top: -40px;
+    height: auto;
+    border-radius: 10px 10px 0 0; /* Arrondi seulement en haut */
+}
+
+.likes-count {
+    margin-bottom: 17px; /* Space after the like count */
+}
+
+.title-event {
+    color: #3A1700; /* Color for the event title */
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 10px; /* Space after the title */
+}
+
+.date-creat {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+.desc-event {
+    color: #3A1700; /* Darker text color for the description */
+    font-size: 16px;
+    font-weight: lighter;
+    margin-bottom: 10px; /* Space before the buttons */
+}
+
+/* Button styles */
+
+.table-container1 .col .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+.purple, .explore {
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-right: 14px;
+    width: fit-content;
+    transition: transform 0.3s ease;
+    background-color: #7E8AB8;
+    color: white;
+    border: none;
+}
 
 .explore {
     background-color: white;
     color: #7E8AB8;
-    padding: 10px 20px;
-    border-radius: 20px;
-    font-size: 14px;
     border: 2px solid #7E8AB8;
-    font-weight: bold;
-    transition: transform 0.3s ease;
 }
 
-.explore:hover {
-    background-color: whitesmoke;
-    color: #7E8AB8;
+.purple:hover, .explore:hover {
+    background-color: #7E8AB8;
+    color: white;
     border: 2px solid #7E8AB8;
-    transform: scale(1.1);
+    transform: scale(1);
 }
+
+/* like css */
 
 @keyframes heartBeat {
     0% {
@@ -136,9 +190,12 @@ h3{
     background: none;
     border: none;
     cursor: pointer;
-    display: flex;
+    display: block;
     align-items: center;
     font-size: 16px;
+    margin: 0 auto 10px; /* Add some margin below */
+    padding: 0;
+    text-align: center;
 }
 
 .heart-icon {
