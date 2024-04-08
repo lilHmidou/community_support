@@ -1,31 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello TutoratController!{% endblock %}
-
+{% block title %}Page de Tutorat{% endblock %}
 {% block body %}
-    <style>
-        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-        .button-wrapper { text-align: right; margin-bottom: 20px; }
-        .button-wrapper button { margin-left: 10px; }
-    </style>
-
-    <div class="example-wrapper">
-        <div class="button-wrapper">
-            <a href="{{ path('registerMentor') }}">
-            <button>Être mentor</button>
-            </a>
-            <a href="{{ path('registerEtudiant') }}">
-            <button>Être étudiant</button>
-            </a>
+    <div class="container mt-5">
+        <h1 class="mb-4">Page de Tutorat</h1>
+        <div class="button-wrapper mb-4">
+            <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2">Devenir Mentor</a>
+            <a href="{{ path('registerEtudiant') }}" class="btn btn-secondary">Devenir Étudiant</a>
         </div>
 
-        <h1>Hello {{ controller_name }}! ✅</h1>
+        <section id="testimonies">
+            <h2 class="mb-3">Témoignages</h2>
+            {% for testimony in testimonies %}
+                <div class="testimony card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>{{ testimony.author }}</strong> - {{ testimony.date|date('d/m/Y') }}</h5>
+                        <p class="card-text">{{ testimony.content }}</p>
+                    </div>
+                </div>
+            {% else %}
+                <p class="text-muted">Aucun témoignage pour le moment.</p>
+            {% endfor %}
+        </section>
+        <section id="faqs">
+            <h2 class="mb-3">FAQs</h2>
+            <div class="accordion" id="faqAccordion">
+                {% for faq in faqs %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ loop.index }}">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}" aria-expanded="true" aria-controls="collapse{{ loop.index }}">
+                                {{ faq.question }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ loop.index }}" class="accordion-collapse collapse {{ loop.first ? 'show' : '' }}" aria-labelledby="heading{{ loop.index }}" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                {{ faq.answer }}
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="text-muted">Aucune FAQ disponible pour le moment.</p>
+                {% endfor %}
+            </div>
+        </section>
 
-        This friendly message is coming from:
-        <ul>
-            <li>Your controller at <code><a href="{{ 'C:/Users/fazer/Desktop/Licence/L3/S1/Tech_Web/S2/projet_INF8/community_support/src/Controller/EtudiantController.php'|file_link(0) }}">src/Controller/EtudiantController.php</a></code></li>
-            <li>Your template at <code><a href="{{ 'C:/Users/fazer/Desktop/Licence/L3/S1/Tech_Web/S2/projet_INF8/community_support/templates/tutorat/tutorat.html.twig'|file_link(0) }}">templates/etudiant/index.html.twig</a></code></li>
-        </ul>
     </div>
+{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        .button-wrapper > a.btn {
+            margin-right: 10px;
+            text-decoration: none;
+        }
+        .card-body h5 {
+            font-size: 1.2rem;
+        }
+        .accordion-button:not(.collapsed) {
+            color: #0a58ca;
+            background-color: #e7f1ff;
+        }
+    </style>
 {% endblock %}
