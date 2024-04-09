@@ -8,7 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TutoratController extends AbstractController
+class  TutoratController extends AbstractController
 {
     #[Route('/tutorat', name: 'tutorat')]
     public function index(TestimoniesRepository $testimoniesRepository, FAQRepository $faqRepository): Response
