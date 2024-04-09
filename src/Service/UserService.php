@@ -18,4 +18,9 @@ class UserService
     {
         return null !== $this->security->getUser();
     }
+
+    public function getUser()
+    {
+        return $this->security->getUser();
+    }
 }

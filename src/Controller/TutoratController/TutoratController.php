@@ -2,24 +2,32 @@
 
 namespace App\Controller\TutoratController;
 
-use App\Repository\FAQRepository;
-use App\Repository\TestimoniesRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FAQService;
+use App\Service\TestimoniesService;
 
-class  TutoratController extends AbstractController
+class TutoratController extends AbstractController
 {
-    #[Route('/tutorat', name: 'tutorat')]
-    public function index(TestimoniesRepository $testimoniesRepository, FAQRepository $faqRepository): Response
+    private FAQService $faqService;
+    private TestimoniesService $testimoniesService;
+
+    public function __construct(FAQService $faqService, TestimoniesService $testimoniesService)
     {
-        $testimonies = $testimoniesRepository->findAll();
-        $faqs = $faqRepository->findAll();
+        $this->faqService = $faqService;
+        $this->testimoniesService = $testimoniesService;
+    }
+
+    #[Route('/tutorat', name: 'tutorat')]
+    public function index(): Response
+    {
+        $testimonies = $this->testimoniesService->getAllTestimonies();
+        $faqs = $this->faqService->getAllFAQs();
         return $this->render('tutorat/homeTutorat.html.twig', [
             'testimonies' => $testimonies,
             'faqs' => $faqs,
         ]);
     }
-
-
 }
+
