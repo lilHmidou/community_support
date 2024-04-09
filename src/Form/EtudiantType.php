@@ -79,7 +79,7 @@ class EtudiantType extends AbstractType
                 'label_html' => true,
             ])
             ->add('doc', FileType::class, [
-                'label' => 'Document (PDF)',
+                'label' => 'Lettre de Motivation',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
