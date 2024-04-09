@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\TutoratController;
 
 use App\Repository\FAQRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

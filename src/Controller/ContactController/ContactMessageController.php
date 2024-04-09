@@ -1,22 +1,30 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\ContactController;
 
 use App\Entity\ContactMessage;
 use App\Form\ContactMessageFormType;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
+use App\Service\ContactService;use App\Service\UserService;use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ContactMessageController extends AbstractController
 {
-    #[Route('/contact', name: 'contact')]
-    public function contact(Request $request, EntityManagerInterface $entityManager): Response
+    private UserService $userService;
+    private ContactService $contactService;
+
+    public function __construct(UserService $userService, ContactService $contactService)
     {
-        // L'utilisateur doit être connecté pour envoyer un message
-        if (!$this->getUser()) {
+        $this->userService = $userService;
+        $this->contactService = $contactService;
+    }
+
+    #[Route('/contact', name: 'contact')]
+    public function contact(Request $request): Response
+    {
+        // Utilisation de UserService pour vérifier si l'utilisateur est connecté
+        if (!$this->userService->isLogin()) {
             $this->addFlash('danger', 'Vous devez être connecté pour envoyer un message.');
             return $this->redirectToRoute('login');
         }
@@ -28,9 +36,7 @@ class ContactMessageController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($contactMessage);
-            $entityManager->flush();
-
+            $this->contactService->saveContactMessage($contactMessage);
             $this->addFlash('success', 'Votre message a bien été envoyé !');
             return $this->redirectToRoute('home');
         }
