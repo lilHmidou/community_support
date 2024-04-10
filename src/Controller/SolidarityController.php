@@ -6,6 +6,7 @@ use App\Entity\PostLike;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\SolidarityPostType;
+use App\Service\LikeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -30,11 +31,19 @@ class SolidarityController extends AbstractController
     }
 
     #[Route('/solidarity', name: 'solidarity')]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository, LikeService $likeService): Response
     {
         $events = $postRepository->findAll();
+
+        // Récupérer l'état du like pour chaque événement (post)
+        $likedStates = [];
+        foreach ($events as $event) {
+            $likedStates[$event->getId()] = $likeService->checkLike($event);
+        }
+
         return $this->render('solidarity/index.html.twig', [
             'events' => $events,
+            'likedStates' => $likedStates, // Passer les états de like au modèle Twig
         ]);
     }
 

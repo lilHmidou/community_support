@@ -60,9 +60,9 @@
                     {% endif %}
                 {% endif %}
                 <br>
-                <button class="like-button" onclick="toggleLike(this)" data-post-id="{{ event.id }}">
+                <button class="like-button{{ likedStates[event.id] ? ' liked' : '' }}" onclick="toggleLike(this)" data-post-id="{{ event.id }}">
                     <svg class="heart-icon" viewBox="0 0 24 24">
-                        <path fill="red" d="M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5C22,12.28,18.6,15.36,13.45,19.03L12,20.35V21.35z"></path>
+                        <path fill="{{ likedStates[event.id] ? 'red' : 'black' }}" d="M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5C22,12.28,18.6,15.36,13.45,19.03L12,20.35V21.35z"></path>
                     </svg>
                 </button>
                 <span class="likes-count">Likes: {{ event.like }}</span>
@@ -81,67 +81,56 @@
     </div>
 
 
-    <script>
+    {% block javascripts %}
+        <script>
+            // Initialiser l'état de like pour chaque bouton
+            const likedStates = {{ likedStates|json_encode|raw }};
 
-        document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const postId = button.getAttribute('data-post-id');
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ajouter un écouteur d'événement à tous les boutons de like
+                document.querySelectorAll('.like-button').forEach(button => {
+                    const postId = button.getAttribute('data-post-id');
+                    // Initialiser l'état du bouton de like en fonction de likedStates
+                    button.classList.toggle('liked', likedStates[postId]);
 
-                if(pressed) {
+                    button.addEventListener('click', () => {
+                        toggleLike(button);
 
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json', // Assurez-vous que le contenu est JSON
-                        },
-                        body: JSON.stringify({ post_id: postId }), // Convertissez les données en JSON
-                    };
+                        if (likedStates[postId]) {
+                            // Si le post est déjà liké, supprimer le like
+                            fetch(`/remove_like/${postId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Mettre à jour le nombre de likes affiché
+                                    const likesCountElement = button.nextElementSibling;
+                                    likesCountElement.textContent = `Likes: ${data.likes}`;
+                                    // Mettre à jour l'état de like dans likedStates
+                                    likedStates[postId] = false;
+                                })
+                                .catch(error => console.error('Erreur lors de la demande de like:', error));
+                        } else {
+                            // Sinon, ajouter un like
+                            fetch(`/add_like/${postId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Mettre à jour le nombre de likes affiché
+                                    const likesCountElement = button.nextElementSibling;
+                                    likesCountElement.textContent = `Likes: ${data.likes}`;
+                                    // Mettre à jour l'état de like dans likedStates
+                                    likedStates[postId] = true;
+                                })
+                                .catch(error => console.error('Erreur lors de la demande de like:', error));
+                        }
+                    });
+                });
 
-                    fetch(`/add_like/${postId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const likesCountElement = document.querySelector(`.likes-count[data-post-id="${postId}"]`);
-                            likesCountElement.textContent = `Likes: ${data.likes}`;
-                        })
-                        .catch(error => console.error('Erreur lors de la demande de like:', error));
-                }else{
-
-                    fetch(`/remove_like/${postId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const likesCountElement = document.querySelector(`.likes-count[data-post-id="${postId}"]`);
-                            likesCountElement.textContent = `Likes: ${data.likes}`;
-                        })
-                        .catch(error => console.error('Erreur lors de la demande de like:', error));
-
+                // Fonction pour basculer l'état de like
+                function toggleLike(button) {
+                    button.classList.toggle('liked');
                 }
-
             });
-
-        });
-
-        var pressed = false;
-
-        function toggleLike(button) {
-            var likesCountElement = button.nextElementSibling;
-            var currentLikes = parseInt(likesCountElement.innerText.split(": ")[1]);
-
-            if (pressed) {
-                // Si le bouton est déjà désactivé, réactiver le bouton et soustraire 1 au nombre de likes
-                pressed = false;
-                var newLikes = currentLikes - 1;
-                likesCountElement.innerText = "Likes: " + newLikes;
-            } else {
-                // Si le bouton n'est pas désactivé, activer le bouton et ajouter 1 au nombre de likes
-                pressed = true;
-                var newLikes = currentLikes + 1;
-                likesCountElement.innerText = "Likes: " + newLikes;
-            }
-        }
-
-
-
-    </script>
+        </script>
+    {% endblock %}
 
 
 
