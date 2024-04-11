@@ -1,12 +1,12 @@
 <?php
-namespace App\Generator\UserGenerator;
+namespace App\Service\UserService;
 
 use App\Entity\User;
 use App\Form\RegistrationType;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
-class UserFormGenerator
+class UserFormService
 {
     private $formFactory;
     private $authenticationUtils;

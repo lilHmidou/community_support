@@ -23,7 +23,7 @@ services:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
 
-    App\Generator\UserGenerator\UserFormGenerator:
+    App\Service\UserService\UserFormService:
         arguments:
             $formFactory: '@form.factory'
             $authenticationUtils: '@security.authentication_utils'

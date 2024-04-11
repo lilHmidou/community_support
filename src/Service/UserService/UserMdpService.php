@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Generator\UserGenerator;
+namespace App\Service\UserService;
 
 use App\Entity\User;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class UserMdpGenerator
+class UserMdpService
 {
     private $passwordHasher;
 
