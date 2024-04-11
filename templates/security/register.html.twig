@@ -3,16 +3,15 @@
 <div class="card-back">
     <div class="center-wrap">
         <div class="section text-center">
-
             {{ form_errors(registrationForm) }}
             {{ form_start(registrationForm) }}
             <h4 class="mb-3 pb-3">Inscription</h4>
             <div class="form-group">
                 <div style="display: flex;">
-                    <div style="flex: 1; margin-right: 10px;"> <!-- Utilisation de Flexbox -->
+                    <div style="flex: 1; margin-right: 10px;">
                         {{ form_row(registrationForm.FirstName) }}
                     </div>
-                    <div style="flex: 1; margin-left: 10px;"> <!-- Utilisation de Flexbox -->
+                    <div style="flex: 1; margin-left: 10px;">
                         {{ form_row(registrationForm.LastName) }}
                     </div>
                 </div>
@@ -63,7 +62,9 @@
             </div>
             <div class="form-group">
 
-            <button type="submit" class="btn mt-4">S'inscrire</button>
+                {{ form_row(registrationForm._token) }}
+
+                <button type="submit" class="btn mt-4">S'inscrire</button>
             </div>
             {{ form_end(registrationForm) }}
         </div>

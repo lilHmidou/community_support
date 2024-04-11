@@ -8,20 +8,20 @@
             <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
         {% endblock %}
     </head>
-    <div class="container-message">
-        {% for message in app.flashes('success') %}
-            <div class="alert alert-success">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% for message in app.flashes('error') %}
-            <div class="alert alert-danger">
-                {{ message }}
-            </div>
-        {% endfor %}
-    </div>
     <body>
         {% include 'fragments/header.html.twig' %}
+        <div class="container-message">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
         <main>
            {% block body %}{% endblock %}
        </main>

@@ -4,10 +4,9 @@
     <div class="center-wrap">
         <div class="section text-center">
             <form method="post">
-
                 <h4 class="mb-3 pb-3">Connexion</h4>
                 <div class="form-group">
-                    <input type="email" class="form-style" placeholder="Email" value="{{ last_username }}" name="email"
+                    <input type="email" class="form-style" placeholder="Email" name="email"
                            id="inputEmail" autocomplete="email" required autofocus>
                     <i class="input-icon uil uil-at"></i>
                 </div>
@@ -21,7 +20,6 @@
                         </button>
 
                     </div>
-
 
                     <input type="hidden" name="_csrf_token"
                            value="{{ csrf_token('authenticate') }}"
