@@ -65,16 +65,6 @@ class LikeController extends AbstractController
         return new JsonResponse(['likes' => $post->getLike()]);
     }
 
-    #[Route('/check_like/{id}', name: 'check_like')]
-    public function checkLike(Post $post, LikeService $likeService): Response
-    {
-        $liked = $likeService->checkLike($post);
-
-        // Rendre le template Twig en passant la variable $liked
-        return $this->render('solidarity/index.html.twig', [
-            'liked' => $liked,
-        ]);
-    }
 
     #[Route('/list_liked_posts', name: 'list_liked_posts')]
     public function listLikedPosts(PostLikeRepository $postLikeRepository): Response
