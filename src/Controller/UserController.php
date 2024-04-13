@@ -7,7 +7,8 @@ use App\Form\NewPasswordType;
 use App\Form\ProfilType;
 use App\Form\SolidarityPostType;
 use App\Repository\PostRepository;
-use App\Security\UserAuthenticator;
+use App\security\UserAuthenticator;
+use App\Service\RoleRedirectorService;
 use Doctrine\ORM\EntityManagerInterface;
 use MongoDB\Driver\Session;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,21 +20,17 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
+#[Route('/user')]
 class UserController extends AbstractController
 {
-    #[Route('/user', name: 'user')]
-    public function index(SessionInterface $session): Response
+    #[Route('', name: 'user')]
+    public function index(RoleRedirectorService $roleRedirectorService, SessionInterface $session): Response
     {
-        // Vérifier si le message de bienvenue a déjà été affiché
-        if (!$session->has('welcome_message_displayed')) {
-            $this->addFlash('success', 'Ravi de vous voir, ' . $this->getUser()->getFirstName() . ' !');
-            // Marquer que le message a été affiché pour ne pas le réafficher
-            $session->set('welcome_message_displayed', true);
-        }
+        $roleRedirectorService->addSuccessMessage($session);
         return $this->render('home/index.html.twig');
     }
 
-    #[Route('/user/profil', name: 'profil', methods: ['GET', 'POST'])]
+    #[Route('/profil', name: 'profil', methods: ['GET', 'POST'])]
     public function show(): Response
     {
         // Récupérer l'utilisateur connecté
@@ -48,7 +45,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/profil/update', name: 'update', methods: ['GET', 'POST'])]
+    #[Route('/profil/update', name: 'update', methods: ['GET', 'POST'])]
     public function update(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Récupérer l'utilisateur connecté
@@ -71,7 +68,7 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/user/profil/delete', name: 'delete', methods: ['GET'])]
+    #[Route('/profil/delete', name: 'delete', methods: ['GET'])]
     public function delete(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
     {
         // Récupérer l'utilisateur connecté
@@ -91,7 +88,7 @@ class UserController extends AbstractController
     }
 
 
-    #[Route('/user/update_password', name: 'changePassword', methods: ['GET','POST'])]
+    #[Route('/update_password', name: 'changePassword', methods: ['GET','POST'])]
     public function updateMdp(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,

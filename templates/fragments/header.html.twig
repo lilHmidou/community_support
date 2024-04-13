@@ -30,38 +30,50 @@
             <i class="fa-solid fa-address-book"></i>
             <span>Contact</span>
         </a>
+        {% if app.user and is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('handler') }}">
+                <i class="fas fa-list-alt"></i>
+                <span>Gestionnaire</span>
+            </a>
+        {% endif %}
     </nav>
 
     {% if app.user %}
-        {# Afficher le menu de profil pour les utilisateurs connectés #}
-
         <nav class="navbar">
-            <div class="nav-links">
-                <ul>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('profil') }}">
-                            <i class="fa-solid fa-user"></i>
-                            <span>Mon profil</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('changePassword') }}">
-                            <i class="fa-solid fa-key"></i>
-                            <span>Changer mon mot de passe</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('list_users_posts') }}">
-                            <i class="fa-solid fa-pen-to-square"></i>
-                            <span>Mes posts</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" href="{{ path('list_liked_posts') }}">
-                            <i class="fa-solid fa-heart"></i>
-                            <span>Mes likes</span>
-                        </a>
-                    </li>
+            {% if is_granted('ROLE_USER') %}
+                <div class="nav-links">
+                    <ul>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('profil') }}">
+                                <i class="fa-solid fa-user"></i>
+                                <span>Mon profil</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('changePassword') }}">
+                                <i class="fa-solid fa-key"></i>
+                                <span>Changer mon mot de passe</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('list_users_posts') }}">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                                <span>Mes posts</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('list_liked_posts') }}">
+                                <i class="fa-solid fa-heart"></i>
+                                <span>Mes likes</span>
+                            </a>
+                        </li>
+                    </ul>
+                    </div>
+                </div>
+
+            {% elseif is_granted('ROLE_ADMIN') %}
+                <div class="nav-links">
+                    <ul>
                     <li>
                         <a class="dropdown-item" href="#">
                             <i class="fa-solid fa-gear"></i>
@@ -73,8 +85,9 @@
                             <span>Se déconnecter</span>
                         </a>
                     </li>
-                </ul>
-            </div>
+                    </ul>
+                </div>
+            {% endif %}
             <btn type="button">
                 <i class="fa-solid fa-circle-user menu" style="color: #7e8ab8;"></i>
             </btn>
@@ -88,13 +101,12 @@
                 <button class="btn-header">Se connecter</button>
             </a>
             <a href="{{ path('register') }}">
-                <button class="btn-header">S'inscrire </button>
+                <button class="btn-header">S'inscrire</button>
             </a>
         </div>
         <hr class="separator">
     {% endif %}
 </header>
-
 
 
 <!-- Scripts de Bootstrap -->

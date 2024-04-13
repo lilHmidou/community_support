@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Security\UserAuthenticator;
+use App\security\UserAuthenticator;
 use App\Service\UserService\UserFormService;
 use App\Service\UserService\UserMdpService;
 use Doctrine\ORM\EntityManagerInterface;

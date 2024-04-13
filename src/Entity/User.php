@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\security\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -67,6 +68,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ContactMessage = new ArrayCollection();
         $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
+        $this->roles = [];
         $this->CreatedAt_U = new \DateTimeImmutable();
     }
 
@@ -193,9 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
