@@ -2,6 +2,11 @@
 
 {% block title %}Inscription de l'étudiant{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/tutoratForm.css') }}">
+{% endblock %}
+
 {% block body %}
     <div class="container mt-5">
         <h1 class="mb-4">Inscription de l'étudiant</h1>
@@ -31,6 +36,7 @@
                 {{ form_label(etudiantForm.Disability.1, 'Non', {'label_attr': {'class': 'form-check-label'}}) }}
             </div>
         </div>
+        <br>
         <div class="mb-3">
             {{ form_row(etudiantForm.doc, {'attr': {'class': 'form-control'}}) }}
         </div>

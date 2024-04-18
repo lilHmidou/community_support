@@ -2,9 +2,14 @@
 
 {% block title %}Inscription du mentor{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/tutoratForm.css') }}">
+{% endblock %}
+
 {% block body %}
     <div class="container mt-5">
-        <h1 class="mb-4">Inscription du mentor</h1>
+        <h1 class="mb-4">Inscription du Mentor</h1>
 
         {{ form_start(mentorForm, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
 

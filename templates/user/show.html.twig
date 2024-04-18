@@ -5,9 +5,10 @@
 {% block body %}
     {% block stylesheets %}
         {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('styles/login-register.css') }}">
+        <link rel="stylesheet" href="{{ asset('styles/updateProfile.css') }}">
     {% endblock %}
-    <div class="form">
+<div class="flex-wrapper">
+    <div class="form-container">
         <h1>Profil</h1>
         {{ form_start(profilForm) }}
             <div class="row g-3">
@@ -75,6 +76,7 @@
             </div>
         </div>
     </div>
+
     <script src="{{ asset('controllers/activate-update.js') }}"></script>
-    <script src="{{ asset('controllers/delete-confirmed.js') }}"></script>
+    <script src="{{ asset('controllers/delete-confirmed.js') }}"></script></div>
 {% endblock %}

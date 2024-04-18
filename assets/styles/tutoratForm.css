@@ -1,0 +1,109 @@
+:root {
+    --primary-color: #3A1700;
+    --background-color: #E3E1CB;
+    --input-background: #f3f3ea;
+    --button-color: #cccab6;
+    --button-hover-color: #000000;
+    --border-color: #ccc;
+    --text-hover-color: #c4c3ca;
+}
+
+/* General body styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 10px;
+}
+
+body .container {
+    background-color: var(--background-color);
+    width: 90%;
+    max-width: 650px; /* Reduced width */
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensures padding is included in width */
+    margin-bottom: 80px;
+}
+
+
+body .container {
+    display: block;
+    flex: none; /* Resets any flex properties */
+}
+
+
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+}
+
+/* Styling for form elements */
+.form-control {
+    background-color: var(--input-background);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s ease-in-out;
+}
+
+/* Button styling */
+button.btn, .button-submit {
+    background-color: var(--button-color);
+    color: var(--primary-color);
+    padding: 3px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 200ms linear;
+    display: block;
+    margin: 20px auto;
+    letter-spacing: 1px;
+    width: fit-content;
+}
+
+button.btn:hover, .button-submit:hover {
+    background-color: var(--button-hover-color);
+    color: var(--background-color);
+}
+
+/* Form validation styles */
+.needs-validation {
+    margin-bottom: 20px;
+}
+
+/* Checkbox and radio button styles */
+.form-check-label {
+    margin-left: 10px;
+}
+
+.form-check input {
+    margin-right: 5px;
+}
+
+/* Icons styling */
+.fa {
+    margin-right: 5px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    button.btn, .button-submit {
+        width: 100%;
+    }
+}

@@ -9,25 +9,29 @@
 
 {% block body %}
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+        <link rel="stylesheet" href="{{ asset('styles/contact.css') }}">
     {% endblock %}
     <div class="form-container">
         <div class="title">
             <h1>Contactez-nous</h1>
         </div>
         {{ form_start(contactForm, {'attr': {'class': 'form'}}) }}
+        <br>
         {{ form_row(contactForm.topic, {'attr': {'class': 'form-control'}}) }}
+        <br>
         {{ form_row(contactForm.contentCM, {'attr': {'class': 'form-control'}}) }}
         <div class="form-group">
+            <br>
             <button type="submit" class="button-submit">Envoyer</button>
         </div>
         {{ form_end(contactForm) }}
-
+        <br>
         <section id="location-map">
             <h2 class="mb-3">Carte de localisation</h2>
             <div id="officeMap" style="height: 400px;"></div>
         </section>
     </div>
+
     {% block javascripts %}
         <script>
             document.addEventListener("DOMContentLoaded", function() {
