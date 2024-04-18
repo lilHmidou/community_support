@@ -43,4 +43,10 @@ class Mentor extends UserTutorat
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return parent::__toString() . ' - ' . $this->levelExperience . ' - ' . $this->availability;
+    }
+
 }

@@ -67,30 +67,52 @@
                                 <span>Mes likes</span>
                             </a>
                         </li>
+                        <li>
+                            <a class="dropdown-item" href="{{ path('#') }}">
+                                <i class="fa-solid fa-book"></i>
+                                <span>Mes programmes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa-solid fa-gear"></i>
+                                <span>Paramètres</span>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Se déconnecter</span>
+                            </a>
+                        </li>
                     </ul>
-                    </div>
                 </div>
+
 
             {% elseif is_granted('ROLE_ADMIN') %}
                 <div class="nav-links">
                     <ul>
-                    <li>
-                        <a class="dropdown-item" href="#">
-                            <i class="fa-solid fa-gear"></i>
-                            <span>Paramètres</span>
-                        </a>
-                    </li>
-                    <li><a class="dropdown-item" href="/logout">
-                            <i class="fa-solid fa-right-from-bracket"></i>
-                            <span>Se déconnecter</span>
-                        </a>
-                    </li>
+                        <li>
+                            <a class="dropdown-item" href="#">
+                                <i class="fa-solid fa-gear"></i>
+                                <span>Paramètres</span>
+                            </a>
+                        </li>
+                        <li><a class="dropdown-item" href="/logout">
+                                <i class="fa-solid fa-right-from-bracket"></i>
+                                <span>Se déconnecter</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             {% endif %}
             <btn type="button">
                 <i class="fa-solid fa-circle-user menu" style="color: #7e8ab8;"></i>
             </btn>
+            {% if is_granted('ROLE_ETUDIANT') %}
+                <button class="btn-header">Étudiant</button>
+            {% elseif is_granted('ROLE_MENTOR') %}
+                <button class="btn-header">Mentor</button>
+            {% endif %}
         </nav>
         <hr class="separator" style="margin-top: 134px;">
 

@@ -37,4 +37,10 @@ class Etudiant extends UserTutorat
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return parent::__toString() . ' - ' . $this->LevelStudies . ' - ' . ($this->Disability ? 'Oui' : 'Non');
+    }
+
 }

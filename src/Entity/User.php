@@ -57,9 +57,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserTutorat::class, orphanRemoval: true)]
     private Collection $UserTutorat;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?ConfigModule $ConfigModule = null;
-
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $Post;
 
@@ -68,7 +65,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ContactMessage = new ArrayCollection();
         $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
-        $this->roles = [];
+        $this->roles = [Role::ROLE_USER];
         $this->CreatedAt_U = new \DateTimeImmutable();
     }
 
@@ -220,6 +217,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return $this->FirstName . ' ' . $this->LastName . ' - ' . $this->Address . ' - ' . $this->PhoneNumber . ' - ' . $this->Gender . ' - ' . $this->email;
+    }
+
     /**
      * @return Collection<int, ContactMessage>
      */
@@ -276,18 +278,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $userTutorat->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getConfigModule(): ?ConfigModule
-    {
-        return $this->ConfigModule;
-    }
-
-    public function setConfigModule(?ConfigModule $ConfigModule): static
-    {
-        $this->ConfigModule = $ConfigModule;
 
         return $this;
     }

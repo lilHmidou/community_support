@@ -2,6 +2,7 @@
 
 namespace App\security;
 
+use App\Service\roleService\RoleRedirectorService;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,10 +22,12 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'login';
+    private $roleRedirectorService;
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, RoleRedirectorService $roleRedirectorService)
     {
         $this->urlGenerator = $urlGenerator;
+        $this->roleRedirectorService = $roleRedirectorService;
     }
 
     public function authenticate(Request $request): Passport
@@ -49,9 +52,8 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        return new RedirectResponse($this->urlGenerator->generate('user'));
-        //throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Utilisez la méthode redirect() de RoleRedirectorService pour déterminer la redirection appropriée
+        return $this->roleRedirectorService->redirect();
     }
 
     protected function getLoginUrl(Request $request): string

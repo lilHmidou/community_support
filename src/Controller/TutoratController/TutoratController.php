@@ -24,6 +24,7 @@ class TutoratController extends AbstractController
     {
         $testimonies = $this->testimoniesService->getAllTestimonies();
         $faqs = $this->faqService->getAllFAQs();
+
         return $this->render('tutorat/homeTutorat.html.twig', [
             'testimonies' => $testimonies,
             'faqs' => $faqs,

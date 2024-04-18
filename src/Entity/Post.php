@@ -145,6 +145,12 @@ class Post
         return $this;
     }
 
+    public function __toString(): string
+    {
+        return "Title: " . $this->Title . ", Description: " . $this->Description . ", Location: " . $this->Location . ", Category: " . $this->Category . ", Created At: " . $this->CreatedAt_P->format('Y-m-d H:i:s');
+    }
+
+
     /**
      * @return Collection<int, Message>
      */

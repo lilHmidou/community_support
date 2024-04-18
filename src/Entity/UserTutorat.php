@@ -108,4 +108,9 @@ class UserTutorat
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->domain . ' ' . $this->learningChoice . ' ' . $this->comments . ' ' . $this->docPath;
+    }
 }

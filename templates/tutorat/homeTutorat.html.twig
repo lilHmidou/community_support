@@ -5,8 +5,10 @@
     <div class="container mt-5">
         <h1 class="mb-4">Page de Tutorat</h1>
         <div class="button-wrapper mb-4">
-            <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2">Devenir Mentor</a>
-            <a href="{{ path('registerEtudiant') }}" class="btn btn-secondary">Devenir Étudiant</a>
+            {% if not is_granted('ROLE_ETUDIANT') or not is_granted('ROLE_MENTOR') %}
+                <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2">Devenir Mentor</a>
+                <a href="{{ path('registerEtudiant') }}" class="btn btn-secondary">Devenir Étudiant</a>
+            {% endif %}
         </div>
 
         <section id="testimonies">

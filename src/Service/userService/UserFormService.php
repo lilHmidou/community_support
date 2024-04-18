@@ -1,5 +1,5 @@
 <?php
-namespace App\Service\UserService;
+namespace App\Service\userService;
 
 use App\Entity\User;
 use App\Form\RegistrationType;

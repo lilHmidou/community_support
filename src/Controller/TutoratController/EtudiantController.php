@@ -54,7 +54,7 @@ class EtudiantController extends AbstractController
             $this->entityManager->persist($etudiant);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Votre inscription a bien été enregistrée.');
+            $this->addFlash('success', 'Votre inscription a bien été enregistrée. Vous recevrez une réponse dans les 24 heures.');
             return $this->redirectToRoute('tutorat');
         }
 

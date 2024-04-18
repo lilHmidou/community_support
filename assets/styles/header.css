@@ -13,7 +13,8 @@
 /* Sélecteur d'élément */
 nav a {
     color: rgba(70, 30, 5, 0.93);
-    font-size: 20px;
+    font-size: 25px;
+    height: 10px;
     font-weight: bold;
     padding: 20px;
 }
@@ -35,7 +36,7 @@ nav a {
     font-size: 13px;
     border: 2px solid #F1F0E5;
     font-weight: bold;
-    margin: 0 20px 0 -5px;
+    margin: 22px 15px 0 -5px;
 }
 
 .btn-header:hover {
@@ -60,9 +61,9 @@ nav a {
 
 .navbar .menu {
     position: absolute;
-    top: -145px;
-    right: 50px;
-    font-size: 70px;
+    top: -135px;
+    right: 45px;
+    font-size: 82px;
     align-content: center;
     transition: transform 0.3s ease;
 }

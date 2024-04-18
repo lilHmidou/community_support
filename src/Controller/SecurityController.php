@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\security\UserAuthenticator;
-use App\Service\UserService\UserFormService;
-use App\Service\UserService\UserMdpService;
+use App\Service\userService\UserFormService;
+use App\Service\userService\UserMdpService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,7 +49,6 @@ class SecurityController extends AbstractController
 
     }
 
-
     #[Route('/register', name: 'register')]
     public function register(
         Request                    $request,
@@ -81,7 +80,7 @@ class SecurityController extends AbstractController
             $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
             if ($existingUser) {
                 $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
-                return $this->redirectToRoute('register_login');
+                return $this->redirectToRoute('register');
             }
 
             // Récupération des données de mot de passe via le Generator
@@ -90,7 +89,7 @@ class SecurityController extends AbstractController
             // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
             if (!$this->userMdpGenerator->checkPasswordMatch($passwordData)) {
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-                return $this->redirectToRoute('register_login');
+                return $this->redirectToRoute('register');
             }
 
             // Hachage du mot de passe
