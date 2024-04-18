@@ -83,7 +83,7 @@ class ProfilType extends AbstractType
                 ],
             ])
             ->add('saveChanges', SubmitType::class, [
-                'label' => '<i class="fa-solid fa-square-check"></i> Enregistrer les modifications',
+                'label' => '<i class="fa-solid fa-square-check"></i> Enregistrer modifications',
                 'label_html' => true,
                 'attr' => [
                     'class' => 'btn btn-primary',

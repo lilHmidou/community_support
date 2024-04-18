@@ -2,13 +2,16 @@
 
 {% block title %} Modification du profil {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/updateProfile.css') }}">
+{% endblock %}
+
 {% block body %}
-    {% block stylesheets %}
-        {{ parent() }}
-        <link rel="stylesheet" href="{{ asset('styles/login-register.css') }}">
-    {% endblock %}
-    <div class="form">
-        <h1> Modification du profil </h1>
+<div class="flex-wrapper">
+    <div class="form-container">
+        <h1 class="title">Modification du profil</h1>
+        <br>
         {{ form_start(editForm) }}
             <div class="row g-3">
                 <div class="col-md-7 col-lg-8">
@@ -37,6 +40,9 @@
                     {{ form_row(editForm.saveChanges) }}
                 </div>
             </div>
+        <br>
+        <br>
         {{ form_end(editForm) }}
     </div>
+</div>
 {% endblock %}
