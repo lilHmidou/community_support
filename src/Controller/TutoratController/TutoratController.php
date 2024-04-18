@@ -10,12 +10,10 @@ use App\Service\TestimoniesService;
 
 class TutoratController extends AbstractController
 {
-    private FAQService $faqService;
     private TestimoniesService $testimoniesService;
 
-    public function __construct(FAQService $faqService, TestimoniesService $testimoniesService)
+    public function __construct(TestimoniesService $testimoniesService)
     {
-        $this->faqService = $faqService;
         $this->testimoniesService = $testimoniesService;
     }
 
@@ -23,11 +21,10 @@ class TutoratController extends AbstractController
     public function index(): Response
     {
         $testimonies = $this->testimoniesService->getAllTestimonies();
-        $faqs = $this->faqService->getAllFAQs();
+
 
         return $this->render('tutorat/homeTutorat.html.twig', [
             'testimonies' => $testimonies,
-            'faqs' => $faqs,
         ]);
     }
 }

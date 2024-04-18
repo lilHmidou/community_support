@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -52,6 +53,20 @@ class PostRepository extends ServiceEntityRepository
      * @return Post[]
      */
 
+
+    /**
+     * Find the user associated with a given post ID.
+     *
+     * @param int $postId
+     * @return User|null
+     */
+    public function findUserByPostId(int $postId): ?User
+    {
+        $entityManager = $this->getEntityManager();
+        $post = $entityManager->getRepository(Post::class)->find($postId);
+
+        return $post ? $post->getUser() : null;
+    }
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
