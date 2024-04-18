@@ -19,6 +19,7 @@ class EtudiantController extends AbstractController
     private FileUploadService $fileUploadService;
     private EntityManagerInterface $entityManager;
 
+
     public function __construct(UserService $userService, FileUploadService $fileUploadService, EntityManagerInterface $entityManager)
     {
         $this->userService = $userService;
@@ -60,8 +61,12 @@ class EtudiantController extends AbstractController
                     return $this->redirectToRoute('tutorat');
                 }
             }
-
             $etudiant->setUser($this->userService->getUser());
+
+            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur
+            $user = $this->userService->getUser();
+            $user->addRole('ROLE_ETUDIANT');
+
             $this->entityManager->persist($etudiant);
             $this->entityManager->flush();
 

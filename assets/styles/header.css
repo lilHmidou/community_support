@@ -45,6 +45,29 @@ nav a {
     border: 2px solid #E3E1CB;
 }
 
+/* Style du bouton par défaut */
+.tutorat-btn {
+    background-color: limegreen;
+    position: relative;
+    top: -70px;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+/* Style du bouton lorsqu'il est actif */
+.tutorat-btn.active {
+    background-color: limegreen;
+}
+
+/* Style du bouton au survol */
+.tutorat-btn:hover {
+    transform: translateY(-2px);
+}
+
 .separator {
     border: none;
     border-top: 2px solid #ccc;

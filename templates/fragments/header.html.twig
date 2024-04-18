@@ -109,9 +109,9 @@
                 <i class="fa-solid fa-circle-user menu" style="color: #7e8ab8;"></i>
             </btn>
             {% if is_granted('ROLE_ETUDIANT') %}
-                <button class="btn-header">Étudiant</button>
+                <button class="btn-header tutorat-btn active">Étudiant</button>
             {% elseif is_granted('ROLE_MENTOR') %}
-                <button class="btn-header">Mentor</button>
+                <button class="btn-header tutorat-btn active">Mentor</button>
             {% endif %}
         </nav>
         <hr class="separator" style="margin-top: 134px;">

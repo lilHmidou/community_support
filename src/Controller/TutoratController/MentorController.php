@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\UserService;
 use App\Service\FileUploadService;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class MentorController extends AbstractController
 {
@@ -64,6 +65,10 @@ class MentorController extends AbstractController
             }
 
             $mentor->setUser($this->userService->getUser());
+            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur
+            $user = $this->userService->getUser();
+            $user->addRole('ROLE_MENTOR');
+
             $this->entityManager->persist($mentor);
             $this->entityManager->flush();
 
