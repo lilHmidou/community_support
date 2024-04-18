@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\EtudiantRepository;
+use App\security\Role;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
@@ -12,7 +13,16 @@ class Etudiant extends UserTutorat
     private ?string $LevelStudies = null;
 
     #[ORM\Column]
-    private ?bool $Disability = null; // Correction du nom de la propriété
+    private ?bool $Disability = null;
+
+    public function __construct()
+    {
+        // Récupération de l'utilisateur associé à l'entité UserTutorat
+        $user = $this->getUser();
+
+        // Ajout automatique du rôle ROLE_ETUDIANT à l'utilisateur
+        $user->addRole(Role::ROLE_ETUDIANT);
+    }
 
     public function getLevelStudies(): ?string
     {

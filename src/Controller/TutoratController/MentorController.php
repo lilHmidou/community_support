@@ -35,6 +35,18 @@ class MentorController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
+        // Récupérer l'utilisateur connecté
+        $currentUser = $this->userService->getUser();
+
+        // Vérifier si l'utilisateur est déjà inscrit comme mentor
+        $existingMentor = $this->entityManager->getRepository(Mentor::class)->findOneBy(['user' => $currentUser]);
+
+        // Si l'utilisateur est déjà inscrit, afficher un message flash d'erreur
+        if ($existingMentor) {
+            $this->addFlash('error', 'Vous êtes déjà inscrit comme mentor.');
+            return $this->redirectToRoute('tutorat');
+        }
+
         $mentor = new Mentor();
         $form = $this->createForm(MentorType::class, $mentor);
         $form->handleRequest($request);

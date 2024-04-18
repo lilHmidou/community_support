@@ -44,6 +44,11 @@ class UserTutorat
     #[ORM\Column(type : 'string', length: 255, nullable: false)]
     private ?string $docPath = null;
 
+    public function __construct()
+    {
+
+    }
+
     public function getId(): ?int
     {
         return $this->id;

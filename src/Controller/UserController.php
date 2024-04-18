@@ -126,12 +126,6 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
-
             // Rediriger l'utilisateur vers une page de confirmation
             $this->addFlash('success', 'Votre mot de passe a été modifié avec succès.');
             return $this->redirectToRoute('home'); // Remplacez 'profile' par la route vers la page de profil de l'utilisateur

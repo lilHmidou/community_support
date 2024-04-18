@@ -34,6 +34,17 @@ class EtudiantController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
+        // Récupérer l'utilisateur connecté
+        $currentUser = $this->userService->getUser();
+
+        // Vérifier si l'utilisateur est déjà inscrit comme étudiant
+        $existingEtudiant = $this->entityManager->getRepository(Etudiant::class)->findOneBy(['user' => $currentUser]);
+
+        if ($existingEtudiant) {
+            $this->addFlash('error', 'Vous êtes déjà inscrit comme étudiant.');
+            return $this->redirectToRoute('tutorat');
+        }
+
         $etudiant = new Etudiant();
         $form = $this->createForm(EtudiantType::class, $etudiant);
         $form->handleRequest($request);
