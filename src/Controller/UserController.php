@@ -7,6 +7,7 @@ use App\Form\NewPasswordType;
 use App\Form\ProfilType;
 use App\Form\SolidarityPostType;
 use App\Repository\PostRepository;
+use App\Repository\ProgramRepository;
 use App\security\UserAuthenticator;
 use App\Service\roleService\RoleRedirectorService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -200,6 +201,15 @@ class UserController extends AbstractController
         return $this->redirectToRoute('list_users_posts');
     }
 
+    #[Route('/list_program_posts', name: 'list_program_posts')]
+    public function listProgramPosts(ProgramRepository $programRepository): Response
+    {
+        $userId = $this->getUser()->getId();
+        $programPosts = $programRepository->findAllProgramByUserId($userId);
 
+        return $this->render('user/program_posts.html.twig', [
+            'programPosts' => $programPosts,
+        ]);
+    }
 
 }

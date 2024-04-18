@@ -10,7 +10,7 @@
         "doctrine/doctrine-bundle": "^2.11",
         "doctrine/doctrine-migrations-bundle": "^3.3",
         "doctrine/orm": "^2.19",
-        "easycorp/easyadmin-bundle": "^4",
+        "easycorp/easyadmin-bundle": "^4.9",
         "fakerphp/faker": "*",
         "myclabs/php-enum": "^1.8",
         "phpdocumentor/reflection-docblock": "^5.3",

@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+    {% block title %} Mes Programmes {% endblock %}
+
+{% block body %}
+
+    <h1>Mes Programmes</h1>
+
+    {% for program in programPosts %}
+        <li>{{ program.frequency }}</li>
+
+    {% endfor %}
+
+
+{% endblock %}
