@@ -2,9 +2,7 @@
     display: flex;
     flex-direction: column;
     background-color: #F3F2E7; /* or any color that matches your design */
-    position: sticky;
-    top: 0;
-    z-index: 1200; /* Make sure it's above other content */
+
     padding: 10px 0;
 }
 
@@ -13,9 +11,7 @@
     align-items: center;
     padding-left: 35px;
     background-color: #F3F2E7; /* Set your desired background */
-    position: sticky; /* Sticky positioning */
-    top: 0; /* Sticks to the top */
-    z-index: 1200; /* Bootstrap's navbar z-index is 1030, adjust accordingly */
+
     height: 50px; /* Reduced height */
 }
 
@@ -46,7 +42,6 @@ nav a {
     top: 98px; /* Positionne le div à 98px du top de son conteneur positionné le plus proche */
     right: 0;
     position: absolute; /* Ceci va positionner .btn-side par rapport à son parent positionné le plus proche */
-    z-index: 1201; /* Assurez-vous qu'il est au-dessus de l'autre contenu */
 }
 
 

@@ -1,7 +1,8 @@
 :root {
     --primary-color: #3A1700;
+    --form-bg-color: #E3E1CB;
     --background-color: #E3E1CB;
-    --input-background: #f3f3ea;
+    --input-background: #f2f2f2;
     --button-color: #cccab6;
     --button-hover-color: #000000;
     --border-color: #ccc;
@@ -18,14 +19,21 @@ body {
 }
 
 .form-container {
-    background-color: var(--background-color); /* This sets the background specifically for forms */
+    background-color: transparent;
     padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
+    max-width: 550px;
     margin: auto;
     margin-bottom: 120px;
 }
+
+/* Add this to your CSS if you want only the .form to have the yellow background */
+.form {
+    background-color: var(--form-bg-color);
+    padding: 20px; /* Or any other padding you prefer */
+    border-radius: 8px; /* To maintain the rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 
 .title h1 {
     text-align: center;
