@@ -1,0 +1,75 @@
+.container {
+    background-color: #F3F2E7;
+}
+
+.row {
+    margin-top: 10px;
+}
+
+.title1 {
+    color: #3A1700;
+    font-weight: 700; /* bold */
+    font-size: 45px;
+}
+
+.text1 {
+    color: #3A1700; /* Set color to dark brown for general .text1 elements */
+    font-weight: 300; /* Unified font-weight to bold */
+    font-size: 17px; /* Standardized font-size */
+    margin-top: 0.5em; /* Uniform margin-top */
+    line-height: 30px; /* Added line-height from previous class */
+    word-spacing: 3px;
+    align-items: center;
+}
+
+.col-md-6 img {
+    margin-top: 0; /* Value adjusted as needed to align with the text */
+}
+
+.table-container0 {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 20px; /* Adds space between cells */
+    justify-content: center; /* Horizontally centers */
+    box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.3); /* Shadow effect */
+}
+
+.white h4, .white h3 {
+    color: #3A1700;
+    font-weight: 700;
+    font-size: 30px; /* Adjustable to preference */
+    margin-top: 0.5em; /* Adds space above the paragraph */
+    line-height: 35px; /* Adds line height */
+    word-spacing: 3px;
+    text-align: center;
+}
+
+.number {
+    color: #007BFF;
+    font-weight: bold;
+    font-size: 40px;
+    border-bottom: 1px solid #cccccc; /* Light grey border as a separator */
+    padding-bottom: 10px; /* Space between the number and the border */
+    margin-bottom: 10px; /* Space between the border and the text below */
+}
+
+.table-text1 { /* Specific class for text inside .table-container0 */
+    font-weight: bold;
+    color: darkslategrey; /* Set to a different color for distinction */
+}
+
+.col1 {
+    text-align: center;
+    margin-top: 10%;
+}
+
+.container.mt-5 h1 {
+    font-weight: bold;        /* Sets the font weight to bold */
+    text-align: center;       /* Aligns the text to the center */
+    color: #3A1700;           /* Sets the color */
+    font-size: 36px;          /* Sets the font size to 32px */
+    padding-bottom: 30px;     /* Adds padding at the bottom */
+}
+
+
+

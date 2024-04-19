@@ -197,3 +197,18 @@ progress {
     border: 2px solid #7E8AB8;
     transform: scale(1.1);
 }
+
+.white .table-container0 .number {
+    color: #007BFF;
+    font-weight: bold;
+    font-size: 40px;
+    border-bottom: 1px solid #cccccc; /* Light grey border as a separator */
+    padding-bottom: 10px; /* Space between the number and the border */
+    margin-bottom: 10px; /* Space between the border and the text below */
+}
+
+.white .table-container0 .text1 {
+    color: darkslategrey; /* Ensures text color is set specifically for stat band */
+    font-weight: bold;
+    font-size: 17px;
+}

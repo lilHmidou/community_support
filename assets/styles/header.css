@@ -5,6 +5,7 @@
     position: sticky;
     top: 0;
     z-index: 1200; /* Make sure it's above other content */
+    padding: 10px 0;
 }
 
 .header nav {
@@ -15,6 +16,7 @@
     position: sticky; /* Sticky positioning */
     top: 0; /* Sticks to the top */
     z-index: 1200; /* Bootstrap's navbar z-index is 1030, adjust accordingly */
+    height: 50px; /* Reduced height */
 }
 
 /* Reset the styles for Bootstrap's nav if they are causing conflicts */
@@ -34,7 +36,7 @@
 /* Sélecteur d'élément */
 nav a {
     color: rgba(70, 30, 5, 0.93);
-    font-size: 25px;
+    font-size: 22px;
     height: 10px;
     font-weight: bold;
     padding: 20px;
@@ -58,7 +60,7 @@ nav a {
     font-size: 13px;
     border: 2px solid #F1F0E5;
     font-weight: bold;
-    margin: 22px 15px 0 -5px;
+    margin: 22px 15px 0 -10px;
 }
 
 .btn-header:hover {
