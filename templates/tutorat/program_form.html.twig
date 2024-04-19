@@ -1,0 +1,21 @@
+{# templates/tutorat/program_form.html.twig #}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouveau programme de tutorat{% endblock %}
+
+{% block body %}
+    <h1>Créer un nouveau programme de tutorat</h1>
+
+{{ form_start(form) }}
+<h4 class="mb-3 pb-3">Poster un programme</h4>
+
+    {{ form_row(form.title_p) }}
+    {{ form_row(form.description_p) }}
+    {{ form_row(form.frequency) }}
+    {# Afficher le bouton de soumission du formulaire #}
+    <button type="submit">Créer le programme</button>
+
+    {# Terminer le formulaire en utilisant la méthode form_end() #}
+    {{ form_end(form) }}
+{% endblock %}
