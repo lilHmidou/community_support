@@ -41,9 +41,10 @@ nav a {
 }
 
 .btn-side {
-    top: 98px;
+    top: 98px; /* Positionne le div à 98px du top de son conteneur positionné le plus proche */
     right: 0;
-    position: absolute;
+    position: absolute; /* Ceci va positionner .btn-side par rapport à son parent positionné le plus proche */
+    z-index: 1201; /* Assurez-vous qu'il est au-dessus de l'autre contenu */
 }
 
 
