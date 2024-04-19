@@ -53,9 +53,11 @@
                 <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2">Devenir Mentor</a>
                 <a href="{{ path('registerEtudiant') }}" class="btn btn-secondary">Devenir Étudiant</a>
             {% endif %}
+            {% if is_granted('ROLE_MENTOR') or is_granted('ROLE_ADMIN')%}
             <a href="{{ path('tutorat_form') }}">
                 <button>POSTER UN PROGRAMME DE TUTORAT</button>
             </a>
+            {% endif %}
         </div>
 
         <h1>Les Programmes</h1>
@@ -63,6 +65,7 @@
             {{ program.titleP }}
             {{ program.descriptionP }}
             {{ program.frequency }}
+            <p>Mentor : {{ program.user.FirstName }} {{ program.user.LastName }}</p>
             <p class="date-creat">Posté le {{ program.createdAtP|date('Y-m-d') }} à {{ program.createdAtP|date('H:i:s') }}</p>
         {% endfor %}
         <section id="testimonies">
