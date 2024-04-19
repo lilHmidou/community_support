@@ -20,14 +20,10 @@ class TutoratController extends AbstractController
     private EntityManagerInterface $entityManager;
 
 
-    public function __construct(TestimoniesService $testimoniesService)
-    {
-
-    public function __construct(Security $security, EntityManagerInterface $entityManager, FAQService $faqService, TestimoniesService $testimoniesService)
+    public function __construct(Security $security, EntityManagerInterface $entityManager, TestimoniesService $testimoniesService)
     {
         $this->security = $security;
         $this->entityManager = $entityManager;
-        $this->faqService = $faqService;
 
         $this->testimoniesService = $testimoniesService;
     }
