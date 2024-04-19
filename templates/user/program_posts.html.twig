@@ -7,7 +7,16 @@
     <h1>Mes Programmes</h1>
 
     {% for program in programPosts %}
-        <li>{{ program.frequency }}</li>
+        <div class="table-container1">
+                <div class="col">
+
+                    <p class="title-event">{{ program.titleP }}</p>
+                    <p class="desc-event"> {{ program.descriptionP }}</p>
+
+                    <p class="date-creat">Posté le {{ program.createdAtP|date('Y-m-d') }} à {{ program.createdAtP|date('H:i:s') }}</p>
+                </div>
+            {% endfor %}
+        </div>
 
     {% endfor %}
 

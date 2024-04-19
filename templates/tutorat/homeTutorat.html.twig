@@ -58,6 +58,13 @@
             </a>
         </div>
 
+        <h1>Les Programmes</h1>
+        {% for program in programPosts %}
+            {{ program.titleP }}
+            {{ program.descriptionP }}
+            {{ program.frequency }}
+            <p class="date-creat">Posté le {{ program.createdAtP|date('Y-m-d') }} à {{ program.createdAtP|date('H:i:s') }}</p>
+        {% endfor %}
         <section id="testimonies">
             <h2 class="mb-3">Témoignages</h2>
             {% for testimony in testimonies %}

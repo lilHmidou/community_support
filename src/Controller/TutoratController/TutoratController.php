@@ -4,6 +4,7 @@ namespace App\Controller\TutoratController;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
+use App\Repository\ProgramRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -29,13 +30,14 @@ class TutoratController extends AbstractController
     }
 
     #[Route('/tutorat', name: 'tutorat')]
-    public function index(): Response
+    public function index(ProgramRepository $programRepository): Response
     {
         $testimonies = $this->testimoniesService->getAllTestimonies();
-
+        $programs = $programRepository->findAll();
 
         return $this->render('tutorat/homeTutorat.html.twig', [
             'testimonies' => $testimonies,
+            'programPosts' => $programs
         ]);
     }
 

@@ -23,6 +23,9 @@ class ProgramType extends AbstractType
             ->add('user_id', HiddenType::class, [
                 'mapped' => false,
             ])
+            ->add('created_at_p', HiddenType::class, [
+                'mapped' => false,
+            ])
         ;
     }
 
