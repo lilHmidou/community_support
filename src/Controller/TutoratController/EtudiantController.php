@@ -4,6 +4,7 @@ namespace App\Controller\TutoratController;
 
 use App\Entity\Etudiant;
 use App\Form\EtudiantType;
+use App\security\Role;
 use App\Service\FileUploadService;
 use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -63,15 +64,17 @@ class EtudiantController extends AbstractController
             }
             $etudiant->setUser($this->userService->getUser());
 
-            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur
-            $user = $this->userService->getUser();
-            $user->addRole('ROLE_ETUDIANT');
+            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur connecté
+            $user = $this->getUser();
+            $user->addRole(Role::ROLE_ETUDIANT);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             $this->entityManager->persist($etudiant);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Votre inscription a bien été enregistrée. Vous recevrez une réponse dans les 24 heures.');
-            return $this->redirectToRoute('tutorat');
+            $this->addFlash('success', 'Vous venez d\'être admis en tant qu\'étudiant. Veuillez vous reconnecter.');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('tutorat/etudiantForm.html.twig', [

@@ -165,7 +165,7 @@
     border: 2px solid #7E8AB8;
 }
 
-.purple:hover, .explore:hover {
+.explore:hover {
     background-color: #7E8AB8;
     color: white;
     border: 2px solid #7E8AB8;

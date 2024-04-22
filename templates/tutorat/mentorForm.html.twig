@@ -8,35 +8,42 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Inscription du Mentor</h1>
 
-        {{ form_start(mentorForm, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+    <div class="section text-center">
+        <a href="{{ path('registerEtudiant') }}" class="btn btn-secondary" style="margin-left: -500px;">
+            Devenir Étudiant
+        </a>
 
-        <div class="mb-3">
-            {{ form_row(mentorForm.domain, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(mentorForm.learningChoice, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(mentorForm.comments, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(mentorForm.levelExperience, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(mentorForm.availability, {'attr': {'class': 'form-control'}}) }}
-        </div>
+        <div class="container mt-5">
+            {{ form_start(mentorForm) }}
 
-        <!-- Ajout du champ de téléchargement du document -->
-        <div class="mb-3">
-            {{ form_row(mentorForm.doc, {'label': 'Télécharger votre CV ', 'attr': {'class': 'form-control'}}) }}
+            <h4 class="mb-3 pb-3">Inscription du mentor</h4>
+
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.Domain) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.LearningChoice) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.Comments) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.LevelExperience) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.Availability) }}
+            </div>
+
+            <!-- Ajout du champ de téléchargement du document -->
+            <div class="form-group mt-2">
+                {{ form_row(mentorForm.Doc) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
+
+            {{ form_end(mentorForm) }}
         </div>
-
-        <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
-
-        {{ form_end(mentorForm) }}
     </div>
 {% endblock %}
 

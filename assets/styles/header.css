@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     background-color: #F3F2E7; /* or any color that matches your design */
-
+    margin-bottom: 35px;
     padding: 10px 0;
 }
 

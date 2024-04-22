@@ -54,8 +54,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactMessage::class, orphanRemoval: true)]
     private Collection $ContactMessage;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserTutorat::class, orphanRemoval: true)]
-    private Collection $UserTutorat;
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: UserTutorat::class, cascade: ['persist', 'remove'])]
+    private ?UserTutorat $UserTutorat = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $Post;
@@ -63,7 +63,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->ContactMessage = new ArrayCollection();
-        $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
         $this->roles = [Role::ROLE_USER];
         $this->CreatedAt_U = new \DateTimeImmutable();
@@ -204,7 +203,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function addRole(string $role): void
     {
-        $this->roles[] = $role;
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
     }
 
     public function removeRole(string $role): void
@@ -213,6 +214,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         if ($key !== false) {
             unset($this->roles[$key]);
         }
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles, true);
     }
 
     /**
@@ -233,6 +239,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString(): string
     {
         return $this->FirstName . ' ' . $this->LastName . ' - ' . $this->Address . ' - ' . $this->PhoneNumber . ' - ' . $this->Gender . ' - ' . $this->email;
+    }
+
+    public function setUserTutorat(?UserTutorat $UserTutorat): static
+    {
+        $this->UserTutorat = $UserTutorat;
+
+        return $this;
+    }
+
+    public function getUserTutorat(): ?UserTutorat
+    {
+        return $this->UserTutorat;
     }
 
     /**
@@ -259,36 +277,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($contactMessage->getUser() === $this) {
                 $contactMessage->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, UserTutorat>
-     */
-    public function getUserTutorat(): Collection
-    {
-        return $this->UserTutorat;
-    }
-
-    public function addUserTutorat(UserTutorat $userTutorat): static
-    {
-        if (!$this->UserTutorat->contains($userTutorat)) {
-            $this->UserTutorat->add($userTutorat);
-            $userTutorat->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserTutorat(UserTutorat $userTutorat): static
-    {
-        if ($this->UserTutorat->removeElement($userTutorat)) {
-            // set the owning side to null (unless already changed)
-            if ($userTutorat->getUser() === $this) {
-                $userTutorat->setUser(null);
             }
         }
 

@@ -3,7 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MentorRepository;
-use App\security\Role;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -21,13 +22,13 @@ class Mentor extends UserTutorat
     #[Assert\Length(max: 50)]
     private ?string $availability = null;
 
+    #[ORM\OneToMany(mappedBy: 'mentor', targetEntity: Program::class)]
+    private Collection $programs;
+
     public function __construct()
     {
-        // Récupération de l'utilisateur associé à l'entité UserTutorat
-        $user = $this->getUser();
-
-        // Ajout automatique du rôle ROLE_ETUDIANT à l'utilisateur
-        $user->addRole(Role::ROLE_MENTOR);
+        parent::__construct();
+        $this->programs = new ArrayCollection();
     }
 
     public function getLevelExperience(): ?string
@@ -54,9 +55,41 @@ class Mentor extends UserTutorat
         return $this;
     }
 
+    /**
+     * @return Collection|Program[]
+     */
+    public function getMentorPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addMentorProgram(Program $program): static
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->setMentor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMentorProgram(Program $program): static
+    {
+        if ($this->programs->removeElement($program)) {
+            // set the owning side to null (unless already changed)
+            if ($program->getMentor() === $this) {
+                $program->setMentor(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function __toString(): string
     {
-        return parent::__toString() . ' - ' . $this->levelExperience . ' - ' . $this->availability;
+        $user = $this->getUser();
+        $fullName = $user->getFirstName() . ' ' . $user->getLastName();
+        return $fullName. ' - ' . parent::__toString() . ' - ' . $this->levelExperience . ' - ' . $this->availability;
     }
 
 }

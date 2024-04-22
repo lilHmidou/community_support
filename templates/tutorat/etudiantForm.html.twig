@@ -8,41 +8,41 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container mt-5">
-        <h1 class="mb-4">Inscription de l'étudiant</h1>
+    <div class="section text-center">
+        <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2" style="margin-left: -500px;">
+            Devenir Mentor
+        </a>
 
-        {{ form_start(etudiantForm, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+        <div class="container mt-5">
+            {{ form_start(etudiantForm) }}
 
-        <div class="mb-3">
-            {{ form_row(etudiantForm.Domain, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(etudiantForm.LearningChoice, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(etudiantForm.Comments, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            {{ form_row(etudiantForm.LevelStudies, {'attr': {'class': 'form-control'}}) }}
-        </div>
-        <div class="mb-3">
-            <label><i class="fa-solid fa-wheelchair"></i> Avez-vous un handicap ?</label>
-            <div class="form-check">
-                {{ form_widget(etudiantForm.Disability.0) }}
-                {{ form_label(etudiantForm.Disability.0, 'Oui', {'label_attr': {'class': 'form-check-label'}}) }}
+            <h4 class="mb-3 pb-3">Inscription du l'étudiant</h4>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.Domain) }}
             </div>
-            <div class="form-check">
-                {{ form_widget(etudiantForm.Disability.1) }}
-                {{ form_label(etudiantForm.Disability.1, 'Non', {'label_attr': {'class': 'form-check-label'}}) }}
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.LearningChoice) }}
             </div>
-        </div>
-        <br>
-        <div class="mb-3">
-            {{ form_row(etudiantForm.doc, {'attr': {'class': 'form-control'}}) }}
-        </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.Comments) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.LevelStudies) }}
+            </div>
+            <div class="form-group mt-2" style="display: flex;">
+                <i class="input-icon fa-solid fa-wheelchair"></i>
+                <label style="margin-left: 50px; margin-top: 10px;">Avez-vous un handicap ?</label>
+                <div style="margin-left: 85px; margin-top: 10px;">
+                    <span>{{ form_row(etudiantForm.Disability) }}</span>
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.doc) }}
+            </div>
 
-        <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
+            <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
 
-        {{ form_end(etudiantForm) }}
+            {{ form_end(etudiantForm) }}
+        </div>
     </div>
 {% endblock %}

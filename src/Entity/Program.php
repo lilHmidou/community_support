@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -15,11 +16,6 @@ class Program
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
-    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
-    private ?User $user;
-
-
     #[ORM\Column(length: 255)]
     private ?string $titleP = null;
 
@@ -30,11 +26,45 @@ class Program
     private ?string $frequency = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $CreatedAt_P = null;
+    private ?\DateTimeImmutable $CreatedAt_Prog = null;
+
+    #[ORM\ManyToMany(targetEntity: Etudiant::class, mappedBy: 'programs')]
+    private Collection $etudiants;
+
+    #[ORM\ManyToOne(targetEntity: Mentor::class, inversedBy: 'programs')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Mentor $mentor = null;
 
     public function __construct()
     {
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->etudiants = new ArrayCollection();
+        $this->CreatedAt_Prog = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection|Etudiant[]
+     */
+    public function getEtudiants(): Collection
+    {
+        return $this->etudiants;
+    }
+
+    public function addEtudiant(Etudiant $etudiant): self
+    {
+        if (!$this->etudiants->contains($etudiant)) {
+            $this->etudiants[] = $etudiant;
+            $etudiant->addEtudiantProgram($this);
+        }
+        return $this;
+    }
+
+    public function removeEtudiant(Etudiant $etudiant): static
+    {
+        if ($this->etudiants->removeElement($etudiant)) {
+            $etudiant->removeProgram($this);
+        }
+
+        return $this;
     }
 
     public function getId(): ?int
@@ -42,14 +72,14 @@ class Program
         return $this->id;
     }
 
-    public function getUser(): ?User
+    public function getMentor(): ?Mentor
     {
-        return $this->user;
+        return $this->mentor;
     }
 
-    public function setUser(?User $user): static
+    public function setMentor(?Mentor $mentor): static
     {
-        $this->user = $user;
+        $this->mentor = $mentor;
 
         return $this;
     }
@@ -90,21 +120,22 @@ class Program
         return $this;
     }
 
-    public function getCreatedAtP(): ?\DateTimeImmutable
+    public function getCreatedAtProg(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt_P;
+        return $this->CreatedAt_Prog;
     }
 
-    public function setCreatedAtP(\DateTimeImmutable $CreatedAt_P): static
+    public function setCreatedAtProg(\DateTimeImmutable $CreatedAt_Prog): static
     {
-        $this->CreatedAt_P = $CreatedAt_P;
+        $this->CreatedAt_Prog = $CreatedAt_Prog;
 
         return $this;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAtPValue(): void
+    public function setCreatedAtProgValue(): void
     {
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->CreatedAt_Prog = new \DateTimeImmutable();
     }
+
 }

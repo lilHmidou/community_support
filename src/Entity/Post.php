@@ -23,7 +23,7 @@ class Post
     private ?string $Description = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $CreatedAt_P = null;
+    private ?\DateTimeImmutable $CreatedAt_Post = null;
 
     #[ORM\Column(length: 50)]
     private ?string $Location = null;
@@ -57,7 +57,7 @@ class Post
     public function __construct()
     {
         $this->Message = new ArrayCollection();
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->CreatedAt_Post = new \DateTimeImmutable();
         $this->likes = new ArrayCollection();
     }
 
@@ -90,22 +90,22 @@ class Post
         return $this;
     }
 
-    public function getCreatedAtP(): ?\DateTimeImmutable
+    public function getCreatedAtPost(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt_P;
+        return $this->CreatedAt_Post;
     }
 
-    public function setCreatedAtP(\DateTimeImmutable $CreatedAt_P): static
+    public function setCreatedAtPost(\DateTimeImmutable $CreatedAt_Post): static
     {
-        $this->CreatedAt_P = $CreatedAt_P;
+        $this->CreatedAt_Post = $CreatedAt_Post;
 
         return $this;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAtPValue(): void
+    public function setCreatedAtPostValue(): void
     {
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->CreatedAt_Post = new \DateTimeImmutable();
     }
 
     public function getLocation(): ?string
@@ -147,7 +147,7 @@ class Post
 
     public function __toString(): string
     {
-        return "Title: " . $this->Title . ", Description: " . $this->Description . ", Location: " . $this->Location . ", Category: " . $this->Category . ", Created At: " . $this->CreatedAt_P->format('Y-m-d H:i:s');
+        return "Title: " . $this->Title . ", Description: " . $this->Description . ", Location: " . $this->Location . ", Category: " . $this->Category . ", Created At: " . $this->CreatedAt_Post->format('Y-m-d H:i:s');
     }
 
 
@@ -193,6 +193,18 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbLike(): ?int
+    {
+        return $this->Nb_Like;
+    }
+
+    public function setNbLike(int $Nb_Like): static
+    {
+        $this->Nb_Like = $Nb_Like;
 
         return $this;
     }

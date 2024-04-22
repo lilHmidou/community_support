@@ -79,7 +79,7 @@
                     <button class="explore" data-bs-toggle="modal" data-bs-target="#contactModal-{{ event.id }}">CONTACTER L'ORGANISATEUR</button>
                 </div>
                 <br>
-                <p class="date-creat">Posté le {{ event.createdAtP|date('Y-m-d') }} à {{ event.createdAtP|date('H:i:s') }}</p>
+                <p class="date-creat">Posté le {{ event.createdAtPost|date('Y-m-d') }} à {{ event.createdAtPost|date('H:i:s') }}</p>
             </div>
                 <!-- Modal for Contacting Organizer -->
                 <div class="modal fade" id="contactModal-{{ event.id }}" tabindex="-1" aria-labelledby="contactModalLabel-{{ event.id }}" aria-hidden="true">

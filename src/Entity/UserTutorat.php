@@ -37,7 +37,7 @@ class UserTutorat
     #[Assert\Length(max: 255)]
     private ?string $comments = null;
 
-    #[ORM\ManyToOne(inversedBy: 'UserTutorat')]
+    #[ORM\OneToOne(inversedBy: 'UserTutorat', targetEntity: User::class)]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 

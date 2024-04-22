@@ -52,4 +52,9 @@ class PostLike
 
         return $this;
     }
+
+    public function getLikeId(): ?int
+    {
+        return $this->like_id;
+    }
 }

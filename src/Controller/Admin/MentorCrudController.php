@@ -15,14 +15,16 @@ class MentorCrudController extends AbstractCrudController
         return Mentor::class;
     }
 
-    /*
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id'),
-            TextField::new('title'),
-            TextEditorField::new('description'),
+            TextField::new('user.firstName', 'Prénom')->setRequired(false),
+            TextField::new('user.lastName', 'Nom')->setRequired(false),
+            TextField::new('levelExperience', 'Niveau d\'expérience'),
+            TextField::new('availability', 'Disponibilité'),
         ];
     }
-    */
+
 }

@@ -71,5 +71,33 @@
     padding-bottom: 30px;     /* Adds padding at the bottom */
 }
 
+.purple {
+    background-color: #7E8AB8;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-size: 14px;
+    border: none;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+}
 
+.purple:hover {
+    background-color: white;
+    color: #7E8AB8;
+    border: 2px solid #7E8AB8;
+    transform: scale(1.1);
+}
 
+.programs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.program-card {
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}

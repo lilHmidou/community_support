@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20240203203014 extends AbstractMigration
+final class Version20240422095749 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -20,16 +20,12 @@ final class Version20240203203014 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE post ADD user_id INT NOT NULL');
-        $this->addSql('ALTER TABLE post ADD CONSTRAINT FK_5A8A6C8DA76ED395 FOREIGN KEY (user_id) REFERENCES user (id)');
-        $this->addSql('CREATE INDEX IDX_5A8A6C8DA76ED395 ON post (user_id)');
+        $this->addSql('ALTER TABLE program RENAME INDEX fk_92ed7784db403044 TO IDX_92ED7784DB403044');
     }
 
     public function down(Schema $schema): void
     {
         // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE post DROP FOREIGN KEY FK_5A8A6C8DA76ED395');
-        $this->addSql('DROP INDEX IDX_5A8A6C8DA76ED395 ON post');
-        $this->addSql('ALTER TABLE post DROP user_id');
+        $this->addSql('ALTER TABLE program RENAME INDEX idx_92ed7784db403044 TO FK_92ED7784DB403044');
     }
 }

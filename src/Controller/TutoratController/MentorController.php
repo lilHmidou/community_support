@@ -5,6 +5,7 @@ namespace App\Controller\TutoratController;
 
 use App\Entity\Mentor;
 use App\Form\MentorType;
+use App\security\Role;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -53,7 +54,7 @@ class MentorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('doc')->getData();
+            $file = $form->get('Doc')->getData();
             if ($file) {
                 try {
                     $newFilename = $this->fileUploadService->uploadFile($file);
@@ -65,15 +66,18 @@ class MentorController extends AbstractController
             }
 
             $mentor->setUser($this->userService->getUser());
-            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur
-            $user = $this->userService->getUser();
-            $user->addRole('ROLE_MENTOR');
+
+            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur connecté
+            $user = $this->getUser();
+            $user->addRole(Role::ROLE_MENTOR);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
 
             $this->entityManager->persist($mentor);
             $this->entityManager->flush();
 
-            $this->addFlash('success', 'Votre inscription a bien été enregistrée. Vous recevrez une réponse dans les 24 heures.');
-            return $this->redirectToRoute('tutorat');
+            $this->addFlash('success', 'Vous venez d\'être admis en tant que mentor. Veuillez vous reconnecter.');
+            return $this->redirectToRoute('login');
         }
 
         return $this->render('tutorat/mentorForm.html.twig', [

@@ -21,7 +21,7 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Domaine d\'études'
                 ],
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-book"></i>',
                 'label_html' => true,
             ])
             ->add('LearningChoice', ChoiceType::class, [
@@ -35,13 +35,12 @@ class EtudiantType extends AbstractType
                     'Santé et bien-être' => 'Santé et bien-être',
                     'Droit et justice' => 'Droit et justice',
                     'Autre' => 'Autre',
-                    // Ajoutez autant d'options que nécessaire
                 ],
                 'attr' => [
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Choisissez ce que vous voulez apprendre',
-                'label' => '<i class="fa-solid fa-book"></i>',
+                'label' => '<i class="input-icon fa-solid fa-chalkboard-teacher"></i>',  // Icône de professeur
                 'label_html' => true,
             ])
             ->add('Comments', TextType::class, [
@@ -49,7 +48,7 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Commentaires'
                 ],
-                'label' => '<i class="fa-solid fa-comment"></i>',
+                'label' => '<i class="input-icon fa-solid fa-comment"></i>', // Icône de commentaire
                 'label_html' => true,
             ])
             ->add('LevelStudies', ChoiceType::class, [
@@ -66,20 +65,26 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Votre niveau d\'études : ',
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-graduation-cap"></i>', // Icône de chapeau de diplômé
                 'label_html' => true,
             ])
             ->add('Disability', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-select',
+                ],
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
-                'expanded' => true,
-                'label' => '<i class="fa-solid fa-wheelchair"></i>',
-                'label_html' => true,
+                'label' => false,
+                'expanded' => true,  // Cette option génère des boutons radio au lieu d'une liste déroulante
+                'multiple' => false, // Sélection unique
             ])
             ->add('doc', FileType::class, [
-                'label' => 'Lettre de Motivation',
+                'attr' => [
+                    'class' => 'form-style',
+                ],
+                'label' => 'Télécharger votre lettre de Motivation : ',
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
@@ -88,7 +93,7 @@ class EtudiantType extends AbstractType
                         'mimeTypes' => [
                             'application/pdf',
                         ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide',
                     ])
                 ],
             ])

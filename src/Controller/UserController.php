@@ -196,13 +196,19 @@ class UserController extends AbstractController
     }
 
     #[Route('/list_program_posts', name: 'list_program_posts')]
-    public function listProgramPosts(ProgramRepository $programRepository): Response
+    public function showMyPrograms() : Response
     {
-        $userId = $this->getUser()->getId();
-        $programPosts = $programRepository->findAllProgramByUserId($userId);
+        $user = $this->getUser();
+        $programs=null;
+
+        if ($user->hasRole('ROLE_MENTOR')) {
+            $programs = $user->getUserTutorat()->getMentorPrograms();
+        } elseif ($user->hasRole('ROLE_ETUDIANT')) {
+            $programs = $user->getUserTutorat()->getEtudiantPrograms();
+        }
 
         return $this->render('user/program_posts.html.twig', [
-            'programPosts' => $programPosts,
+            'programs' => $programs,
         ]);
     }
 

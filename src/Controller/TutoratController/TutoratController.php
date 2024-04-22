@@ -51,14 +51,13 @@ class TutoratController extends AbstractController
 
         // Vérifier si l'utilisateur est connecté
         if ($user) {
-            // Associer l'utilisateur au post
-            $program->setUser($user);
+            $userTutorat = $user->getUserTutorat();
+            $program->setMentor($userTutorat);
         } else {
             // Gérer le cas où aucun utilisateur n'est connecté, par exemple, rediriger vers la page de connexion
             $this->addFlash('warning', 'Vous devez vous connecter pour poster un programme de tutorat.');
             return $this->redirectToRoute('login');
         }
-
 
         $form = $this->createForm(ProgramType::class, $program);
 
@@ -67,6 +66,8 @@ class TutoratController extends AbstractController
             // Traitement du formulaire (sauvegarde de l'événement, etc.)
             $this->entityManager->persist($program);
             $this->entityManager->flush();
+
+            $this->addFlash('success', 'Votre programme de tutorat a été créé avec succès !');
 
             // Redirection vers une autre page après la création de l'événement
             return $this->redirectToRoute('tutorat');
@@ -77,6 +78,25 @@ class TutoratController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+/*
+    #[Route('/tutorat/program', name: 'my_programs')]
+    public function showMyPrograms()
+    {
+        $user = $this->getUser();
+
+        if ($user->hasRole('ROLE_MENTOR')) {
+            $programs = $user->getUserTutorat()->getMentorPrograms();
+        } elseif ($user->hasRole('ROLE_ETUDIANT')) {
+            $programs = $user->getUserTutorat()->getEtudiantPrograms();
+        } else {
+            throw $this->createAccessDeniedException();
+        }
+
+        return $this->render('program/program_posts.html.twig', [
+            'programs' => $programs,
+        ]);
+    }
+*/
 
 }
 
