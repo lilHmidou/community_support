@@ -3,7 +3,9 @@
 // src/Controller/TutoratController/MentorController.php
 namespace App\Controller\TutoratController;
 
+use App\Entity\Etudiant;
 use App\Entity\Mentor;
+use App\Entity\Program;
 use App\Form\MentorType;
 use App\security\Role;
 use Doctrine\ORM\EntityManagerInterface;
@@ -83,5 +85,28 @@ class MentorController extends AbstractController
         return $this->render('tutorat/mentorForm.html.twig', [
             'mentorForm' => $form->createView(),
         ]);
+    }
+    #[Route('/programs/{program_id}/remove-student/{student_id}', name: 'remove_student_from_program', methods: ['DELETE', 'POST'])]
+    public function removeStudentFromProgram(EntityManagerInterface $entityManager, int $program_id, int $student_id): Response
+    {
+        // Récupérer le programme
+        $program = $entityManager->getRepository(Program::class)->find($program_id);
+
+        // Récupérer l'étudiant
+        $student = $entityManager->getRepository(Etudiant::class)->find($student_id);
+
+        if (!$program || !$student) {
+            throw $this->createNotFoundException("Programme ou étudiant introuvable.");
+        }
+
+        // Supprimer l'étudiant du programme
+        $program->removeEtudiant($student);
+
+        // Mettre à jour la base de données
+        $entityManager->flush();
+
+        // Retourner une réponse
+        $this->addFlash('success', 'Étudiant supprimé du programme.');
+        return $this->redirectToRoute('list_program_posts');
     }
 }

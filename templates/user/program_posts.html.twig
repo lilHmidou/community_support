@@ -9,45 +9,70 @@
 {% endblock %}
 
 {% block body %}
-<div class="programs-container">
+    <div class="programs-container">
 
-<h1>Mes Programmes</h1>
+        <h1>Mes Programmes</h1>
 
-    {% if app.user.hasRole('ROLE_MENTOR') %}
-        {% for program in app.user.userTutorat.mentorPrograms %}
-    <div class="program-card">
+        {% if app.user.hasRole('ROLE_MENTOR') %}
+            {% for program in app.user.userTutorat.mentorPrograms %}
+                <div class="program-card">
 
-                <h2>{{ program.titleP }}</h2>
-                <p>{{ program.descriptionP }}</p>
-                <p>Fréquence : {{ program.frequency }}</p>
-                <h3>Étudiants inscrits :</h3>
-                <ul>
-                    {% for etudiant in program.etudiants %}
-                        <li>{{ etudiant.user.firstName }} {{ etudiant.user.lastName }}</li>
-                    {% else %}
-                        <li>Aucun étudiant inscrit</li>
-                    {% endfor %}
-                </ul>
-            </div>
+                    <h2>{{ program.titleP }}</h2>
+                    <p>{{ program.descriptionP }}</p>
+                    <p>Fréquence : {{ program.frequency }}</p>
+                    <h3>Étudiants inscrits :</h3>
+                    <ul>
+                        {% for etudiant in program.etudiants %}
+                            <li>{{ etudiant.user.firstName }} {{ etudiant.user.lastName }}
+                            <form method="post" action="{{ path('remove_student_from_program', { 'program_id': program.id, 'student_id': etudiant.id }) }}"
+                                  style="display: inline-block;"
+                                  onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet étudiant du programme?');">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('remove_student_from_program' ~ program.id ~ etudiant.id) }}">
+                                <button type="submit" class="btn btn-link btn-sm" style="color: red; padding: 0; border: none; background: none;">
+                                    <i class="fa-solid fa-square-minus"></i>
+                                </button>
+
+                            </form>
+                            </li>
+                        {% else %}
+                            <li>Aucun étudiant inscrit</li>
+                        {% endfor %}
+                    </ul>
+                    <div style="display: flex; gap: 20px;">
+                        <a href="{{ path('edit_prog', { 'id': program.id }) }}" class="btn btn-warning">Modifier</a>
+                        <form method="post" action="{{ path('delete_program', { 'id': program.id }) }}"
+                              onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce programme?');">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete_program' ~ program.id) }}">
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            {% else %}
+                <p>Aucun programme en cours</p>
+            {% endfor %}
+        {% elseif app.user.hasRole('ROLE_ETUDIANT') %}
+            {% for program in app.user.userTutorat.etudiantPrograms %}
+                <div class="program-card">
+                    <h2>{{ program.titleP }}</h2>
+                    <p>{{ program.descriptionP }}</p>
+                    <p>Fréquence : {{ program.frequency }}</p>
+                    <h3>Mentor :</h3>
+                    <ul>
+                        <li>{{ program.mentor.user.firstName }} {{ program.mentor.user.lastName }}</li>
+                    </ul>
+                    <form method="post" action="{{ path('quit_program', { 'id': program.id }) }}"
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir quitter ce programme?');">
+                        <input type="hidden" name="_token" value="{{ csrf_token('quit_program' ~ program.id) }}">
+                        <button type="submit" class="btn btn-danger">Quitter</button>
+                    </form>
+                </div>
+            {% else %}
+                <p>Aucun programme en cours</p>
+            {% endfor %}
         {% else %}
             <p>Aucun programme en cours</p>
-        {% endfor %}
-    {% elseif app.user.hasRole('ROLE_ETUDIANT') %}
-        {% for program in app.user.userTutorat.etudiantPrograms %}
-            <div class="program-card">
-                <h2>{{ program.titleP }}</h2>
-                <p>{{ program.descriptionP }}</p>
-                <p>Fréquence : {{ program.frequency }}</p>
-                <h3>Mentor :</h3>
-                <ul>
-                    <li>{{ program.mentor.user.firstName }} {{ program.mentor.user.lastName }}</li>
-                </ul>
-            </div>
-        {% else %}
-            <p>Aucun programme en cours</p>
-        {% endfor %}
-    {% else %}
-            <p>Aucun programme en cours</p>
-    {% endif %}
-</div>
+        {% endif %}
+    </div>
 {% endblock %}

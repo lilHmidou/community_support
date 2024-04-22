@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Programme{% endblock %}
+
+{% block body %}
+
+    <h1>Modifier le Programme</h1>
+
+    {{ form_start(programForm) }}
+    {{ form_widget(programForm) }}
+    <button type="submit" class="btn btn-primary">Enregistrer</button>
+    {{ form_end(programForm) }}
+
+{% endblock %}

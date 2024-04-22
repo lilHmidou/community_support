@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\ProgramType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,48 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class ProgramController extends AbstractController
 {
+    #[Route('/programs/edit/{id}', name: 'edit_prog')]
+    public function editProgram(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le programme a été modifié.');
+            return $this->redirectToRoute('list_program_posts');
+        }
+
+        return $this->render('user/edit_prog.html.twig', [
+            'programForm' => $form->createView(),
+            'program' => $program,
+        ]);
+    }
+
+    #[Route('/programs/delete/{id}', name: 'delete_program', methods: ['DELETE','POST'])]
+    public function deleteProgram(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $entityManager->remove($program);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le programme a été supprimé.');
+
+        return $this->redirectToRoute('list_program_posts');
+    }
+
     #[Route('/program/{id}', name: 'program_join', requirements: ['id' => '\d+'])]
     public function joinProgram(Program $program, Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -42,5 +85,25 @@ class ProgramController extends AbstractController
 
         $this->addFlash('success', 'Vous êtes maintenant inscrit au programme.');
         return $this->redirectToRoute('tutorat');
+    }
+    #[Route('/programs/quit/{id}', name: 'quit_program', methods: ['POST'])]
+    public function quitProgram(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $user = $this->getUser();
+        $etudiant = $user->getUserTutorat();
+
+        // Retirer l'étudiant du programme
+        $program->removeEtudiant($etudiant);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous avez quitté le programme.');
+        return $this->redirectToRoute('list_program_posts');
+
     }
 }

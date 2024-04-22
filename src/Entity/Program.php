@@ -61,7 +61,7 @@ class Program
     public function removeEtudiant(Etudiant $etudiant): static
     {
         if ($this->etudiants->removeElement($etudiant)) {
-            $etudiant->removeProgram($this);
+            $etudiant->removeEtudiantProgram($this);
         }
 
         return $this;
