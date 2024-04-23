@@ -80,7 +80,7 @@ class EtudiantType extends AbstractType
                 'expanded' => true,  // Cette option génère des boutons radio au lieu d'une liste déroulante
                 'multiple' => false, // Sélection unique
             ])
-            ->add('doc', FileType::class, [
+            ->add('Doc', FileType::class, [
                 'attr' => [
                     'class' => 'form-style',
                 ],
