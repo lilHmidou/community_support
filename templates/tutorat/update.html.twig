@@ -1,0 +1,93 @@
+{% extends '/base.html.twig' %}
+
+{% block title %} Modification du profil Tutorat{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/updateProfile.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="flex-wrapper">
+        <div class="form-container">
+            <h1 class="title">Modification du profil Tutorat</h1>
+            <br>
+            {{ form_start(editForm) }}<div class="row g-3">
+                <div class="col-md-7 col-lg-8">
+                    {# Premier champ #}
+                    <div class="form-group">
+                        <label for="{{ editForm.Domain.vars.id }}">Domaines d'études</label> {# Label personnalisé #}
+                        {{ form_widget(editForm.Domain, {'attr': {'class': 'form-control form-style'}}) }}  {# Champ de saisie #}
+                    </div>
+
+                    {# Deuxième champ #}
+                    <div class="form-group">
+                        <label for="{{ editForm.LearningChoice.vars.id }}">Choix d'enseignement</label>
+                        {{ form_widget(editForm.LearningChoice, {'attr': {'class': 'form-control form-style'}}) }}
+                    </div>
+
+                    {# Troisième champ #}
+                    <div class="form-group">
+                        <label for="{{ editForm.Comments.vars.id }}">Commentaires</label>
+                        {{ form_widget(editForm.Comments, {'attr': {'class': 'form-control form-style'}}) }}
+                    </div>
+
+                    {% if is_granted('ROLE_MENTOR') %}
+                    {# Niveau d'expérience #}
+                    <div class="form-group">
+                        <label for="{{ editForm.LevelExperience.vars.id }}">Niveau d'expérience</label>
+                        {{ form_widget(editForm.LevelExperience, {'attr': {'class': 'form-control form-style'}}) }}
+                    </div>
+
+                    {# Disponibilité #}
+                    <div class="form-group">
+                        <label for="{{ editForm.Availability.vars.id }}">Disponibilité</label>
+                        {{ form_widget(editForm.Availability, {'attr': {'class': 'form-control form-style'}}) }}
+                    </div>
+                    {# Téléchargement de document #}
+                    <div class="form-group">
+                        <label for="{{ editForm.Doc.vars.id }}">Télécharger votre CV :</label>
+                        {{ form_widget(editForm.Doc, {'attr': {'class': 'form-control form-style'}}) }}
+                    </div>
+                    {% elseif is_granted('ROLE_ETUDIANT') %}
+                    {# Niveau d'étude #}
+                    <div class="form-group>
+                        <label for="{{ editForm.LevelStudies.vars.id }}">Niveau d'étude</label>
+                    {{ form_widget(editForm.LevelStudies, {'attr': {'class': 'form-control form-style'}}) }}
+                </div>
+
+                {# Niveau handicap #}
+                <div class="form-group>
+                            <label for="{{ editForm.Disability.vars.id }}">Niveau handicap</label>
+                {{ form_widget(editForm.Disability, {'attr': {'class': 'form-control form-style'}}) }}
+            </div>
+        {# Téléchargement de document #}
+            <div class="form-group">
+                <label for="{{ editForm.Doc.vars.id }}">Télécharger votre lettre de motivation :</label>
+                {{ form_widget(editForm.Doc, {'attr': {'class': 'form-control form-style'}}) }}
+            </div>
+            {% endif %}
+
+
+        </div>
+
+            <hr class="my-4">
+
+            <div class="row">
+                <div class="col">
+                    <a href="{{ path('profil_tutorat') }}" class="btn btn-secondary" style="background-color: red;" id="cancelChangesButton">
+                        <i class="fa-solid fa-delete-left"></i> Annuler les modifications
+                    </a>
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary" style="background-color: forestgreen; border: none;" id="saveChangesButton">
+                        <i class="fa-solid fa-square-check"></i> Enregistrer modifications
+                    </button>
+                </div>
+            </div>
+            <br>
+            <br>
+            {{ form_end(editForm) }}
+        </div>
+    </div>
+{% endblock %}

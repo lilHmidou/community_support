@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profil Tutorat{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/updateProfile.css') }}">
+    {% endblock %}
+    <div class="flex-wrapper">
+        <div class="form-container">
+            <h1>Profil Tutorat</h1>
+            {{ form_start(tutoratForm) }}
+            <div class="row g-3">
+                <div class="col-md-7 col-lg-8">
+                    {# Premier champ #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.Domain.vars.id }}">Domaines d'études</label> {# Label personnalisé #}
+                        {{ form_widget(tutoratForm.Domain, {'attr': {'class': 'form-control editable'}}) }}  {# Champ de saisie #}
+                    </div>
+
+                    {# Deuxième champ #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.LearningChoice.vars.id }}">Choix d'enseignement</label>
+                        {{ form_widget(tutoratForm.LearningChoice, {'attr': {'class': 'form-control editable-select'}}) }}
+                    </div>
+
+                    {# Troisième champ #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.Comments.vars.id }}">Commentaires</label>
+                        {{ form_widget(tutoratForm.Comments, {'attr': {'class': 'form-control editable'}}) }}
+                    </div>
+
+                    {% if is_granted('ROLE_MENTOR') %}
+                    {# Niveau d'expérience #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.LevelExperience.vars.id }}">Niveau d'expérience</label>
+                        {{ form_widget(tutoratForm.LevelExperience, {'attr': {'class': 'form-control editable-select'}}) }}
+                    </div>
+
+                    {# Disponibilité #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.Availability.vars.id }}">Disponibilité</label>
+                        {{ form_widget(tutoratForm.Availability, {'attr': {'class': 'form-control editable-select'}}) }}
+                    </div>
+                    {# Téléchargement de document #}
+                    <div class="form-group">
+                        <label for="{{ tutoratForm.Doc.vars.id }}">Télécharger votre CV :</label>
+                        {{ form_widget(tutoratForm.Doc, {'attr': {'class': 'form-control editable'}}) }}
+                    </div>
+                    {% elseif is_granted('ROLE_ETUDIANT') %}
+                    {# Niveau d'étude #}
+                    <div class="form-group>
+                        <label for="{{ tutoratForm.LevelStudies.vars.id }}">Niveau d'étude</label>
+                    {{ form_widget(tutoratForm.LevelStudies, {'attr': {'class': 'form-control editable-select'}}) }}
+                    </div>
+
+                    {# Niveau handicap #}
+                    <div class="form-group>
+                            <label for="{{ tutoratForm.Disability.vars.id }}">Niveau handicap</label>
+                    {{ form_widget(tutoratForm.Disability, {'attr': {'class': 'form-control editable-select'}}) }}
+                </div>
+                {# Téléchargement de document #}
+                <div class="form-group">
+                    <label for="{{ tutoratForm.Doc.vars.id }}">Télécharger votre lettre de motivation :</label>
+                    {{ form_widget(tutoratForm.Doc, {'attr': {'class': 'form-control editable'}}) }}
+                </div>
+            {% endif %}
+
+
+        </div>
+    </div>
+    {{ form_end(tutoratForm) }}
+
+    <hr class="my-4">
+
+    <div class="row">
+        <div class="col">
+            <button id="deleteButton" type="button" class="btn btn-primary"
+                    style="background-color: red; border: none; margin-right: 15px;">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Supprimer le compte</span>
+            </button>
+            <!-- Modal -->
+            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmation de suppression</h5>
+                            <button type="button" class="btn-unstyled" data-bs-dismiss="modal"><i
+                                        class="fa-solid fa-xmark"></i></button>
+                        </div>
+                        <div class="modal-body">
+                            Es-tu vraiment sûr de vouloir supprimer ton compte ?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                <i class="fa-solid fa-delete-left"></i>
+                                <span>Annuler</span>
+                            </button>
+                            <button type="button" style="border: none;">
+                                <a href="{{ path('delete_tutorat') }}" id="confirmDeleteButton" class="btn btn-danger">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                    <span>Supprimer</span>
+                                </a>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <a href="{{ path('update_tutorat') }}">
+                <button id="editButton" type="button" class="btn btn-primary"
+                        style="background-color: forestgreen; border: none;">
+                    <i class="fa-solid fa-pencil"></i>
+                    <span>Modifier</span>
+                </button>
+            </a>
+        </div>
+    </div>
+    </div>
+
+    <script src="{{ asset('controllers/activate-update.js') }}"></script>
+    <script src="{{ asset('controllers/delete-confirmed.js') }}"></script></div>
+{% endblock %}
