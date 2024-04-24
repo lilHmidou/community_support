@@ -4,8 +4,9 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\security\UserAuthenticator;
-use App\Service\userService\UserFormService;
-use App\Service\userService\UserMdpService;
+use App\Service\UserService\UserFormServiceImpl;
+use App\Service\UserService\UserMdpServiceImpl;
+use App\Service\UserService\UserServiceImpl;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,13 +17,15 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
-    private $userFormGenerator;
-    private $userMdpGenerator;
+    private $userFormService;
+    private $userMdpService;
+    private $userService;
 
-    public function __construct(UserFormService $userFormGenerator, UserMdpService $userMdpGenerator)
+    public function __construct(UserFormServiceImpl $userFormService, UserMdpServiceImpl $userMdpService, UserServiceImpl $userService)
     {
-        $this->userFormGenerator = $userFormGenerator;
-        $this->userMdpGenerator = $userMdpGenerator;
+        $this->userFormService = $userFormService;
+        $this->userMdpService = $userMdpService;
+        $this->userService = $userService;
     }
 
     #[Route(path: '/login', name: 'login')]
@@ -30,16 +33,17 @@ class SecurityController extends AbstractController
     {
         $user = new User();
         // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
-        if ($this->getUser()) {
+        if ($this->userService->isLogin()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté.');
             return $this->redirectToRoute('home');
         }
 
 
-        $form = $this->userFormGenerator->createRegistrationForm($user);
-        $viewData = $this->userFormGenerator->prepareUserForm();
+        $form = $this->userFormService->createRegistrationForm($user);
+        $viewData = $this->userFormService->prepareUserForm();
         $viewData['registrationForm'] = $form;
 
-        $error = $this->userFormGenerator->getErrors();
+        $error = $this->userFormService->getErrors();
         // Ajoutez un message flash en cas d'erreur
         if ($error) {
             $this->addFlash('error', 'Votre email ou mot de passe est incorrect. Veuillez réessayer.');
@@ -65,13 +69,13 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        $form = $this->userFormGenerator->createRegistrationForm($user);
-        $viewData = $this->userFormGenerator->prepareUserForm();
+        $form = $this->userFormService->createRegistrationForm($user);
+        $viewData = $this->userFormService->prepareUserForm();
         $viewData['registrationForm'] = $form;
 
 
         // Traitez le formulaire d'inscription ici
-        $form = $this->userFormGenerator->createRegistrationForm($user, [
+        $form = $this->userFormService->createRegistrationForm($user, [
             'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
         ]);
         $form->handleRequest($request);
@@ -84,16 +88,16 @@ class SecurityController extends AbstractController
             }
 
             // Récupération des données de mot de passe via le Generator
-            $passwordData = $this->userMdpGenerator->getPasswordData($form, $request);
+            $passwordData = $this->userMdpService->getPasswordData($form, $request);
 
             // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
-            if (!$this->userMdpGenerator->checkPasswordMatch($passwordData)) {
+            if (!$this->userMdpService->checkPasswordMatch($passwordData)) {
                 $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
                 return $this->redirectToRoute('register');
             }
 
             // Hachage du mot de passe
-            $hashedPassword = $this->userMdpGenerator->hashPassword($user, $passwordData['plainPassword']);
+            $hashedPassword = $this->userMdpService->hashPassword($user, $passwordData['plainPassword']);
             $user->setPassword($hashedPassword);
 
             $entityManager->persist($user);

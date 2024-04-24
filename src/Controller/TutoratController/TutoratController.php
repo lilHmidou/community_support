@@ -2,13 +2,14 @@
 
 namespace App\Controller\TutoratController;
 
-use App\Entity\Program;
-use App\Entity\Mentor;
 use App\Entity\Etudiant;
+use App\Entity\Mentor;
+use App\Entity\Program;
 use App\Form\EtudiantType;
 use App\Form\MentorType;
 use App\Form\ProgramType;
 use App\Repository\ProgramRepository;
+use App\Service\TestimoniesService\TestimoniesServiceImpl;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -16,16 +17,15 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\TestimoniesService;
 
 class TutoratController extends AbstractController
 {
-    private TestimoniesService $testimoniesService;
+    private TestimoniesServiceImpl $testimoniesService;
     private Security $security;
     private EntityManagerInterface $entityManager;
 
 
-    public function __construct(Security $security, EntityManagerInterface $entityManager, TestimoniesService $testimoniesService)
+    public function __construct(Security $security, EntityManagerInterface $entityManager, TestimoniesServiceImpl $testimoniesService)
     {
         $this->security = $security;
         $this->entityManager = $entityManager;
@@ -39,7 +39,7 @@ class TutoratController extends AbstractController
         $testimonies = $this->testimoniesService->getAllTestimonies();
         $programs = $programRepository->findAll();
 
-        return $this->render('tutorat/homeTutorat.html.twig', [
+        return $this->render('tutorat/home_tutorat.html.twig', [
             'testimonies' => $testimonies,
             'programPosts' => $programs
         ]);
@@ -102,7 +102,7 @@ class TutoratController extends AbstractController
         ]);
     }
 
-    #[Route('/profil/tuorat/delete', name: 'delete_tutorat', methods: ['GET'])]
+    #[Route('/profil/tutorat/delete', name: 'delete_tutorat', methods: ['GET'])]
     public function delete(EntityManagerInterface $entityManager): Response
     {
         // Récupérer l'utilisateur connecté
@@ -156,43 +156,7 @@ class TutoratController extends AbstractController
         return $this->redirectToRoute('home');
     }
 
-    #[Route('/tutorat_form', name: 'tutorat_form')]
-    public function createEvent(Request $request): Response
-    {
 
-        $program = new Program();
-
-        $user = $this->security->getUser();
-
-        // Vérifier si l'utilisateur est connecté
-        if ($user) {
-            $userTutorat = $user->getUserTutorat();
-            $program->setMentor($userTutorat);
-        } else {
-            // Gérer le cas où aucun utilisateur n'est connecté, par exemple, rediriger vers la page de connexion
-            $this->addFlash('warning', 'Vous devez vous connecter pour poster un programme de tutorat.');
-            return $this->redirectToRoute('login');
-        }
-
-        $form = $this->createForm(ProgramType::class, $program);
-
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Traitement du formulaire (sauvegarde de l'événement, etc.)
-            $this->entityManager->persist($program);
-            $this->entityManager->flush();
-
-            $this->addFlash('success', 'Votre programme de tutorat a été créé avec succès !');
-
-            // Redirection vers une autre page après la création de l'événement
-            return $this->redirectToRoute('tutorat');
-        }
-
-
-        return $this->render('tutorat/program_form.html.twig', [
-            'form' => $form->createView(),
-        ]);
-    }
     /*
         #[Route('/tutorat/program', name: 'my_programs')]
         public function showMyPrograms()
@@ -207,7 +171,7 @@ class TutoratController extends AbstractController
                 throw $this->createAccessDeniedException();
             }
 
-            return $this->render('program/program_posts.html.twig', [
+            return $this->render('tutorat/program_posts.html.twig', [
                 'programs' => $programs,
             ]);
         }

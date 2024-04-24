@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
-use App\Service\roleService\RoleRedirectorService;
-use App\Service\roleService\RoleService;
+use App\Service\RoleService\RoleRedirectorServiceImpl;
+use App\Service\RoleService\RoleServiceImpl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -16,14 +16,14 @@ class AdminController extends AbstractController
     private $roleService;
     private $authorizationChecker;
 
-    public function __construct(RoleService $roleService, AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(RoleServiceImpl $roleService, AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->roleService = $roleService;
         $this->authorizationChecker = $authorizationChecker;
     }
 
     #[Route('/admin', name: 'admin')]
-    public function index(RoleRedirectorService $roleRedirectorService, Session $session): Response
+    public function index(RoleRedirectorServiceImpl $roleRedirectorService, Session $session): Response
     {
         $roleRedirectorService->addSuccessMessage($session);
 

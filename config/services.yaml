@@ -15,15 +15,15 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
-    App\Service\UserService:
+    App\Service\UserService\UserServiceImpl:
         arguments:
             $security: '@security.helper'
 
-    App\Service\ContactService:
+    App\Service\ContactService\ContactServiceImpl:
         arguments:
             $entityManager: '@doctrine.orm.entity_manager'
 
-    App\Service\UserService\UserFormService:
+    App\Service\UserService\UserFormServiceImpl:
         arguments:
             $formFactory: '@form.factory'
             $authenticationUtils: '@security.authentication_utils'

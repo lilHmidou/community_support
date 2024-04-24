@@ -3,10 +3,11 @@
 namespace App\Controller\TutoratController;
 
 use App\Entity\Etudiant;
+use App\Entity\Program;
 use App\Form\EtudiantType;
 use App\security\Role;
-use App\Service\FileUploadService;
-use App\Service\UserService;
+use App\Service\FileUploadService\FileUploadServiceImpl;
+use App\Service\UserService\UserServiceImpl;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -16,19 +17,19 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EtudiantController extends AbstractController
 {
-    private UserService $userService;
-    private FileUploadService $fileUploadService;
+    private UserServiceImpl $userService;
+    private FileUploadServiceImpl $fileUploadService;
     private EntityManagerInterface $entityManager;
 
 
-    public function __construct(UserService $userService, FileUploadService $fileUploadService, EntityManagerInterface $entityManager)
+    public function __construct(UserServiceImpl $userService, FileUploadServiceImpl $fileUploadService, EntityManagerInterface $entityManager)
     {
         $this->userService = $userService;
         $this->fileUploadService = $fileUploadService;
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/tutorat/etudiant', name: 'registerEtudiant')]
+    #[Route('/tutorat/register_etudiant', name: 'registerEtudiant')]
     public function create(Request $request): Response
     {
         if (!$this->userService->isLogin()) {
@@ -77,8 +78,57 @@ class EtudiantController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('tutorat/etudiantForm.html.twig', [
+        return $this->render('tutorat/etudiant/etudiant_form.html.twig', [
             'etudiantForm' => $form->createView(),
         ]);
+    }
+
+    #[Route('/program/{id}', name: 'program_join', requirements: ['id' => '\d+'])]
+    public function joinProgram(Program $program, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $userTutorat = $user->getUserTutorat();
+
+        // Vérifie si l'utilisateur a un objet UserTutorat associé et s'il s'agit bien d'un objet Etudiant
+        if (!$userTutorat || !$userTutorat instanceof Etudiant) {
+            $this->addFlash('warning', 'Vous devez vous inscrire en tant qu\'étudiant.');
+            // Redirige l'utilisateur vers la page d'inscription étudiant
+            return $this->redirectToRoute('registerEtudiant');
+        }
+
+        $etudiantIds = $program->getEtudiants()->map(fn($etudiant) => $etudiant->getId());
+
+        // Vérifie si l'utilisateur est déjà inscrit au programme
+        if ($etudiantIds->contains($userTutorat->getId())) {
+            $this->addFlash('warning', 'Vous participez déjà à ce programme.');
+            return $this->redirectToRoute('tutorat');
+        }
+
+        // Ajoute l'utilisateur au programme
+        $program->addEtudiant($userTutorat);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous êtes maintenant inscrit au programme.');
+        return $this->redirectToRoute('tutorat');
+    }
+    #[Route('/programs/quit/{id}', name: 'quit_program', methods: ['POST'])]
+    public function quitProgram(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $user = $this->getUser();
+        $etudiant = $user->getUserTutorat();
+
+        // Retirer l'étudiant du programme
+        $program->removeEtudiant($etudiant);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Vous avez quitté le programme.');
+        return $this->redirectToRoute('list_program_posts');
+
     }
 }

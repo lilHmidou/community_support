@@ -6,7 +6,6 @@ use App\Entity\Post;
 use App\Entity\PostLike;
 use App\Repository\PostLikeRepository;
 use App\Repository\PostRepository;
-use App\Service\LikeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -65,9 +64,8 @@ class LikeController extends AbstractController
         return new JsonResponse(['likes' => $post->getLike()]);
     }
 
-
-    #[Route('/list_liked_posts', name: 'list_liked_posts')]
-    public function listLikedPosts(PostLikeRepository $postLikeRepository): Response
+    #[Route('/my_likes', name: 'list_my_likes')]
+    public function showMyLikes(PostLikeRepository $postLikeRepository): Response
     {
         $user = $this->getUser();
 
@@ -81,7 +79,7 @@ class LikeController extends AbstractController
         // Récupérer tous les posts likés par l'utilisateur actuel
         $likedPosts = $postLikeRepository->findPostsLikedByUser($userId);
 
-        return $this->render('user/likes.html.twig', [
+        return $this->render('user/eventPost/likes.html.twig', [
             'likedPosts' => $likedPosts,
         ]);
     }

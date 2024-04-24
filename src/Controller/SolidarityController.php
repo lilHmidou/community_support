@@ -2,31 +2,29 @@
 
 namespace App\Controller;
 
-use App\Entity\PostLike;
 use App\Entity\Post;
-use App\Entity\User;
 use App\Form\SolidarityPostType;
-use App\Service\LikeService;
-use App\Service\PostService;
+use App\Repository\PostRepository;
+use App\Service\LikeService\LikeServiceImpl;
+use App\Service\PostService\PostServiceImpl;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Repository\PostRepository;
 use Symfony\Runtime\Symfony\Component;
 
+#[Route('/solidarity')]
 class SolidarityController extends AbstractController
 {
 
     private Security $security;
     private EntityManagerInterface $entityManager;
 
-    private PostService $postService;
+    private PostServiceImpl $postService;
 
-    public function __construct(Security $security, EntityManagerInterface $entityManager, PostService $postService)
+    public function __construct(Security $security, EntityManagerInterface $entityManager, PostServiceImpl $postService)
     {
         $this->security = $security;
         $this->entityManager = $entityManager;
@@ -34,8 +32,8 @@ class SolidarityController extends AbstractController
 
     }
 
-    #[Route('/solidarity', name: 'solidarity')]
-    public function index(PostRepository $postRepository, LikeService $likeService): Response
+    #[Route(name: 'solidarity')]
+    public function index(PostRepository $postRepository, LikeServiceImpl $likeService): Response
     {
         $events = $postRepository->findAll();
 
@@ -61,8 +59,8 @@ class SolidarityController extends AbstractController
     }
 
 
-    #[Route('/solidarity_form', name: 'solidarity_form')]
-    public function createEvent(Request $request): Response
+    #[Route('/create_post', name: 'solidarity_form')]
+    public function createPost(Request $request): Response
     {
         
         $event = new Post();
@@ -85,21 +83,16 @@ class SolidarityController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Traitement du formulaire (sauvegarde de l'événement, etc.)
             $this->entityManager->persist($event);
             $this->entityManager->flush();
 
-            // Redirection vers une autre page après la création de l'événement
+            $this->addFlash('success', 'Votre événement a été créé avec succès.');
             return $this->redirectToRoute('solidarity');
         }
 
 
-        return $this->render('solidarity/form.html.twig', [
-            'form' => $form->createView(),
+        return $this->render('user/eventPost/create_post.html.twig', [
+            'solidarityForm' => $form->createView(),
         ]);
     }
-
-
-
-
 }

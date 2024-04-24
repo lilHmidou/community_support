@@ -7,34 +7,34 @@ use App\Entity\Etudiant;
 use App\Entity\Mentor;
 use App\Entity\Program;
 use App\Form\MentorType;
+use App\Form\ProgramType;
 use App\security\Role;
+use App\Service\FileUploadService\FileUploadServiceImpl;
+use App\Service\UserService\UserServiceImpl;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\UserService;
-use App\Service\FileUploadService;
-use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class MentorController extends AbstractController
 {
-    private UserService $userService;
-    private FileUploadService $fileUploadService;
+    private UserServiceImpl $userService;
+    private FileUploadServiceImpl $fileUploadService;
     private EntityManagerInterface $entityManager;
 
-    public function __construct(UserService $userService, FileUploadService $fileUploadService, EntityManagerInterface $entityManager)
+    public function __construct(UserServiceImpl $userService, FileUploadServiceImpl $fileUploadService, EntityManagerInterface $entityManager)
     {
         $this->userService = $userService;
         $this->fileUploadService = $fileUploadService;
         $this->entityManager = $entityManager;
     }
 
-    #[Route('/tutorat/mentor', name: 'registerMentor')]
+    #[Route('/tutorat/register_mentor', name: 'registerMentor')]
     public function create(Request $request): Response
     {
-        if (!$this->userService->isLogin()) {
+        if ($this->userService->isLogin()) {
             $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page.');
             return $this->redirectToRoute('login');
         }
@@ -82,7 +82,7 @@ class MentorController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        return $this->render('tutorat/mentorForm.html.twig', [
+        return $this->render('tutorat/mentor/mentor_form.html.twig', [
             'mentorForm' => $form->createView(),
         ]);
     }
@@ -107,6 +107,83 @@ class MentorController extends AbstractController
 
         // Retourner une réponse
         $this->addFlash('success', 'Étudiant supprimé du programme.');
+        return $this->redirectToRoute('list_program_posts');
+    }
+
+    #[Route('/mentor/create_program', name: 'program_form')]
+    public function createProg(Request $request): Response
+    {
+        $program = new Program();
+
+        // Vérifier si l'utilisateur est connecté
+        if ($this->userService->isLogin()) {
+            $userTutorat = $this->getUser()->getUserTutorat();
+            $program->setMentor($userTutorat);
+        } else {
+            // Gérer le cas où aucun utilisateur n'est connecté, par exemple, rediriger vers la page de connexion
+            $this->addFlash('warning', 'Vous devez vous connecter pour poster un programme de tutorat.');
+            return $this->redirectToRoute('login');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Traitement du formulaire (sauvegarde de l'événement, etc.)
+            $this->entityManager->persist($program);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', 'Votre programme de tutorat a été créé avec succès !');
+
+            // Redirection vers une autre page après la création de l'événement
+            return $this->redirectToRoute('tutorat');
+        }
+
+
+        return $this->render('tutorat/mentor/create_program.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/programs/update/{id}', name: 'update_program')]
+    public function updateProgram(Request $request, EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $form = $this->createForm(ProgramType::class, $program);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le programme a été modifié.');
+            return $this->redirectToRoute('list_program_posts');
+        }
+
+        return $this->render('tutorat/mentor/update_program.html.twig', [
+            'programForm' => $form->createView(),
+            'program' => $program,
+        ]);
+    }
+
+    #[Route('/programs/delete/{id}', name: 'delete_program', methods: ['DELETE','POST'])]
+    public function deleteProgram(EntityManagerInterface $entityManager, int $id): Response
+    {
+        $program = $entityManager->getRepository(Program::class)->find($id);
+
+        if (!$program) {
+            throw $this->createNotFoundException('Programme introuvable');
+        }
+
+        $entityManager->remove($program);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le programme a été supprimé.');
+
         return $this->redirectToRoute('list_program_posts');
     }
 }

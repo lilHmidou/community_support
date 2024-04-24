@@ -2,19 +2,19 @@
 
 namespace App\Controller\TutoratController;
 
+use App\Entity\Testimonies;
+use App\Form\TestimoniesType;
+use App\Service\TestimoniesService\TestimoniesServiceImpl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use App\Service\TestimoniesService;
-use App\Entity\Testimonies;
-use App\Form\TestimoniesType;
 
 class TestimoniesController extends AbstractController
 {
-    private TestimoniesService $testimoniesService;
+    private TestimoniesServiceImpl $testimoniesService;
 
-    public function __construct(TestimoniesService $testimoniesService)
+    public function __construct(TestimoniesServiceImpl $testimoniesService)
     {
         $this->testimoniesService = $testimoniesService;
     }
@@ -33,7 +33,7 @@ class TestimoniesController extends AbstractController
         }
 
         return $this->render('testimony/new.html.twig', [
-            'form' => $form->createView(),
+            'testimonyForm' => $form->createView(),
         ]);
     }
 }

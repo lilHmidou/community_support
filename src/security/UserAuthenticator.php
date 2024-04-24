@@ -2,7 +2,7 @@
 
 namespace App\security;
 
-use App\Service\roleService\RoleRedirectorService;
+use App\Service\RoleService\RoleRedirectorServiceImpl;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,7 +24,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
     public const LOGIN_ROUTE = 'login';
     private $roleRedirectorService;
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator, RoleRedirectorService $roleRedirectorService)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, RoleRedirectorServiceImpl $roleRedirectorService)
     {
         $this->urlGenerator = $urlGenerator;
         $this->roleRedirectorService = $roleRedirectorService;
@@ -52,7 +52,7 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        // Utilisez la méthode redirect() de RoleRedirectorService pour déterminer la redirection appropriée
+        // Utilisez la méthode redirect() de RoleRedirectorServiceImpl pour déterminer la redirection appropriée
         return $this->roleRedirectorService->redirect();
     }
 

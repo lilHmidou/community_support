@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Poster un Événement
+{% endblock %}
+
+{% block body %}
+    {% block stylesheets %}
+        {{ parent() }}
+        <link rel="stylesheet" href="{{ asset('styles/solidarity_form.css') }}">
+    {% endblock %}
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="card-front">
+        <div class="center-wrap">
+            <div class="section text-center">
+                {{ form_start(solidarityForm) }}
+                <h4 class="mb-3 pb-3">Poster un Événement</h4>
+                <div class="form-group">
+                    {{ form_row(solidarityForm.title) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(solidarityForm.description) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(solidarityForm.created_at_p) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(solidarityForm.location) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(solidarityForm.category) }}
+                </div>
+                <div class="form-group mt-2">
+                    {{ form_row(solidarityForm.user_id) }}
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="button button-submit">Poster</button>
+                </div>
+                {{ form_end(solidarityForm) }}
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+{% endblock %}

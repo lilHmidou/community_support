@@ -6,10 +6,9 @@
 
 {% block title %}
     <h1>Ajouter un Témoignage</h1>
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    {{ form_start(testimonyForm) }}
+    {{ form_widget(testimonyForm) }}
+    {{ form_end(testimonyForm) }}
     <a href="{{ path('temoignage_index') }}">Retour à la liste</a>
 
 {% endblock %}
-

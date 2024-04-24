@@ -4,9 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\Post;
-use App\Entity\User;
-use App\Service\EmailService;
+use App\Service\EmailService\EmailServiceImpl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class EmailController extends AbstractController
 {
-    private EmailService $emailService;
+    private EmailServiceImpl $emailService;
 
-    public function __construct(EmailService $emailService)
+    public function __construct(EmailServiceImpl $emailService)
     {
         $this->emailService = $emailService;
     }
