@@ -4,32 +4,35 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\security\UserAuthenticator;
-use App\Service\UserService\UserFormServiceImpl;
-use App\Service\UserService\UserMdpServiceImpl;
+use App\Service\SecurityService\LoginService\LoginServiceImpl;
+use App\Service\SecurityService\RegistrationService\RegistrationServiceImpl;
+use App\Service\SecurityService\SecurityFormServiceImpl;
 use App\Service\UserService\UserServiceImpl;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
-    private $userFormService;
-    private $userMdpService;
-    private $userService;
+    private SecurityFormServiceImpl $securityFormService;
+    private UserServiceImpl $userService;
+    private RegistrationServiceImpl $registrationService;
 
-    public function __construct(UserFormServiceImpl $userFormService, UserMdpServiceImpl $userMdpService, UserServiceImpl $userService)
+    public function __construct(
+        SecurityFormServiceImpl $securityFormService,
+        UserServiceImpl         $userService,
+        RegistrationServiceImpl $registrationService,
+    )
     {
-        $this->userFormService = $userFormService;
-        $this->userMdpService = $userMdpService;
+        $this->securityFormService = $securityFormService;
         $this->userService = $userService;
+        $this->registrationService = $registrationService;
     }
 
     #[Route(path: '/login', name: 'login')]
-    public function login(Request $request, RouterInterface $router): Response
+    public function login(LoginServiceImpl $loginService): Response
     {
         $user = new User();
         // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
@@ -38,87 +41,76 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
+        $form = $this->registrationService->createRegistrationForm($user);
+        $viewData = $this->securityFormService->prepareSecurityForm();
 
-        $form = $this->userFormService->createRegistrationForm($user);
-        $viewData = $this->userFormService->prepareUserForm();
+        //Obligé de le mettre, car les 2 formulaires sont sur la même page
         $viewData['registrationForm'] = $form;
 
-        $error = $this->userFormService->getErrors();
-        // Ajoutez un message flash en cas d'erreur
+        $error = $loginService->getLastLoginError();
+
         if ($error) {
             $this->addFlash('error', 'Votre email ou mot de passe est incorrect. Veuillez réessayer.');
         }
 
         return $this->render('security/login-register.html.twig', $viewData);
-
     }
 
     #[Route('/register', name: 'register')]
     public function register(
         Request                    $request,
-        RouterInterface $router,
         UserAuthenticatorInterface $userAuthenticator,
-        UserAuthenticator          $authenticator,
-        EntityManagerInterface     $entityManager,
+        UserAuthenticator          $authenticator
     ): Response
     {
 
         $user = new User();
-        // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
-        if ($this->getUser()) {
+
+        if ($this->userService->isLogin()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté.');
             return $this->redirectToRoute('home');
         }
 
-        $form = $this->userFormService->createRegistrationForm($user);
-        $viewData = $this->userFormService->prepareUserForm();
-        $viewData['registrationForm'] = $form;
-
-
         // Traitez le formulaire d'inscription ici
-        $form = $this->userFormService->createRegistrationForm($user, [
+        $form = $this->registrationService->createRegistrationForm($user, [
             'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
         ]);
+        $viewData = $this->securityFormService->prepareSecurityForm();
+        $viewData['registrationForm'] = $form;
+
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Vérifiez si l'adresse e-mail existe déjà
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-            if ($existingUser) {
-                $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
+
+        if ($form->isSubmitted()) {
+            $errors = [];
+            try {
+                if ($form->isValid()) {
+                    $result = $this->registrationService->register($user, $form);
+                    if (isset($result['error'])) {
+                        $errors = $result['error'];
+                    } elseif (isset($result['success'])) {
+                        return $userAuthenticator->authenticateUser(
+                            $user,
+                            $authenticator,
+                            $request
+                        );
+                    }
+                } else {
+                    foreach ($form->getErrors(true) as $error) {
+                        $errors[] = $error->getMessage();
+                    }
+                }
+            } catch (\Exception $e) {
+                // Gérer les exceptions inattendues
+                $errors[] = 'Une erreur inattendue s\'est produite. Veuillez réessayer plus tard.';
+            }
+
+            if (!empty($errors)) {
+                // Ajouter seulement la première erreur au flash
+                $this->addFlash('error', $errors[0]);
+
+                // Redirigez vers le formulaire en cas d'erreur
                 return $this->redirectToRoute('register');
             }
-
-            // Récupération des données de mot de passe via le Generator
-            $passwordData = $this->userMdpService->getPasswordData($form, $request);
-
-            // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
-            if (!$this->userMdpService->checkPasswordMatch($passwordData)) {
-                $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-                return $this->redirectToRoute('register');
-            }
-
-            // Hachage du mot de passe
-            $hashedPassword = $this->userMdpService->hashPassword($user, $passwordData['plainPassword']);
-            $user->setPassword($hashedPassword);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
-
-            return $userAuthenticator->authenticateUser(
-                $user,
-                $authenticator,
-                $request
-            );
-        } elseif ($form->isSubmitted()) {
-            // Récupérer toutes les erreurs de validation du formulaire
-            foreach ($form->getErrors(true) as $error) {
-                $errors[] = $error->getMessage();
-            }
-        }
-
-
-        // Si des erreurs ont été trouvées, n'ajouter que la première erreur au flash error
-        if (!empty($errors)) {
-            $this->addFlash('error', $errors[0]);
         }
 
         // Préparation des données pour le rendu de la vue
