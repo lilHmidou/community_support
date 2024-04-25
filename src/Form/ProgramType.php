@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Program;
 use App\Entity\User;
+use App\Validator\BanWord;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -18,7 +19,11 @@ class ProgramType extends AbstractType
     {
         $builder
             ->add('title_p', TextType::class)
-            ->add('description_p', TextareaType::class)
+            ->add('description_p', TextareaType::class, [
+                        'constraints' => [
+                    new BanWord()
+                ]
+            ])
             ->add('frequency', TextType::class)
             ->add('user_id', HiddenType::class, [
                 'mapped' => false,

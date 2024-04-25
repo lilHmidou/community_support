@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Validator\BanWord;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -20,7 +21,11 @@ class SolidarityPostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'constraints' => [
+                    new BanWord()
+                ]
+            ])
             ->add('created_at_p', HiddenType::class, [
                 'mapped' => false,
             ])

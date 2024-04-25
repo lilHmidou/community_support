@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Testimonies;
+use App\Validator\BanWord;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,7 +18,11 @@ class TestimoniesType extends AbstractType
     {
         $builder
             ->add('author', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('content', TextareaType::class, [
+                'constraints' => [
+                    new BanWord()
+                ]
+            ])
             ->add('date', DateType::class, [
                 'widget' => 'single_text' // this is important for the date picker to work
             ])
