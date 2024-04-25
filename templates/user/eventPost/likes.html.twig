@@ -3,9 +3,11 @@
 {% block title %} Mes Likes {% endblock %}
 
 {% block body %}
-    <br>
-    <br>
-    <br>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="{{ path('solidarity') }}" class="btn btn-primary">
+            Voir les posts
+        </a>
+    </div>
 
     <h1>Mes Likes</h1>
     {% for like in likedPosts %}

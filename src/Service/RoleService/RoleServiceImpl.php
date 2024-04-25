@@ -14,7 +14,7 @@ class RoleServiceImpl implements RoleServiceInterface
         $this->entityManager = $entityManager;
     }
 
-    public function updateUserRoles(User $user, array $newRoles): void
+    public function updateRole(User $user, array $newRoles): void
     {
         // Mettez à jour les rôles de l'utilisateur
         $user->setRoles($newRoles);
