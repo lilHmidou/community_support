@@ -3,9 +3,9 @@
 namespace App\Controller\UserController;
 
 use App\Entity\Post;
-use App\Form\NewPasswordType;
-use App\Form\ProfilType;
 use App\Form\SolidarityPostType;
+use App\Form\UserForm\NewPasswordType;
+use App\Form\UserForm\ProfilType;
 use App\Repository\PostRepository;
 use App\security\UserAuthenticator;
 use App\Service\RoleService\RoleRedirectorServiceImpl;

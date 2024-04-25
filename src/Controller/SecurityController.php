@@ -87,13 +87,13 @@ class SecurityController extends AbstractController
                     $result = $this->registrationService->register($user, $form);
                     if (isset($result['error'])) {
                         $errors = $result['error'];
-                    } elseif (isset($result['success'])) {
-                        return $userAuthenticator->authenticateUser(
+                    }
+                    $this->addFlash('success', $result['success']);
+                    return $userAuthenticator->authenticateUser(
                             $user,
                             $authenticator,
                             $request
-                        );
-                    }
+                    );
                 } else {
                     foreach ($form->getErrors(true) as $error) {
                         $errors[] = $error->getMessage();

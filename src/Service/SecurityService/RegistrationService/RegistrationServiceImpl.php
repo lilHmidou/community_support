@@ -3,7 +3,7 @@
 namespace App\Service\SecurityService\RegistrationService;
 
 use App\Entity\User;
-use App\Form\RegistrationType;
+use App\Form\UserForm\RegistrationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
@@ -48,7 +48,7 @@ class RegistrationServiceImpl implements RegistrationServiceInterface
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 
-        return ['success' => true];
+        return ['success' => "Vous êtes maintenant inscrit! Bienvenue sur la plateforme."];
     }
 
     public function validateRegistration(FormInterface $form, User $user): array
