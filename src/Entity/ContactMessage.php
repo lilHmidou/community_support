@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ContactMessageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ContactMessageRepository::class)]
 class ContactMessage
@@ -15,16 +16,28 @@ class ContactMessage
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotNull]
     private ?\DateTimeInterface $createdAt_CM = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 30,
+        maxMessage: "Le sujet ne peut pas être plus long que {{ limit }} caractères."
+    )]
     private ?string $topic = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Le contenu du message ne peut pas être plus long que {{ limit }} caractères."
+    )]
     private ?string $contentCM = null;
 
     #[ORM\ManyToOne(inversedBy: 'ContactMessage')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?User $user = null;
 
     public function __construct()
