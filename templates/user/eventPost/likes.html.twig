@@ -9,7 +9,15 @@
 
     <h1>Mes Likes</h1>
     {% for like in likedPosts %}
-        <li>{{ like.title }}</li>
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ like.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">{{ like.createdAtPost|date('d/m/Y') }}</h6>
+                <p class="card-text">{{ like.description }}</p>
+            </div>
+        </div>
+    {% else %}
+        <p>Vous n'avez pas encore liké de posts.</p>
     {% endfor %}
 
 {% endblock %}

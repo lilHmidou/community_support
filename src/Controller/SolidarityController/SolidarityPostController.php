@@ -25,6 +25,13 @@ class SolidarityPostController extends AbstractController
         $this->userService = $userService;
     }
 
+    /**
+     * Crée un nouveau post d'événement.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     *
+     * @return Response La réponse HTTP, soit le formulaire de création, soit une redirection.
+     */
     #[Route('/create_post', name: 'solidarity_form')]
     public function createPost(Request $request): Response
     {

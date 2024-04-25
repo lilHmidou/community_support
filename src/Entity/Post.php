@@ -30,7 +30,7 @@ class Post
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Assert\NotBlank]
-    private ?\DateTimeImmutable $CreatedAt_Post = null;
+    private ?\DateTimeImmutable $createdAtPost = null;
 
     #[ORM\Column(length: 50)]
     #[Assert\Length(max: 50)]
@@ -43,7 +43,6 @@ class Post
     #[ORM\Column(type: 'integer')]
     private ?int $Nb_Like = null;
 
-
     #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
     private Collection $Message;
 
@@ -51,8 +50,6 @@ class Post
      * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
      */
     private $likes;
-
-    // Autres méthodes de l'entité...
 
     /**
      * @return Collection|Like[]
@@ -66,7 +63,7 @@ class Post
     public function __construct()
     {
         $this->Message = new ArrayCollection();
-        $this->CreatedAt_Post = new \DateTimeImmutable();
+        $this->createdAtPost = new \DateTimeImmutable();
         $this->likes = new ArrayCollection();
     }
 
@@ -101,12 +98,12 @@ class Post
 
     public function getCreatedAtPost(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt_Post;
+        return $this->createdAtPost;
     }
 
-    public function setCreatedAtPost(\DateTimeImmutable $CreatedAt_Post): static
+    public function setCreatedAtPost(\DateTimeImmutable $createdAtPost): static
     {
-        $this->CreatedAt_Post = $CreatedAt_Post;
+        $this->createdAtPost = $createdAtPost;
 
         return $this;
     }
@@ -114,7 +111,7 @@ class Post
     #[ORM\PrePersist]
     public function setCreatedAtPostValue(): void
     {
-        $this->CreatedAt_Post = new \DateTimeImmutable();
+        $this->createdAtPost = new \DateTimeImmutable();
     }
 
     public function getLocation(): ?string
