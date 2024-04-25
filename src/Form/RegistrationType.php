@@ -12,10 +12,12 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 
 class RegistrationType extends AbstractType
@@ -104,7 +106,7 @@ class RegistrationType extends AbstractType
                 'label_html' => true,
                 'help' => 'Votre mot de passe doit comporter au moins : ',
             ])
-->add('confirmPassword', PasswordType::class, [
+            ->add('confirmPassword', PasswordType::class, [
                 'mapped' => false,
                 'attr' => [
                     'autocomplete' => 'new-password',
