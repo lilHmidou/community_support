@@ -31,6 +31,13 @@ class SecurityController extends AbstractController
         $this->registrationService = $registrationService;
     }
 
+    /**
+     * Affiche le formulaire de connexion et traite les erreurs de connexion.
+     *
+     * @param LoginServiceImpl $loginService Le service de gestion de connexion.
+     *
+     * @return Response
+     */
     #[Route(path: '/login', name: 'login')]
     public function login(LoginServiceImpl $loginService): Response
     {
@@ -56,6 +63,19 @@ class SecurityController extends AbstractController
         return $this->render('security/login-register.html.twig', $viewData);
     }
 
+    /**
+     * Gère le processus d'inscription des utilisateurs.
+     *
+     * Affiche le formulaire d'inscription et traite les soumissions.
+     * Si le formulaire est validé, enregistre un nouvel utilisateur et authentifie
+     * l'utilisateur nouvellement enregistré.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @param UserAuthenticatorInterface $userAuthenticator L'interface d'authentification utilisateur.
+     * @param UserAuthenticator $authenticator Le service d'authentification.
+     *
+     * @return Response La réponse HTTP résultante, généralement le rendu du formulaire ou une redirection.
+     */
     #[Route('/register', name: 'register')]
     public function register(
         Request                    $request,

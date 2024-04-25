@@ -18,6 +18,13 @@ class SolidarityViewController  extends AbstractController
         $this->likeService = $likeService;
     }
 
+    /**
+     * Affiche la liste des événements de solidarité.
+     *
+     * @param PostRepository $postRepository Le référentiel pour récupérer les posts.
+     *
+     * @return Response La réponse HTTP contenant le rendu de la vue.
+     */
     #[Route(name: 'solidarity')]
     public function index(PostRepository $postRepository): Response
     {
