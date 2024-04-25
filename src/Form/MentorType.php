@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class MentorType extends AbstractType
 {
@@ -23,6 +24,11 @@ class MentorType extends AbstractType
                 ],
                 'label' => '<i class="input-icon fa-solid fa-book"></i>',
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255
+                    ])
+                ],
             ])
             ->add('LearningChoice', ChoiceType::class, [
                 'choices' => [
@@ -50,6 +56,11 @@ class MentorType extends AbstractType
                 ],
                 'label' => '<i class="input-icon fa-solid fa-comment"></i>', // Icône de commentaire
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255
+                    ])
+                ],
             ])
             ->add('LevelExperience', ChoiceType::class, [
                 'choices' => [

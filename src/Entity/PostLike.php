@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PostLikeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PostLikeRepository::class)]
 #[ORM\Table(name: 'post_like')]

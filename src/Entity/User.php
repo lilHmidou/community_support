@@ -11,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'L\'adresse e-mail existe déjà')]
@@ -22,33 +24,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $FirstName = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $LastName = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank]
     private ?string $Address = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank]
     private ?string $PhoneNumber = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank]
     private ?string $Gender = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column]
     private array $roles = [];
 
     #[ORM\Column]
+    #[Assert\NotBlank]
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTime $DOB = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeImmutable $CreatedAt_U = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactMessage::class, orphanRemoval: true)]

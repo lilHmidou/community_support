@@ -7,7 +7,7 @@ use App\security\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EtudiantRepository::class)]
 class Etudiant extends UserTutorat
@@ -22,10 +22,12 @@ class Etudiant extends UserTutorat
         $this->programs = new ArrayCollection();
     }
     #[ORM\Column(length: 30)]
-    private ?string $LevelStudies = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 30)]
+    private ?string $levelStudies = null;
 
     #[ORM\Column]
-    private ?bool $Disability = null;
+    private ?bool $disability = null;
 
     /**
      * @return Collection|Program[]
@@ -56,36 +58,36 @@ class Etudiant extends UserTutorat
 
     public function getLevelStudies(): ?string
     {
-        return $this->LevelStudies;
+        return $this->levelStudies;
     }
 
-    public function setLevelStudies(string $LevelStudies): static
+    public function setLevelStudies(string $levelStudies): static
     {
-        $this->LevelStudies = $LevelStudies;
+        $this->levelStudies = $levelStudies;
 
         return $this;
     }
 
     public function getDisability(): ?bool // Correction du nom de la méthode getter
     {
-        return $this->Disability;
+        return $this->disability;
     }
 
-    public function setDisability(bool $Disability): static
+    public function setDisability(bool $disability): static
     {
-        $this->Disability = $Disability;
+        $this->disability = $disability;
 
         return $this;
     }
 
     public function __toString(): string
     {
-        return parent::__toString() . ' - ' . $this->LevelStudies . ' - ' . ($this->Disability ? 'Oui' : 'Non');
+        return parent::__toString() . ' - ' . $this->levelStudies . ' - ' . ($this->disability ? 'Oui' : 'Non');
     }
 
     public function isDisability(): ?bool
     {
-        return $this->Disability;
+        return $this->disability;
     }
 
 }

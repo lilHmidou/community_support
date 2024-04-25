@@ -18,6 +18,7 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 class ProfilType extends AbstractType
@@ -30,12 +31,24 @@ class ProfilType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'label' => 'Prénom',
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 50
+                    ])
+                ],
             ])
             ->add('LastName', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
                 ],
                 'label' => 'Nom',
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 50
+                    ])
+                ],
             ])
             ->add('Address', TextType::class, [
                 'attr' => [
@@ -72,6 +85,10 @@ class ProfilType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'label' => 'Email',
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Email()
+                ],
             ])
             ->add('cancelChanges', ButtonType::class, [
                 'label' => '<i class="fa-solid fa-delete-left"></i> Annuler les modifications',

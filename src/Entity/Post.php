@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -17,18 +19,25 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
     private ?string $Title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $Description = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeImmutable $CreatedAt_Post = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\Length(max: 50)]
     private ?string $Location = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Length(max: 30)]
     private ?string $Category = null;
 
     #[ORM\Column(type: 'integer')]
