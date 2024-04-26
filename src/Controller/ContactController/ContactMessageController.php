@@ -2,7 +2,6 @@
 
 namespace App\Controller\ContactController;
 
-use App\Entity\ContactMessage;
 use App\Form\ContactMessageFormType;
 use App\Service\ContactService\ContactServiceInterface;
 use App\Service\UserService\UserServiceInterface;
@@ -25,6 +24,13 @@ class ContactMessageController extends AbstractController
         $this->contactService = $contactService;
     }
 
+    /**
+     * Affiche le formulaire de contact et gère la soumission de messages.
+     *
+     * @param Request $request La requête HTTP, utilisée pour gérer le formulaire.
+     *
+     * @return Response La réponse HTTP, généralement un rendu du formulaire ou une redirection.
+     */
     #[Route('/contact', name: 'contact')]
     public function contact(Request $request): Response
     {
@@ -34,8 +40,7 @@ class ContactMessageController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        $contactMessage = new ContactMessage();
-        $contactMessage->setUser($this->getUser());
+        $contactMessage = $this->contactService->createContactMessage($this->getUser());
 
         $form = $this->createForm(ContactMessageFormType::class, $contactMessage);
         $form->handleRequest($request);
