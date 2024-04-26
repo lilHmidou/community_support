@@ -24,9 +24,8 @@ class RegistrationServiceImpl implements RegistrationServiceInterface
         $this->formFactory = $formFactory;
     }
 
-    public function createRegistrationForm(User $user = null) : \Symfony\Component\Form\FormInterface
+    public function createRegistrationForm(User $user = null) : FormInterface
     {
-        $user = $user ?? new User();
         return $this->formFactory->create(RegistrationType::class, $user);
     }
     public function register(User $user, FormInterface $form): array

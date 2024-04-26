@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Form\UserForm\RegistrationType;
 use App\security\UserAuthenticator;
 use App\Service\SecurityService\LoginService\LoginServiceImpl;
 use App\Service\SecurityService\RegistrationService\RegistrationServiceImpl;
@@ -76,7 +77,7 @@ class SecurityController extends AbstractController
      *
      * @return Response La réponse HTTP résultante, généralement le rendu du formulaire ou une redirection.
      */
-    #[Route('/register', name: 'register')]
+    #[Route('/register', name: 'register', methods: ['GET','POST'])]
     public function register(
         Request                    $request,
         UserAuthenticatorInterface $userAuthenticator,
@@ -92,9 +93,12 @@ class SecurityController extends AbstractController
         }
 
         // Traitez le formulaire d'inscription ici
-        $form = $this->registrationService->createRegistrationForm($user, [
+        /*$form = $this->registrationService->createRegistrationForm($user, [
             'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
-        ]);
+        ]);*/
+        //dump($form);
+        $form = $this->createForm(RegistrationType::class, $user);
+
         $viewData = $this->securityFormService->prepareSecurityForm();
         $viewData['registrationForm'] = $form;
 
@@ -132,6 +136,9 @@ class SecurityController extends AbstractController
                 return $this->redirectToRoute('register');
             }
         }
+        //dump($form->isSubmitted());
+        //dump($form->isValid());
+        //dd($form->getData());
 
         // Préparation des données pour le rendu de la vue
         $viewData['isCheckboxChecked'] = true;
