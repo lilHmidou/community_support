@@ -3,6 +3,7 @@
 namespace App\Service\UserService;
 
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class UserServiceImpl implements UserServiceInterface
 {
@@ -18,7 +19,7 @@ class UserServiceImpl implements UserServiceInterface
         return null !== $this->security->getUser();
     }
 
-    public function getUser(): ?\Symfony\Component\Security\Core\User\UserInterface
+    public function getUser(): UserInterface
     {
         return $this->security->getUser();
     }

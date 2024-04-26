@@ -19,6 +19,14 @@ class EmailController extends AbstractController
         $this->emailService = $emailService;
     }
 
+    /**
+     * Envoie un email à l'organisateur d'un événement.
+     *
+     * @param Request $request La requête HTTP.
+     * @param string $eventId L'ID de l'événement.
+     *
+     * @return Response La réponse HTTP, généralement une redirection après l'envoi de l'email.
+     */
     #[Route('/send-email/{eventId}', name: 'send_email')]
     public function sendEmail(Request $request, string $eventId): Response
     {
@@ -42,10 +50,18 @@ class EmailController extends AbstractController
         return $this->redirectToRoute('solidarity', ['id' => $eventId]);
     }
 
+    /**
+     * Envoie un email de participation à un utilisateur.
+     *
+     * @param Request $request La requête HTTP.
+     * @param int $eventId L'ID de l'événement.
+     *
+     * @return Response La réponse HTTP, généralement une redirection après l'envoi de l'email.
+     */
     #[Route('/participate/{eventId}', name: 'participate')]
     public function participate(Request $request, int $eventId): Response
     {
-        $user = $this->getUser(); // Assurez-vous que l'utilisateur est connecté
+        $user = $this->getUser();
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour participer.');
             return $this->redirectToRoute('login');
@@ -61,4 +77,3 @@ class EmailController extends AbstractController
         return $this->redirectToRoute('solidarity', ['id' => $eventId]);
     }
 }
-

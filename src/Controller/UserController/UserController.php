@@ -9,6 +9,7 @@ use App\Form\UserForm\ProfilType;
 use App\Repository\PostRepository;
 use App\security\UserAuthenticator;
 use App\Service\RoleService\RoleRedirectorServiceImpl;
+use App\Service\UserService\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,73 +20,20 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
-#[Route('/user')]
 class UserController extends AbstractController
 {
-    #[Route(name: 'user')]
+    private UserServiceInterface $userService;
+
+    public function __construct(UserServiceInterface $userService)
+    {
+        $this->userService = $userService;
+    }
+    #[Route('/user', name: 'user')]
     public function index(RoleRedirectorServiceImpl $roleRedirectorService, SessionInterface $session): Response
     {
         $roleRedirectorService->addSuccessMessage($session);
         return $this->render('home/index.html.twig');
     }
-
-    #[Route('/profil', name: 'profil', methods: ['GET', 'POST'])]
-    public function show(): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-        // Créer le formulaire de profil avec les données de l'utilisateur
-        $form = $this->createForm(ProfilType::class, $user);
-
-        // Afficher le formulaire pré-rempli dans la vue
-        return $this->render('user/profil/show.html.twig', [
-            'profilForm' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/profil/update', name: 'update', methods: ['GET', 'POST'])]
-    public function update(Request $request, EntityManagerInterface $entityManager): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-        // Créer le formulaire de profil avec les données de l'utilisateur
-        $form = $this->createForm(ProfilType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Enregistrer les modifications dans la base de données
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Vos informations ont bien été enregistrées.');
-            return $this->redirectToRoute('profil');
-        }
-
-        return $this->render('user/profil/update.html.twig', [
-            'editForm' => $form->createView(),
-        ]);
-    }
-
-    #[Route('/profil/delete', name: 'delete', methods: ['GET'])]
-    public function delete(EntityManagerInterface $entityManager, TokenStorageInterface $tokenStorage): Response
-    {
-        // Récupérer l'utilisateur connecté
-        $user = $this->getUser();
-
-        // Supprimer l'utilisateur de la base de données
-        $entityManager->remove($user);
-        $entityManager->flush();
-
-        // Déconnecter l'utilisateur
-        $tokenStorage->setToken(null);
-
-        $this->addFlash('success', 'Votre compte a été supprimé.');
-
-        // Rediriger l'utilisateur vers la page d'accueil
-        return $this->redirectToRoute('home');
-    }
-
 
     #[Route('/update_password', name: 'updatePassword', methods: ['GET','POST'])]
     public function updateMdp(
