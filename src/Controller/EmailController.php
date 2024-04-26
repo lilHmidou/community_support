@@ -45,7 +45,7 @@ class EmailController extends AbstractController
     #[Route('/participate/{eventId}', name: 'participate')]
     public function participate(Request $request, int $eventId): Response
     {
-        $user = $this->getUser(); // Assurez-vous que l'utilisateur est connecté
+        $user = $this->getUser();
         if (!$user) {
             $this->addFlash('error', 'Vous devez être connecté pour participer.');
             return $this->redirectToRoute('login');
