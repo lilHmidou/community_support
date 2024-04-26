@@ -53,7 +53,7 @@ class EtudiantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $file = $form->get('doc')->getData();
+            $file = $form->get('Doc')->getData();
             if ($file) {
                 try {
                     $newFilename = $this->fileUploadService->uploadFile($file);

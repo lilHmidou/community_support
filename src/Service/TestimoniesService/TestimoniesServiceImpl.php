@@ -1,6 +1,5 @@
 <?php
 
-// src/Service/TestimoniesServiceImpl.php
 namespace App\Service\TestimoniesService;
 
 use App\Entity\Testimonies;
@@ -20,11 +19,8 @@ class TestimoniesServiceImpl implements TestimoniesServiceInterface
         $this->entityManager->persist($testimony);
         $this->entityManager->flush();
     }
-
-    // src/Service/TestimoniesServiceImpl.php
     public function getAllTestimonies()
     {
         return $this->entityManager->getRepository(Testimonies::class)->findAll();
     }
-
 }

@@ -32,7 +32,7 @@ class Program
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Assert\NotBlank]
-    private ?\DateTimeImmutable $CreatedAt_Prog = null;
+    private ?\DateTimeImmutable $createdAtProgram = null;
 
     #[ORM\ManyToMany(targetEntity: Etudiant::class, mappedBy: 'programs')]
     private Collection $etudiants;
@@ -44,7 +44,7 @@ class Program
     public function __construct()
     {
         $this->etudiants = new ArrayCollection();
-        $this->CreatedAt_Prog = new \DateTimeImmutable();
+        $this->createdAtProgram = new \DateTimeImmutable();
     }
 
     /**
@@ -126,14 +126,14 @@ class Program
         return $this;
     }
 
-    public function getCreatedAtProg(): ?\DateTimeImmutable
+    public function getCreatedAtProgram(): ?\DateTimeImmutable
     {
-        return $this->CreatedAt_Prog;
+        return $this->createdAtProgram;
     }
 
-    public function setCreatedAtProg(\DateTimeImmutable $CreatedAt_Prog): static
+    public function setCreatedAtProgram(\DateTimeImmutable $createdAtProgram): static
     {
-        $this->CreatedAt_Prog = $CreatedAt_Prog;
+        $this->createdAtProgram = $createdAtProgram;
 
         return $this;
     }
@@ -141,7 +141,7 @@ class Program
     #[ORM\PrePersist]
     public function setCreatedAtProgValue(): void
     {
-        $this->CreatedAt_Prog = new \DateTimeImmutable();
+        $this->createdAtProgram = new \DateTimeImmutable();
     }
 
 }

@@ -70,8 +70,8 @@
                     <p>{{ program.descriptionP }}</p>
                     <p>{{ program.frequency }}</p>
                     <h3>Mentor : {{ program.mentor.user.FirstName }} {{ program.mentor.user.LastName }}</h3>
-                    <p class="date-creat">Posté le {{ program.createdAtProg|date('Y-m-d') }}
-                        à {{ program.createdAtProg|date('H:i:s') }}</p>
+                    <p class="date-creat">Posté le {{ program.createdAtProgram|date('Y-m-d') }}
+                        à {{ program.createdAtProgram|date('H:i:s') }}</p>
                     {% set etudiantIds = program.etudiants | map(e => e.id) %}
                     {% if not is_granted('ROLE_MENTOR') and app.user.id not in etudiantIds %}
                         <a href="{{ path('program_join', {'id': program.id}) }}" class="btn btn-primary">Je souhaite

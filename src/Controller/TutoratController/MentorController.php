@@ -34,7 +34,7 @@ class MentorController extends AbstractController
     #[Route('/tutorat/register_mentor', name: 'registerMentor')]
     public function create(Request $request): Response
     {
-        if ($this->userService->isLogin()) {
+        if (!$this->userService->isLogin()) {
             $this->addFlash('danger', 'Vous devez être connecté pour accéder à cette page.');
             return $this->redirectToRoute('login');
         }
@@ -69,7 +69,7 @@ class MentorController extends AbstractController
 
             $mentor->setUser($this->userService->getUser());
 
-            // Ajouter le rôle "ROLE_ETUDIANT" à l'utilisateur connecté
+            // Ajouter le rôle "ROLE_MENTOR" à l'utilisateur connecté
             $user = $this->getUser();
             $user->addRole(Role::ROLE_MENTOR);
             $this->entityManager->persist($user);
@@ -89,10 +89,8 @@ class MentorController extends AbstractController
     #[Route('/programs/{program_id}/remove-student/{student_id}', name: 'remove_student_from_program', methods: ['DELETE', 'POST'])]
     public function removeStudentFromProgram(EntityManagerInterface $entityManager, int $program_id, int $student_id): Response
     {
-        // Récupérer le programme
+        // Récupérer le programme et l'étudiant
         $program = $entityManager->getRepository(Program::class)->find($program_id);
-
-        // Récupérer l'étudiant
         $student = $entityManager->getRepository(Etudiant::class)->find($student_id);
 
         if (!$program || !$student) {
@@ -105,7 +103,6 @@ class MentorController extends AbstractController
         // Mettre à jour la base de données
         $entityManager->flush();
 
-        // Retourner une réponse
         $this->addFlash('success', 'Étudiant supprimé du programme.');
         return $this->redirectToRoute('list_program_posts');
     }
@@ -115,12 +112,10 @@ class MentorController extends AbstractController
     {
         $program = new Program();
 
-        // Vérifier si l'utilisateur est connecté
         if ($this->userService->isLogin()) {
             $userTutorat = $this->getUser()->getUserTutorat();
             $program->setMentor($userTutorat);
         } else {
-            // Gérer le cas où aucun utilisateur n'est connecté, par exemple, rediriger vers la page de connexion
             $this->addFlash('warning', 'Vous devez vous connecter pour poster un programme de tutorat.');
             return $this->redirectToRoute('login');
         }
@@ -135,7 +130,6 @@ class MentorController extends AbstractController
 
             $this->addFlash('success', 'Votre programme de tutorat a été créé avec succès !');
 
-            // Redirection vers une autre page après la création de l'événement
             return $this->redirectToRoute('tutorat');
         }
 

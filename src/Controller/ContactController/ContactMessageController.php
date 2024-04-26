@@ -4,8 +4,8 @@ namespace App\Controller\ContactController;
 
 use App\Entity\ContactMessage;
 use App\Form\ContactMessageFormType;
-use App\Service\ContactService\ContactServiceImpl;
-use App\Service\UserService\UserServiceImpl;
+use App\Service\ContactService\ContactServiceInterface;
+use App\Service\UserService\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,10 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ContactMessageController extends AbstractController
 {
-    private UserServiceImpl $userService;
-    private ContactServiceImpl $contactService;
+    private UserServiceInterface $userService;
+    private ContactServiceInterface $contactService;
 
-    public function __construct(UserServiceImpl $userService, ContactServiceImpl $contactService)
+    public function __construct(
+        UserServiceInterface $userService,
+        ContactServiceInterface $contactService
+    )
     {
         $this->userService = $userService;
         $this->contactService = $contactService;
