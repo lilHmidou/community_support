@@ -78,6 +78,15 @@ class ProgramServiceImpl implements ProgramServiceInterface
         }
     }
 
+    public function removeMentorPrograms(Mentor $mentor): void
+    {
+        $programs = $mentor->getMentorPrograms();
+
+        foreach ($programs as $program) {
+            $this->removeProgram($program);
+        }
+    }
+
     public function addEtudiantToProgram($user, Program $program): array
     {
         $userTutorat = $user->getUserTutorat();

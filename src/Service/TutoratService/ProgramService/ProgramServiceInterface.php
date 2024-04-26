@@ -3,6 +3,7 @@
 namespace App\Service\TutoratService\ProgramService;
 
 use App\Entity\Etudiant;
+use App\Entity\Mentor;
 use App\Entity\Program;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ interface ProgramServiceInterface
     public function saveProgram(Program $program): void;
     public function removeProgram(Program $program): void;
     public function assignMentorToProgram(Program $program): void;
+    public function removeMentorPrograms(Mentor $mentor): void;
     public function addEtudiantToProgram($user, Program $program): array;
     public function unregisterEtudiantFromProgram(Etudiant $etudiant, Program $program): void;
     public function isEtudiantInProgram(Etudiant $etudiant, Program $program): bool;
