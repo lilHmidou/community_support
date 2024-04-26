@@ -22,6 +22,13 @@ class EtudiantController extends AbstractController
         $this->etudiantService = $etudiantService;
     }
 
+    /**
+     * Affiche le formulaire d'inscription pour les étudiants et traite la soumission.
+     *
+     * @param Request $request La requête HTTP.
+     *
+     * @return Response La réponse HTTP.
+     */
     #[Route('/tutorat/register_etudiant', name: 'registerEtudiant')]
     public function create(Request $request): Response
     {
@@ -31,10 +38,8 @@ class EtudiantController extends AbstractController
             return $this->redirectToRoute('login');
         }
 
-        // Créez le formulaire pour l'inscription de l'étudiant
         $form = $this->etudiantService->createEtudiantForm($request);
 
-        // Gérer le formulaire soumis et valider la logique métier via le service
         if ($form->isSubmitted() && $form->isValid()) {
             $result = $this->etudiantService->handleEtudiantFormSubmission($form);
 
