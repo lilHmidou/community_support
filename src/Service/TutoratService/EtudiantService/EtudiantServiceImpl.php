@@ -34,7 +34,12 @@ class EtudiantServiceImpl implements EtudiantServiceInterface
         $this->formFactory = $formFactory;
     }
 
-    public function createEtudiantForm(Request $request): Form
+    public function getEtudiantById(int $id): ?Etudiant
+    {
+        return $this->entityManager->getRepository(Etudiant::class)->find($id);
+    }
+
+    public function createEtudiantForm(Request $request): FormInterface
     {
         $etudiant = new Etudiant();
         $form = $this->formFactory->create(EtudiantType::class, $etudiant);
@@ -68,5 +73,11 @@ class EtudiantServiceImpl implements EtudiantServiceInterface
         $this->entityManager->flush();
 
         return ['status' => 'success', 'message' => 'Inscription réussie. Veuillez vous reconnecter.'];
+    }
+
+    public function isEtudiant($user): bool
+    {
+        $userTutorat = $user->getUserTutorat();
+        return $userTutorat && $userTutorat instanceof Etudiant;
     }
 }
