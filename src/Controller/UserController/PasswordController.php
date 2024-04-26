@@ -3,15 +3,12 @@
 namespace App\Controller\UserController;
 
 use App\Form\UserForm\NewPasswordType;
-use App\security\UserAuthenticator;
 use App\Service\SecurityService\RegistrationService\PasswordServiceInterface;
 use App\Service\UserService\UserServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
+use Symfony\Component\Routing\Annotation\Route;
 
 class PasswordController extends AbstractController
 
@@ -27,6 +24,13 @@ class PasswordController extends AbstractController
         $this->userService = $userService;
     }
 
+    /**
+     * Met à jour le mot de passe de l'utilisateur.
+     *
+     * @param Request $request La requête HTTP, utilisée pour gérer le formulaire.
+     *
+     * @return Response La réponse HTTP, généralement une redirection après mise à jour réussie ou un rendu du formulaire.
+     */
     #[Route('/update_password', name: 'updatePassword', methods: ['GET','POST'])]
     public function update(Request $request,): Response
     {
@@ -45,7 +49,6 @@ class PasswordController extends AbstractController
             }
         }
 
-        // Afficher le formulaire dans la vue
         return $this->render('user/profil/update_password.html.twig', [
             'passwordForm' => $form->createView(),
         ]);
