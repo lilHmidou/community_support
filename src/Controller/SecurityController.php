@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserForm\RegistrationType;
 use App\security\UserAuthenticator;
 use App\Service\SecurityService\LoginService\LoginServiceImpl;
 use App\Service\SecurityService\RegistrationService\RegistrationServiceImpl;
@@ -92,58 +91,42 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-        // Traitez le formulaire d'inscription ici
-        /*$form = $this->registrationService->createRegistrationForm($user, [
-            'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
-        ]);*/
-        //dump($form);
-        $form = $this->createForm(RegistrationType::class, $user);
-
+        $form = $this->registrationService->createRegistrationForm(
+            $user,
+            ['validation_groups' => ['Default']]
+            // Ignorer les contraintes de validation spéciales
+        );
         $viewData = $this->securityFormService->prepareSecurityForm();
         $viewData['registrationForm'] = $form;
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted()) {
-            $errors = [];
-            try {
-                if ($form->isValid()) {
-                    $result = $this->registrationService->register($user, $form);
-                    if (isset($result['error'])) {
-                        $errors = $result['error'];
-                    }
-                    $this->addFlash('success', $result['success']);
-                    return $userAuthenticator->authenticateUser(
-                            $user,
-                            $authenticator,
-                            $request
-                    );
-                } else {
-                    foreach ($form->getErrors(true) as $error) {
-                        $errors[] = $error->getMessage();
-                    }
-                }
-            } catch (\Exception $e) {
-                // Gérer les exceptions inattendues
-                $errors[] = 'Une erreur inattendue s\'est produite. Veuillez réessayer plus tard.';
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Enregistrer l'utilisateur et gérer les validations
+            $result = $this->registrationService->register($user, $form);
+
+            if (isset($result['error'])) {
+                $this->addFlash('error', $result['error'][0]);
             }
 
-            if (!empty($errors)) {
-                // Ajouter seulement la première erreur au flash
-                $this->addFlash('error', $errors[0]);
+            elseif (isset($result['success'])) {
+                $this->addFlash('success', $result['success']);
 
-                // Redirigez vers le formulaire en cas d'erreur
-                return $this->redirectToRoute('register');
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
             }
         }
-        //dump($form->isSubmitted());
-        //dump($form->isValid());
-        //dd($form->getData());
 
-        // Préparation des données pour le rendu de la vue
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $formErrors = $form->getErrors(true);
+            $this->addFlash('error', $formErrors[0]->getMessage());
+        }
+
         $viewData['isCheckboxChecked'] = true;
 
-        // Redirigez l'utilisateur vers une page appropriée après la connexion ou l'inscription
         return $this->render('security/login-register.html.twig', $viewData);
     }
 }

@@ -12,7 +12,10 @@ class RoleRedirectorServiceImpl implements RoleRedirectorServiceInterface
     private UrlGeneratorInterface $urlGenerator;
     private TokenStorageInterface $tokenStorage;
 
-    public function __construct(UrlGeneratorInterface $urlGenerator, TokenStorageInterface $tokenStorage)
+    public function __construct(
+        UrlGeneratorInterface $urlGenerator,
+        TokenStorageInterface $tokenStorage
+    )
     {
         $this->urlGenerator = $urlGenerator;
         $this->tokenStorage = $tokenStorage;
@@ -41,6 +44,3 @@ class RoleRedirectorServiceImpl implements RoleRedirectorServiceInterface
         }
     }
 }
-
-
-?>

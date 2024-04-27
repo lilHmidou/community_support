@@ -15,8 +15,8 @@ class ProgramFormServiceImpl implements ProgramFormServiceInterface
     private EntityManagerInterface $entityManager;
 
     public function __construct(
-        FormFactoryInterface $formFactory,
-        EntityManagerInterface $entityManager
+        FormFactoryInterface    $formFactory,
+        EntityManagerInterface  $entityManager
     ) {
         $this->formFactory = $formFactory;
         $this->entityManager = $entityManager;

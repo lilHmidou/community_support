@@ -19,7 +19,7 @@ class ProgramManagementServiceImpl implements ProgramManagementServiceInterface
     public function __construct(
         EntityManagerInterface  $entityManager,
         ProgramRepository       $programRepository,
-        UserServiceInterface     $userService
+        UserServiceInterface    $userService
     ) {
         $this->entityManager = $entityManager;
         $this->programRepository = $programRepository;

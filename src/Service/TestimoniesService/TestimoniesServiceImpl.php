@@ -19,7 +19,7 @@ class TestimoniesServiceImpl implements TestimoniesServiceInterface
         $this->entityManager->persist($testimony);
         $this->entityManager->flush();
     }
-    public function getAllTestimonies()
+    public function getAllTestimonies(): array
     {
         return $this->entityManager->getRepository(Testimonies::class)->findAll();
     }

@@ -3,25 +3,28 @@
 namespace App\Service\SecurityService\RegistrationService;
 
 use App\Entity\User;
+use App\Exception\EmailAlreadyExistsException;
+use App\Exception\PasswordMismatchException;
 use App\Form\UserForm\RegistrationType;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\SecurityService\PasswordService\PasswordServiceImpl;
+use App\Service\SecurityService\ValidateRegistrationService\ValidateRegistrationServiceInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
 class RegistrationServiceImpl implements RegistrationServiceInterface
 {
-    private EntityManagerInterface $entityManager;
     private PasswordServiceImpl $passwordService;
     private FormFactoryInterface $formFactory;
+    private ValidateRegistrationServiceInterface $validateRegistrationService;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        PasswordServiceImpl    $passwordService,
-        FormFactoryInterface   $formFactory
+        PasswordServiceImpl                     $passwordService,
+        FormFactoryInterface                    $formFactory,
+        ValidateRegistrationServiceInterface    $validateRegistrationService
     ) {
-        $this->entityManager = $entityManager;
         $this->passwordService = $passwordService;
         $this->formFactory = $formFactory;
+        $this->validateRegistrationService = $validateRegistrationService;
     }
 
     public function createRegistrationForm(User $user = null) : FormInterface
@@ -30,48 +33,29 @@ class RegistrationServiceImpl implements RegistrationServiceInterface
     }
     public function register(User $user, FormInterface $form): array
     {
-        $errors = $this->validateRegistration($form, $user);
+        try {
+            $this->validateRegistrationService->checkEmailExists($user);
 
-        // Si des erreurs existent, renvoyer immédiatement
-        if (!empty($errors)) {
-            return ['error' => $errors];
+            $errors = $this->validateRegistrationService->validateFormErrors($form);
+            if (!empty($errors)) {
+                return ['error' => $errors];
+            }
+
+            $this->validateRegistrationService->checkPasswordMatch($form, 'now');
+
+            // Si tout est correct, procéder à la mise à jour du mot de passe et à l'inscription
+            $passwordData = $this->passwordService->getPasswordData($form, 'now');
+            $this->passwordService->updatePassword($user, $form, $passwordData, 'now');
+
+            return ['success' => "Vous êtes maintenant inscrit! Bienvenue sur la plateforme."];
+
+        } catch (EmailAlreadyExistsException | PasswordMismatchException $e) {
+            // Capture d'exceptions spécifiques
+            return ['error' => [$e->getMessage()]];
+
+        } catch (\Exception $e) {
+            // Gérer les exceptions inattendues
+            return ['error' => ['Une erreur inattendue s\'est produite: ' . $e->getMessage()]];
         }
-
-        $passwordData = $this->passwordService->getPasswordData($form);
-
-        // Hachage du mot de passe
-        $hashedPassword = $this->passwordService->hashPassword($user, $passwordData['plainPassword']);
-        $user->setPassword($hashedPassword);
-
-        // Persistance de l'utilisateur
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
-        return ['success' => "Vous êtes maintenant inscrit! Bienvenue sur la plateforme."];
-    }
-
-    public function validateRegistration(FormInterface $form, User $user): array
-    {
-        $errors = [];
-
-        // Ordre de vérifications des erreurs
-        // 1. Vérifier si l'e-mail existe déjà
-        $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-        if ($existingUser) {
-            $errors[] = "L'adresse e-mail existe déjà.";
-        }
-
-        // 2. Vérifier les erreurs du formulaire (ajouté dans les contraintes du formulaire)
-        foreach ($form->getErrors(true) as $error) {
-            $errors[] = $error->getMessage();
-        }
-
-        // 3. Vérifiez si les mots de passe correspondent
-        $passwordData = $this->passwordService->getPasswordData($form);
-        if (!$this->passwordService->checkPasswordMatch($passwordData)) {
-            $errors[] = 'Les mots de passe ne correspondent pas! Veuillez réessayer.';
-        }
-
-        return $errors;
     }
 }

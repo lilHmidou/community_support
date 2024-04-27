@@ -17,18 +17,17 @@ class EmailServiceImpl implements EmailServiceInterface
     private EntityManagerInterface $entityManager;
     private PostRepository $postRepository;
 
-    public function __construct(MailerInterface $mailer, EntityManagerInterface $entityManager, PostRepository $postRepository)
+    public function __construct(
+        MailerInterface         $mailer,
+        EntityManagerInterface  $entityManager,
+        PostRepository          $postRepository
+    )
     {
         $this->mailer = $mailer;
         $this->entityManager = $entityManager;
         $this->postRepository = $postRepository;
     }
 
-    /**
-     * Sends an email and logs the action in the database.
-     *
-     * @throws TransportExceptionInterface if there is an error sending the email.
-     */
     public function sendEmail(User $sender, User $recipient, string $subject, string $htmlContent): void
     {
         try {

@@ -12,8 +12,8 @@ class PostServiceImpl implements PostServiceInterface
     private UserServiceInterface $userService;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserServiceInterface $userService
+        EntityManagerInterface  $entityManager,
+        UserServiceInterface    $userService
     )
     {
         $this->entityManager = $entityManager;

@@ -5,9 +5,9 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityFormServiceImpl implements SecurityFormServiceInterface
 {
-    private $authenticationUtils;
+    private AuthenticationUtils $authenticationUtils;
 
-    public function __construct( AuthenticationUtils $authenticationUtils)
+    public function __construct(AuthenticationUtils $authenticationUtils)
     {
         $this->authenticationUtils = $authenticationUtils;
     }
@@ -15,13 +15,10 @@ class SecurityFormServiceImpl implements SecurityFormServiceInterface
     public function prepareSecurityForm(): array
     {
         $lastUsername = $this->authenticationUtils->getLastUsername();
-        $isCheckboxChecked= false;
 
-        $data = [
+        return [
             'last_username' => $lastUsername,
-            'isCheckboxChecked' => $isCheckboxChecked,
+            'isCheckboxChecked' => false,
         ];
-
-        return $data;
     }
 }

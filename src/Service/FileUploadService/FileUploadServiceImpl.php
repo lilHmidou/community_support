@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploadServiceImpl implements FileUploadServiceInterface
 {
-    private $docsDirectory;
+    private string|int|bool|array|null|float|\UnitEnum $docsDirectory;
 
     public function __construct(ParameterBagInterface $params)
     {

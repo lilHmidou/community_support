@@ -7,8 +7,6 @@ use Symfony\Component\Form\FormInterface;
 
 interface RegistrationServiceInterface
 {
-    public function createRegistrationForm(User $user): \Symfony\Component\Form\FormInterface;
-
+    public function createRegistrationForm(User $user): FormInterface;
     public function register(User $user, FormInterface $form): array;
-    public function validateRegistration(FormInterface $form, User $user): array;
 }

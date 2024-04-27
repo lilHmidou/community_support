@@ -1,5 +1,4 @@
 <?php
-// src/Service/ContactServiceImpl.php
 namespace App\Service\ContactService;
 
 use App\Entity\ContactMessage;
@@ -12,8 +11,8 @@ class ContactServiceImpl implements ContactServiceInterface
     private UserServiceInterface $userService;
 
     public function __construct(
-        EntityManagerInterface $entityManager,
-        UserServiceInterface $userService
+        EntityManagerInterface  $entityManager,
+        UserServiceInterface    $userService
     )
     {
         $this->entityManager = $entityManager;

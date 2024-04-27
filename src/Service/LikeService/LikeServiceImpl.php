@@ -16,9 +16,9 @@ class LikeServiceImpl implements LikeServiceInterface
     private EntityManagerInterface $entityManager;
 
     public function __construct(
-        PostLikeRepository $postLikeRepository,
-        Security $security,
-        EntityManagerInterface $entityManager
+        PostLikeRepository      $postLikeRepository,
+        Security                $security,
+        EntityManagerInterface  $entityManager
     )
     {
         $this->postLikeRepository = $postLikeRepository;
