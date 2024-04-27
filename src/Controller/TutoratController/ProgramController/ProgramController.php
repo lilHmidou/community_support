@@ -4,8 +4,8 @@ namespace App\Controller\TutoratController\ProgramController;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
-use App\Service\TutoratService\ProgramService\ProgramFormServiceInterface;
-use App\Service\TutoratService\ProgramService\ProgramManagementServiceInterface;
+use App\Service\TutoratService\ProgramService\ProgramFormService\ProgramFormServiceInterface;
+use App\Service\TutoratService\ProgramService\ProgramManagementService\ProgramManagementServiceInterface;
 use App\Service\UserService\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -20,9 +20,9 @@ class ProgramController extends AbstractController
     private UserServiceInterface $userService;
 
     public function __construct(
-        ProgramManagementServiceInterface  $programManagementService,
-        ProgramFormServiceInterface $programFormService,
-        UserServiceInterface     $userService
+        ProgramManagementServiceInterface   $programManagementService,
+        ProgramFormServiceInterface         $programFormService,
+        UserServiceInterface                $userService
     )
     {
         $this->programManagementService = $programManagementService;

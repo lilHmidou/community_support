@@ -3,13 +3,13 @@
 namespace App\Controller\TutoratController\ProgramController;
 
 use App\Service\TutoratService\EtudiantService\EtudiantServiceInterface;
-use App\Service\TutoratService\ProgramService\ProgramManagementServiceInterface;
-use App\Service\TutoratService\ProgramService\ProgramParticipationServiceInterface;
+use App\Service\TutoratService\ProgramService\ProgramManagementService\ProgramManagementServiceInterface;
+use App\Service\TutoratService\ProgramService\ProgramParticipationService\ProgramParticipationServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ProgramParticipationControler extends AbstractController
+class ProgramParticipationController extends AbstractController
 {
     private ProgramManagementServiceInterface $programManagementService;
     private ProgramParticipationServiceInterface $programParticipationService;

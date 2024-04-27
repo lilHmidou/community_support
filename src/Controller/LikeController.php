@@ -7,7 +7,6 @@ use App\Service\LikeService\LikeServiceInterface;
 use App\Service\UserService\UserServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class LikeController extends AbstractController
@@ -58,27 +57,5 @@ class LikeController extends AbstractController
         $this->likeService->deletePostLike($post, $user);
 
         return new JsonResponse(['likes' => $post->getLike()]);
-    }
-
-    /**
-     * Affiche tous les posts likés par l'utilisateur actuel.
-     *
-     * @return Response La réponse HTTP contenant la liste des posts likés.
-     */
-    #[Route('/my_likes', name: 'list_my_likes')]
-    public function showMyLikes(): Response
-    {
-        if ($this->userService->isLogin()) {
-            $user = $this->userService->getUser();
-        } else {
-            $this->addFlash('warning', 'Vous devez vous connecter pour voir vos likes.');
-            return $this->redirectToRoute('login');
-        }
-
-        $likedPosts = $this->likeService->getPostsLikedByUser($user);
-
-        return $this->render('user/eventPost/likes.html.twig', [
-            'likedPosts' => $likedPosts,
-        ]);
     }
 }
