@@ -60,4 +60,9 @@ class PostServiceImpl implements PostServiceInterface
         $this->entityManager->remove($post);
         $this->entityManager->flush();
     }
+
+    public function findAllPostsByUser($user): array
+    {
+        return $this->entityManager->getRepository(Post::class)->findBy(['user' => $user]);
+    }
 }

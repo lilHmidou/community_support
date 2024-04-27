@@ -11,4 +11,5 @@ interface PostServiceInterface
     public function createPost(Post $post): void;
     public function updatePost(Post $post): void;
     public function deletePost(Post $post): void;
+    public function findAllPostsByUser($user): array;
 }

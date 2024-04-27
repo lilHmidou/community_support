@@ -2,61 +2,70 @@
 
 namespace App\Controller\UserController;
 
-use App\Entity\Post;
-use App\Form\SolidarityPostType;
-use App\Form\UserForm\NewPasswordType;
-use App\Form\UserForm\ProfilType;
-use App\Repository\PostRepository;
-use App\security\UserAuthenticator;
+use App\Service\PostService\PostServiceInterface;
 use App\Service\RoleService\RoleRedirectorServiceImpl;
-use App\Service\UserService\UserServiceInterface;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Service\TutoratService\ProgramService\ProgramManagementServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
-use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
+#[Route('/user')]
 class UserController extends AbstractController
 {
-    private UserServiceInterface $userService;
+    private PostServiceInterface $postService;
+    private ProgramManagementServiceInterface $programManagementService;
 
-    public function __construct(UserServiceInterface $userService)
+    public function __construct(
+        PostServiceInterface    $postService,
+        ProgramManagementServiceInterface $programManagementService
+    )
     {
-        $this->userService = $userService;
+        $this->postService = $postService;
+        $this->programManagementService = $programManagementService;
     }
-    #[Route('/user', name: 'user')]
-    public function index(RoleRedirectorServiceImpl $roleRedirectorService, SessionInterface $session): Response
+
+    /**
+     * Affiche la page d'accueil de l'utilisateur.
+     *
+     * @param RoleRedirectorServiceImpl $roleRedirectService Service pour gérer les redirections basées sur les rôles
+     * @param SessionInterface $session Interface pour gérer les sessions
+     *
+     * @return Response La réponse HTTP avec la page d'accueil de l'utilisateur
+     */
+    #[Route('', name: 'user')]
+    public function index(RoleRedirectorServiceImpl $roleRedirectService, SessionInterface $session): Response
     {
-        $roleRedirectorService->addSuccessMessage($session);
+        $roleRedirectService->addSuccessMessage($session);
         return $this->render('home/index.html.twig');
     }
 
+    /**
+     * Affiche les publications de l'utilisateur connecté.
+     *
+     * @return Response La réponse HTTP avec les publications de l'utilisateur
+     */
     #[Route('/my_posts', name: 'list_my_posts')]
-    public function showMyPosts(PostRepository $postRepository): Response
+    public function showMyPosts(): Response
     {
-        $userId = $this->getUser()->getId();
-        $userPosts = $postRepository->findAllPostsByUserId($userId);
+        $user = $this->getUser();
+        $userPosts = $this->postService->findAllPostsByUser($user);
 
         return $this->render('user/eventPost/event_posts.html.twig', [
             'userPosts' => $userPosts,
         ]);
     }
 
+    /**
+     * Affiche les programmes de tutorat de l'utilisateur connecté.
+     *
+     * @return Response La réponse HTTP avec les programmes de tutorat de l'utilisateur
+     */
     #[Route('/my_program', name: 'list_program_posts')]
     public function showMyPrograms() : Response
     {
         $user = $this->getUser();
-        $programs=null;
-
-        if ($user->hasRole('ROLE_MENTOR')) {
-            $programs = $user->getUserTutorat()->getMentorPrograms();
-        } elseif ($user->hasRole('ROLE_ETUDIANT')) {
-            $programs = $user->getUserTutorat()->getEtudiantPrograms();
-        }
+        $programs = $this->programManagementService->getUserPrograms($user);
 
         return $this->render('tutorat/program_posts.html.twig', [
             'programs' => $programs,
