@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\TutoratService\ProgramService;
+namespace App\Service\TutoratService\ProgramService\ProgramParticipationService;
 
 use App\Entity\Etudiant;
 use App\Entity\Program;

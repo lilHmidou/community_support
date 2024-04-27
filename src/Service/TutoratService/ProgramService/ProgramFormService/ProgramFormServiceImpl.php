@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\TutoratService\ProgramService;
+namespace App\Service\TutoratService\ProgramService\ProgramFormService;
 
 use App\Entity\Program;
 use App\Form\ProgramType;
@@ -9,7 +9,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-class ProgramFormServiceImpl
+class ProgramFormServiceImpl implements ProgramFormServiceInterface
 {
     private FormFactoryInterface $formFactory;
     private EntityManagerInterface $entityManager;

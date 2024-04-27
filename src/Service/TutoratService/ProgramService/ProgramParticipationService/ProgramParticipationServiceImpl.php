@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Service\TutoratService\ProgramService;
+namespace App\Service\TutoratService\ProgramService\ProgramParticipationService;
 
 use App\Entity\Etudiant;
 use App\Entity\Program;
 use Doctrine\ORM\EntityManagerInterface;
 
-class ProgramParticipationServiceImpl
+class ProgramParticipationServiceImpl implements ProgramParticipationServiceInterface
 {
     private EntityManagerInterface $entityManager;
 

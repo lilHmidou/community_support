@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service\TutoratService\ProgramService;
+namespace App\Service\TutoratService\ProgramService\ProgramFormService;
 
 use App\Entity\Program;
 use Symfony\Component\Form\FormInterface;

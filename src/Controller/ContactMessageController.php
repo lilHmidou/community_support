@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller\ContactController;
+namespace App\Controller;
 
 use App\Form\ContactMessageFormType;
 use App\Service\ContactService\ContactServiceInterface;

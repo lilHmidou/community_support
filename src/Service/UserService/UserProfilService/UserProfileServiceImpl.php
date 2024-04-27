@@ -4,7 +4,7 @@ namespace App\Service\UserService\UserProfilService;
 
 use App\Entity\Mentor;
 use App\Form\UserForm\ProfilType;
-use App\Service\TutoratService\ProgramService\ProgramServiceInterface;
+use App\Service\TutoratService\ProgramService\ProgramManagementService\ProgramManagementServiceInterface;
 use App\Service\UserService\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -16,19 +16,19 @@ class UserProfileServiceImpl implements UserProfileServiceInterface
     private FormFactoryInterface $formFactory;
     private UserServiceInterface $userService;
     private EntityManagerInterface $entityManager;
-    private ProgramServiceInterface $programService;
+    private ProgramManagementServiceInterface $programManagementService;
 
     public function __construct(
         FormFactoryInterface    $formFactory,
         UserServiceInterface    $userService,
         EntityManagerInterface  $entityManager,
-        ProgramServiceInterface $programService
+        ProgramManagementServiceInterface $programManagementService
     )
     {
         $this->formFactory = $formFactory;
         $this->userService = $userService;
         $this->entityManager = $entityManager;
-        $this->programService = $programService;
+        $this->programManagementService = $programManagementService;
     }
 
     public function createProfilForm(): FormInterface
@@ -49,7 +49,7 @@ class UserProfileServiceImpl implements UserProfileServiceInterface
         $mentor = $user->getUserTutorat();
 
         if ($mentor instanceof Mentor) {
-            $this->programService->removeMentorPrograms($mentor);
+            $this->programManagementService->removeMentorPrograms($mentor);
         }
         $this->entityManager->remove($user);
         $this->entityManager->flush();
