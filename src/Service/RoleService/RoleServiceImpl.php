@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class RoleServiceImpl implements RoleServiceInterface
 {
-    private $entityManager;
+    private EntityManagerInterface $entityManager;
 
     public function __construct(EntityManagerInterface $entityManager)
     {
@@ -16,10 +16,8 @@ class RoleServiceImpl implements RoleServiceInterface
 
     public function updateRole(User $user, array $newRoles): void
     {
-        // Mettez à jour les rôles de l'utilisateur
         $user->setRoles($newRoles);
 
-        // Persistez les changements dans la base de données
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }
@@ -40,7 +38,6 @@ class RoleServiceImpl implements RoleServiceInterface
         // Mettre à jour les rôles de l'utilisateur
         $user->setRoles($roles);
 
-        // Persistez les changements dans la base de données
         $this->entityManager->persist($user);
         $this->entityManager->flush();
     }

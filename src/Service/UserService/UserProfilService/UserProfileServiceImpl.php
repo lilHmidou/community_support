@@ -19,10 +19,10 @@ class UserProfileServiceImpl implements UserProfileServiceInterface
     private ProgramManagementServiceInterface $programManagementService;
 
     public function __construct(
-        FormFactoryInterface    $formFactory,
-        UserServiceInterface    $userService,
-        EntityManagerInterface  $entityManager,
-        ProgramManagementServiceInterface $programManagementService
+        FormFactoryInterface                $formFactory,
+        UserServiceInterface                $userService,
+        EntityManagerInterface              $entityManager,
+        ProgramManagementServiceInterface   $programManagementService
     )
     {
         $this->formFactory = $formFactory;
