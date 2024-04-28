@@ -6,5 +6,5 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
 interface LoginServiceInterface
 {
-    public function getLastLoginError() : AuthenticationException;
+    public function getLastLoginError() : ?AuthenticationException;
 }
