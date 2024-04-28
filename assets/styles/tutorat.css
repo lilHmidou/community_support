@@ -48,12 +48,12 @@
     color: #007BFF;
     font-weight: bold;
     font-size: 40px;
-    border-bottom: 1px solid #cccccc; /* Light grey border as a separator */
-    padding-bottom: 10px; /* Space between the number and the border */
-    margin-bottom: 10px; /* Space between the border and the text below */
+    border-bottom: 1px solid #cccccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
 }
 
-.table-text1 { /* Specific class for text inside .table-container0 */
+.table-text1 {
     font-weight: bold;
     color: darkslategrey; /* Set to a different color for distinction */
 }
@@ -63,41 +63,101 @@
     margin-top: 10%;
 }
 
-.container.mt-5 h1 {
+.container.mt-5 h1, #testimonies h2 {
     font-weight: bold;        /* Sets the font weight to bold */
     text-align: center;       /* Aligns the text to the center */
     color: #3A1700;           /* Sets the color */
-    font-size: 36px;          /* Sets the font size to 32px */
+    font-size: 36px;          /* Sets the font size to 36px */
     padding-bottom: 30px;     /* Adds padding at the bottom */
 }
 
-.purple {
-    background-color: #7E8AB8;
-    color: white;
-    padding: 10px 20px;
+
+.button-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 4rem;
+}
+
+a.btn.btn-primary, a.btn.btn-secondary {
     border-radius: 20px;
     font-size: 14px;
-    border: none;
     font-weight: bold;
+    padding: 10px 20px;
+    width: fit-content;
+    background-color: #7E8AB8;
+    color: white;
+    border: none;
     transition: transform 0.3s ease;
 }
 
-.purple:hover {
+a.btn.btn-secondary {
     background-color: white;
     color: #7E8AB8;
     border: 2px solid #7E8AB8;
-    transform: scale(1.1);
 }
+
+a.btn.btn-secondary:hover, a.btn.btn-primary:hover {
+    background-color: #7E8AB8;
+    color: white;
+    border: 2px solid #7E8AB8;
+}
+
+.button-wrapper a.btn:last-child {
+    margin-right: 0;
+}
+
 
 .programs-container {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    background-color: #F3F2E7;
+    border-radius: 10px;
 }
 
 .program-card {
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background-color: WHITE;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 920px;
+    margin-bottom: 30px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
+
+.program-card .title-event {
+    color: #3A1700; /* Dark brown for titles, matching .title1 */
+    font-weight: bold;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.program-card .desc-event {
+    color: #3A1700; /* Consistent text color for description */
+    font-size: 16px;
+    font-weight: lighter;
+    margin-bottom: 10px;
+}
+
+.program-card .date-creat {
+    font-size: 16px;
+    color: #777;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+.program-card .button-container {
+    display: flex;
+    align-items: center;
+    margin-top: 25px;
+}
+
+
