@@ -81,7 +81,9 @@
     margin-bottom: 4rem;
 }
 
-a.btn.btn-primary, a.btn.btn-secondary {
+
+a.btn.btn-primary,
+a.btn.btn-secondary {
     border-radius: 20px;
     font-size: 14px;
     font-weight: bold;
@@ -89,20 +91,28 @@ a.btn.btn-primary, a.btn.btn-secondary {
     width: fit-content;
     background-color: #7E8AB8;
     color: white;
-    border: none;
-    transition: transform 0.3s ease;
+    border: 1px solid transparent; /* Bordure transparente par défaut */
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.3s ease; /* Transition de la couleur de la bordure et de la taille */
 }
 
 a.btn.btn-secondary {
     background-color: white;
     color: #7E8AB8;
-    border: 2px solid #7E8AB8;
+    border-color: #7E8AB8;
 }
 
-a.btn.btn-secondary:hover, a.btn.btn-primary:hover {
+a.btn.btn-primary:hover {
     background-color: #7E8AB8;
     color: white;
-    border: 2px solid #7E8AB8;
+    border-color: #7E8AB8; /* Couleur de la bordure sur le hover */
+    transform: scale(1.05); /* Agrandissement au survol */
+}
+
+a.btn.btn-secondary:hover {
+    background-color: #7E8AB8;
+    color: white;
+    border-color: #7E8AB8; /* Couleur de la bordure sur le hover */
+    transform: scale(1.05);
 }
 
 .button-wrapper a.btn:last-child {

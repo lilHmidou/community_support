@@ -1,22 +1,23 @@
-div.d-flex .btn-primary {
+.mes-likes-container .d-flex .btn-primary {
     background-color: #7E8AB8;
     color: white;
     border-radius: 20px;
     padding: 10px 20px;
     font-weight: bold;
-    border: none;
+    border: 1px solid transparent; /* Bordure transparente par défaut */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transition de la couleur de la bordure */
 }
 
-div.d-flex .btn-primary:hover {
+.mes-likes-container .d-flex .btn-primary:hover {
     background-color: white;
     color: #7E8AB8;
-    border: 1px solid #7E8AB8;
+    border-color: #7E8AB8;
 }
 
 
 /* Card Styles */
-.card {
-    background-color: #F3F2E7;
+.mes-likes-container .card {
+    background-color: white;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
@@ -26,43 +27,42 @@ div.d-flex .btn-primary:hover {
     max-width: 920px; /* Limiting the card width */
 }
 
-.card-body {
+.mes-likes-container .card-body {
     padding: 20px;
 }
 
 /* Text and Heading Styles */
-h1 {
+.mes-likes-container h1 {
     text-align: center;
     color: #3A1700;
     font-size: 36px;
     padding-bottom: 30px;
 }
 
-h5.card-title {
+.mes-likes-container h5.card-title {
     color: #3A1700;
     font-weight: bold;
 }
 
-h6.card-subtitle {
+.mes-likes-container h6.card-subtitle {
     color: #777;
     font-size: 14px;
 }
 
-p.card-text {
+.mes-likes-container p.card-text {
     color: #3A1700;
     font-size: 16px;
     line-height: 1.5;
 }
 
-p {
+.mes-likes-container p {
     color: #3A1700;
     font-size: 16px;
     margin-top: 20px;
 }
 
-.no-likes {
+.mes-likes-container .no-likes {
     padding-left: 80px;
     color: #3A1700;
     font-size: 16px;
 }
-

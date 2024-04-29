@@ -20,25 +20,20 @@ body {
 body .container {
     background-color: var(--background-color);
     width: 90%;
-    max-width: 650px; /* Reduced width */
+    max-width: 650px;
     margin: 0 auto;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Ensures padding is included in width */
+    box-sizing: border-box;
     margin-bottom: 80px;
 }
 
 body .container {
     display: block;
-    flex: none; /* Resets any flex properties */
+    flex: none;
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-    color: var(--primary-color);
-}
 
 /* Styling for form elements */
 .form-control {
@@ -52,7 +47,7 @@ h1 {
 }
 
 /* Button styling */
-button.btn, .button-submit {
+.button.btn, .button-submit {
     background-color: var(--button-color);
     color: var(--primary-color);
     padding: 3px 30px;
