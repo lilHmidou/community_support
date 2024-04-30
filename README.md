@@ -1,7 +1,3 @@
-Merci pour la précision ! Je vais adapter le README pour un projet Symfony avec Composer. Voici une version mise à jour :
-
----
-
 # Community Support
 
 ## À propos du projet
@@ -66,7 +62,3 @@ Nous encourageons la contribution de la communauté ! Si vous souhaitez contribu
 3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
 4. Push sur la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrez une Pull Request
-
----
-
-Cette version devrait mieux correspondre à un projet Symfony. Assure-toi de vérifier et d'ajuster tous les détails techniques spécifiques à ton projet.
