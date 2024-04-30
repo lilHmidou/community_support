@@ -1,3 +1,7 @@
+Merci pour la précision ! Je vais adapter le README pour un projet Symfony avec Composer. Voici une version mise à jour :
+
+---
+
 # Community Support
 
 ## À propos du projet
@@ -13,9 +17,9 @@ Community Support est une plateforme d'échange de services bénévoles axée su
 
 ## Technologies utilisées
 
-- **Langages de programmation** : [Spécifiez les langages utilisés, par exemple, Python, JavaScript]
-- **Frameworks** : [Spécifiez les frameworks utilisés, par exemple, Django pour le backend, React pour le frontend]
-- **Base de données** : [Spécifiez le système de gestion de base de données, par exemple, PostgreSQL]
+- **Framework** : Symfony
+- **Gestionnaire de paquets** : Composer
+- **Base de données** : [Spécifiez le système de gestion de base de données, par exemple, MySQL]
 - **Autres technologies** : [Listez d'autres technologies clés ou outils utilisés, par exemple, Docker, AWS]
 
 ## Diagramme de classe
@@ -26,7 +30,9 @@ Community Support est une plateforme d'échange de services bénévoles axée su
 
 ### Prérequis
 
-- [Liste des prérequis nécessaires pour installer le projet, par exemple, Node.js, Python, etc.]
+- PHP 7.4 ou plus
+- Composer
+- Symfony CLI
 
 ### Installation
 
@@ -34,18 +40,16 @@ Community Support est une plateforme d'échange de services bénévoles axée su
    ```bash
    git clone https://your-repository-url.com
    ```
-2. Installez les dépendances :
+2. Installez les dépendances via Composer :
    ```bash
    cd your-project-name
-   npm install  # Pour un projet Node.js, ajustez selon votre stack
+   composer install
    ```
-3. Configurez votre environnement :
+3. Télécharger notre base de donnée.
+4.Configurez votre fichier .env pour connecter votre base de données et autres services externes.
+5. Lancez le serveur de développement Symfony :
    ```bash
-   cp .env.example .env  # Et modifiez .env avec vos propres variables
-   ```
-4. Lancez le serveur :
-   ```bash
-   npm start  # Ou la commande appropriée pour votre projet
+   symfony server:start
    ```
 
 ## Liens utiles
@@ -62,3 +66,7 @@ Nous encourageons la contribution de la communauté ! Si vous souhaitez contribu
 3. Commit vos changements (`git commit -m 'Add some AmazingFeature'`)
 4. Push sur la branche (`git push origin feature/AmazingFeature`)
 5. Ouvrez une Pull Request
+
+---
+
+Cette version devrait mieux correspondre à un projet Symfony. Assure-toi de vérifier et d'ajuster tous les détails techniques spécifiques à ton projet.
