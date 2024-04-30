@@ -15,12 +15,12 @@ Community Support est une plateforme d'échange de services bénévoles axée su
 
 - **Framework** : Symfony
 - **Gestionnaire de paquets** : Composer
-- **Base de données** : [Spécifiez le système de gestion de base de données, par exemple, MySQL]
-- **Autres technologies** : [Listez d'autres technologies clés ou outils utilisés, par exemple, Docker, AWS]
+- **Base de données** : PHPMyAdmin
+- **Autres technologies** : Twig, HTML/CSS/JavaScript
 
 ## Diagramme de classe
 
-[Incluez ici un diagramme de classe ou un lien vers celui-ci pour montrer l'architecture de votre application.]
+[VOIR Notion]
 
 ## Commencer
 
@@ -51,7 +51,7 @@ Community Support est une plateforme d'échange de services bénévoles axée su
 ## Liens utiles
 
 - **Documentation Notion** : [Community Project sur Notion](https://neat-suede-973.notion.site/Community-Project-491e2292fc7a4246b188dcd3ee81eaea?pvs=4)
-- **Base de données** : [Accédez à la base de données](https://drive.google.com/drive/u/0/home)
+- **Base de données** : [Accédez à la base de données](https://drive.google.com/file/d/14bM4MFCykvjDVmHakvtLzKb4x1Rmef4T/view?usp=sharing)
 
 ## Contribuer
 
