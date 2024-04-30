@@ -2,7 +2,9 @@
 
 namespace App\Controller\UserController;
 
+use App\Repository\EventParticipationRepository;
 use App\Service\LikeService\LikeServiceInterface;
+use App\Service\ParticipationService\ParticipationServiceInterface;
 use App\Service\PostService\PostServiceInterface;
 use App\Service\RoleService\RoleRedirectorServiceImpl;
 use App\Service\TutoratService\ProgramService\ProgramManagementService\ProgramManagementServiceInterface;
@@ -19,18 +21,22 @@ class UserController extends AbstractController
     private ProgramManagementServiceInterface $programManagementService;
     private UserServiceInterface $userService;
     private LikeServiceInterface $likeService;
+    private ParticipationServiceInterface $participationService;
 
     public function __construct(
         PostServiceInterface                $postService,
         ProgramManagementServiceInterface   $programManagementService,
         UserServiceInterface                $userService,
-        LikeServiceInterface                $likeService
+        LikeServiceInterface                $likeService,
+        ParticipationServiceInterface       $participationService
     )
     {
         $this->postService = $postService;
         $this->programManagementService = $programManagementService;
         $this->userService = $userService;
         $this->likeService = $likeService;
+        $this->participationService = $participationService;
+
     }
 
     /**
@@ -99,6 +105,26 @@ class UserController extends AbstractController
 
         return $this->render('tutorat/program_posts.html.twig', [
             'programs' => $programs,
+        ]);
+    }
+
+    #[Route('/my_participations', name: 'list_my_participations')]
+    public function showMyParticipation() : Response
+    {
+        $user = $this->getUser();
+
+        // Vérifier si l'utilisateur est connecté
+        if (!$user) {
+            // Gérer l'erreur, par exemple rediriger vers la page de connexion
+            // ...
+        }
+
+        // Récupérer les participations de l'utilisateur connecté
+
+        $participations = $this->participationService->getParticipationByUser($user);
+
+        return $this->render('user/eventPost/participation.html.twig', [
+            'participations' => $participations,
         ]);
     }
 }

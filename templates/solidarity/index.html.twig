@@ -74,6 +74,11 @@
 
                 <p class="title-event">{{ event.title }}</p>
                 <p class="desc-event"> {{ event.description }}</p>
+                <p class="info"> Détails de l'événement</p>
+                <p class="location-event"> Lieu : {{ event.location }}</p>
+                <p class="date-event"> Date : {{ event.eventDate|date('d/m/Y') }}</p>
+                <p class="address-event"> Adresse de rencontre : {{ event.meetingAddress }}</p>
+                <p class="location-event"> Heure de début : {{ event.startTime }}</p>
                 <div class="button-container">
                     <a href="{{ path('participate', {'eventId': event.id}) }}" class="purple">JE PARTICIPE</a>
                     <button class="explore" data-bs-toggle="modal" data-bs-target="#contactModal-{{ event.id }}">CONTACTER L'ORGANISATEUR</button>

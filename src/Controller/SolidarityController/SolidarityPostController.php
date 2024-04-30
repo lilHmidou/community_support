@@ -2,13 +2,16 @@
 
 namespace App\Controller\SolidarityController;
 
+use App\Entity\EventParticipation;
 use App\Entity\Post;
 use App\Form\SolidarityPostType;
 use App\Repository\PostRepository;
+use App\Service\ParticipationService\ParticipationServiceInterface;
 use App\Service\PostService\PostServiceInterface;
 use App\Service\UserService\UserServiceInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,16 +21,19 @@ class SolidarityPostController extends AbstractController
     private EntityManagerInterface $entityManager;
     private UserServiceInterface $userService;
     private PostServiceInterface $postService;
+    private ParticipationServiceInterface $participationService;
 
     public function __construct(
         EntityManagerInterface  $entityManager,
         UserServiceInterface    $userService,
-        PostServiceInterface    $postService
+        PostServiceInterface    $postService,
+        ParticipationServiceInterface $participationService
     )
     {
         $this->entityManager = $entityManager;
         $this->userService = $userService;
         $this->postService = $postService;
+        $this->participationService = $participationService;
     }
 
     /**
@@ -107,5 +113,39 @@ class SolidarityPostController extends AbstractController
         $this->addFlash('success', 'Votre publication a été supprimée.');
 
         return $this->redirectToRoute('list_my_posts', ['userId' => $post->getUser()->getId()]);
+    }
+
+    #[Route('/participate/{eventId}', name: 'participate')]
+    public function participate(Request $request, int $eventId): Response
+    {
+
+        $userId = $this->getUser()->getId();
+
+        // Vérifier si l'utilisateur et l'événement existent
+        if (!$userId) {
+            $this->addFlash('error', 'Une erreur s\'est produite lors de la participation à l\'événement. Veuillez réessayer.');
+            return $this->render('solidarity/validation.html.twig');
+        }
+
+        $existingParticipation = $this->participationService->findParticipationByUserAndEvent($userId, $eventId);
+
+
+        if ($existingParticipation) {
+            $this->addFlash('error', 'Vous participez déjà à cet événement.');
+            return $this->render('solidarity/validation.html.twig');
+        }
+
+        // Créer une nouvelle instance d'EventParticipation et l'associer à l'utilisateur et à l'événement
+        $eventParticipation = new EventParticipation();
+        $eventParticipation->setUserId($userId);
+        $eventParticipation->setPostId($eventId);
+
+        // Enregistrer l'entité dans la base de données
+        $this->entityManager->persist($eventParticipation);
+        $this->entityManager->flush();
+
+        // Retourner une réponse avec un message de succès
+        $this->addFlash('success', 'Vous avez participé à l\'événement avec succès.');
+        return $this->render('solidarity/validation.html.twig');
     }
 }

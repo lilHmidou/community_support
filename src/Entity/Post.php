@@ -28,6 +28,21 @@ class Post
     #[Assert\Length(max: 255)]
     private ?string $Description = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $meetingAddress = null;
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
+    private ?\DateTimeImmutable $eventDate = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
+    private ?string $startTime = null;
+
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     #[Assert\NotBlank]
     private ?\DateTimeImmutable $createdAtPost = null;
@@ -42,9 +57,6 @@ class Post
 
     #[ORM\Column(type: 'integer')]
     private ?int $Nb_Like = null;
-
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
-    private Collection $Message;
 
     /**
      * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
@@ -62,7 +74,6 @@ class Post
 
     public function __construct()
     {
-        $this->Message = new ArrayCollection();
         $this->createdAtPost = new \DateTimeImmutable();
         $this->likes = new ArrayCollection();
     }
@@ -92,6 +103,42 @@ class Post
     public function setDescription(string $Description): static
     {
         $this->Description = $Description;
+
+        return $this;
+    }
+
+    public function getMeetingAddress(): ?string
+    {
+        return $this->meetingAddress;
+    }
+
+    public function setMeetingAddress(?string $meetingAddress): static
+    {
+        $this->meetingAddress = $meetingAddress;
+
+        return $this;
+    }
+
+    public function getEventDate(): ?\DateTimeInterface
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate(\DateTimeImmutable $eventDate): static
+    {
+        $this->eventDate = $eventDate;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?String
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(String $startTime): static
+    {
+        $this->startTime = $startTime;
 
         return $this;
     }
@@ -156,36 +203,6 @@ class Post
         return "Title: " . $this->Title . ", Description: " . $this->Description . ", Location: " . $this->Location . ", Category: " . $this->Category . ", Created At: " . $this->CreatedAt_Post->format('Y-m-d H:i:s');
     }
 
-
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessage(): Collection
-    {
-        return $this->Message;
-    }
-
-    public function addMessage(Message $message): static
-    {
-        if (!$this->Message->contains($message)) {
-            $this->Message->add($message);
-            $message->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): static
-    {
-        if ($this->Message->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getPost() === $this) {
-                $message->setPost(null);
-            }
-        }
-
-        return $this;
-    }
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
