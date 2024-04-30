@@ -6,6 +6,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('styles/solidarity.css') }}">
 {% endblock %}
 
@@ -31,118 +32,149 @@
     </div>
     <div class="contain">
         <br><br>
-        <p class="blue">LES DERNIERS EVENEMENTS</p>
-        <h3>Consultez les événements d'actualité</h3>
+        <p class="blue">ÉVÉNEMENTS</p>
+        <h3>Nos Événements</h3>
         <br>
         <div class="table-container1">
             {% for event in events %}
             <div class="col">
                 {% if event.category == "alimentaire" %}
-                    <img src="{{ asset ('images/solidarity/alimentaire.jpeg') }}" class="image" alt="Image">
-                    <p class="date-creat">Evènement alimentaire</p>
+                    <img src="{{ asset ('images/solidarity/sol.jpeg') }}" class="image" alt="Image">
+                    <p class="date-creat"></p>
                 {% else %}
                     {% if event.category == "communautaire" %}
-                        <img src="{{ asset ('images/solidarity/communautaire.jpeg') }}" class="image" alt="Image">
-                        <p class="date-creat">Evènement communautaire</p>
+                        <img src="{{ asset ('images/solidarity/sol3.jpeg') }}" class="image" alt="Image">
+                        <p class="date-creat"></p>
                     {% else %}
                         {% if event.category == "environnemental" %}
-                            <img src="{{ asset ('images/solidarity/environnemental.jpeg') }}" class="image" alt="Image">
-                            <p class="date-creat">Evènement environnemental</p>
+                            <img src="{{ asset ('images/solidarity/sol1.jpeg') }}" class="image" alt="Image">
+                            <p class="date-creat"></p>
                         {% else %}
                             {% if event.category == "sensibilisation" %}
-                                <img src="{{ asset ('images/solidarity/sensibilisation.jpeg') }}" class="image" alt="Image">
-                                <p class="date-creat">Evènement de sensibilisation</p>
+                                <img src="{{ asset ('images/solidarity/sol2.jpeg') }}" class="image" alt="Image">
+                                <p class="date-creat"></p>
                             {% else %}
                                 <img src="{{ asset ('images/solidarity/solidarite.jpeg') }}" class="image" alt="Image">
-                                <p class="date-creat">Evènement de solidarité</p>
+                                <p class="date-creat"></p>
                             {% endif %}
                         {% endif %}
                     {% endif %}
                 {% endif %}
                 <br>
-                <button class="like-button" onclick="toggleLike(this)" data-post-id="{{ event.id }}">
-                    <svg class="heart-icon" viewBox="0 0 24 24">
-                        <path fill="red" d="M12,21.35l-1.45-1.32C5.4,15.36,2,12.28,2,8.5C2,5.42,4.42,3,7.5,3c1.74,0,3.41,0.81,4.5,2.09C13.09,3.81,14.76,3,16.5,3C19.58,3,22,5.42,22,8.5C22,12.28,18.6,15.36,13.45,19.03L12,20.35V21.35z"></path>
-                    </svg>
-                </button>
-                <span class="likes-count">Likes: {{ event.like }}</span>
+                <div class="like-container">
+                    <button class="like-button{% if likedStates[event.id] %} liked{% endif %}" onclick="toggleLike(this)" data-post-id="{{ event.id }}">
+                        {% if likedStates[event.id] %}
+                            <i class="fas fa-heart"></i>
+                        {% else %}
+                            <i class="far fa-heart"></i>
+                        {% endif %}
+                    </button>
+                    <span class="likes-count">{{ event.like }}</span>
+                </div>
 
                 <p class="title-event">{{ event.title }}</p>
+                <p class="desc-event"> {{ event.description }}</p>
+                <p class="info"> Détails de l'événement</p>
+                <p class="location-event"> Lieu : {{ event.location }}</p>
+                <p class="date-event"> Date : {{ event.eventDate|date('d/m/Y') }}</p>
+                <p class="address-event"> Adresse de rencontre : {{ event.meetingAddress }}</p>
+                <p class="location-event"> Heure de début : {{ event.startTime }}</p>
+                <div class="button-container">
+                    <a href="{{ path('participate', {'eventId': event.id}) }}" class="purple">JE PARTICIPE</a>
+                    <button class="explore" data-bs-toggle="modal" data-bs-target="#contactModal-{{ event.id }}">CONTACTER L'ORGANISATEUR</button>
+                </div>
                 <br>
-                <p class="desc-event">Description : {{ event.description }}</p>
-                <br>
-                <button class="purple">JE PARTICIPE</button>
-                <br>
-                <button class="explore">CONTACTER L'ORGANISATEUR</button>
-                <br>
-                <p class="date-creat">Posté le {{ event.createdAtP|date('Y-m-d') }} à {{ event.createdAtP|date('H:i:s') }}</p>
+                <p class="date-creat">Posté le {{ event.createdAtPost|date('Y-m-d') }} à {{ event.createdAtPost|date('H:i:s') }}</p>
             </div>
+                <!-- Modal for Contacting Organizer -->
+                <div class="modal fade" id="contactModal-{{ event.id }}" tabindex="-1" aria-labelledby="contactModalLabel-{{ event.id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="contactModalLabel-{{ event.id }}">Envoyer un message à l'organisateur</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form method="POST" action="{{ path('send_email', {'eventId': event.id}) }}">
+                                    <div class="mb-3">
+                                        <label for="message-text-{{ event.id }}" class="col-form-label">Message:</label>
+                                        <textarea class="form-control" id="message-text-{{ event.id }}" name="message" required></textarea>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                        <button type="submit" class="btn btn-primary">Envoyer le message</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             {% endfor %}
         </div>
     </div>
 
 
-    <script>
+    {% block javascripts %}
+        <script>
+            // Initialiser l'état de like pour chaque bouton
+            const likedStates = {{ likedStates|json_encode|raw }};
 
-        document.querySelectorAll('.like-button').forEach(button => {
-            button.addEventListener('click', () => {
-                const postId = button.getAttribute('data-post-id');
+            document.addEventListener('DOMContentLoaded', function() {
+                // Ajouter un écouteur d'événement à tous les boutons de like
+                document.querySelectorAll('.like-button').forEach(button => {
+                    const postId = button.getAttribute('data-post-id');
+                    // Initialiser l'état du bouton de like en fonction de likedStates
+                    button.classList.toggle('liked', likedStates[postId]);
 
-                if(pressed) {
+                    button.addEventListener('click', () => {
+                        toggleLike(button);
 
-                    const requestOptions = {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json', // Assurez-vous que le contenu est JSON
-                        },
-                        body: JSON.stringify({ post_id: postId }), // Convertissez les données en JSON
-                    };
+                        if (likedStates[postId]) {
+                            // Si le post est déjà liké, supprimer le like
+                            fetch(`/remove_like/${postId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Mettre à jour le nombre de likes affiché
+                                    const likesCountElement = button.nextElementSibling;
+                                    likesCountElement.textContent = `Likes: ${data.likes}`;
+                                    // Mettre à jour l'état de like dans likedStates
+                                    likedStates[postId] = false;
+                                })
+                                .catch(error => console.error('Erreur lors de la demande de like:', error));
+                        } else {
+                            // Sinon, ajouter un like
+                            fetch(`/add_like/${postId}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    // Mettre à jour le nombre de likes affiché
+                                    const likesCountElement = button.nextElementSibling;
+                                    likesCountElement.textContent = `Likes: ${data.likes}`;
+                                    // Mettre à jour l'état de like dans likedStates
+                                    likedStates[postId] = true;
+                                })
+                                .catch(error => console.error('Erreur lors de la demande de like:', error));
+                        }
+                    });
+                });
 
-                    fetch(`/add_like/${postId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const likesCountElement = document.querySelector(`.likes-count[data-post-id="${postId}"]`);
-                            likesCountElement.textContent = `Likes: ${data.likes}`;
-                        })
-                        .catch(error => console.error('Erreur lors de la demande de like:', error));
-                }else{
+                // Fonction pour basculer l'état de like
+                function toggleLike(button) {
+                    button.classList.toggle('liked');
+                    // Sélectionner l'icône du cœur à l'intérieur du bouton
+                    var heartIcon = button.querySelector('i.fa-heart');
 
-                    fetch(`/remove_like/${postId}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            const likesCountElement = document.querySelector(`.likes-count[data-post-id="${postId}"]`);
-                            likesCountElement.textContent = `Likes: ${data.likes}`;
-                        })
-                        .catch(error => console.error('Erreur lors de la demande de like:', error));
-
+                    // Inverser les classes d'icône (vide <-> rempli)
+                    if (heartIcon.classList.contains('far')) {
+                        heartIcon.classList.remove('far');
+                        heartIcon.classList.add('fas');
+                    } else {
+                        heartIcon.classList.remove('fas');
+                        heartIcon.classList.add('far');
+                    }
                 }
-
             });
-
-        });
-
-        var pressed = false;
-
-        function toggleLike(button) {
-            var likesCountElement = button.nextElementSibling;
-            var currentLikes = parseInt(likesCountElement.innerText.split(": ")[1]);
-
-            if (pressed) {
-                // Si le bouton est déjà désactivé, réactiver le bouton et soustraire 1 au nombre de likes
-                pressed = false;
-                var newLikes = currentLikes - 1;
-                likesCountElement.innerText = "Likes: " + newLikes;
-            } else {
-                // Si le bouton n'est pas désactivé, activer le bouton et ajouter 1 au nombre de likes
-                pressed = true;
-                var newLikes = currentLikes + 1;
-                likesCountElement.innerText = "Likes: " + newLikes;
-            }
-        }
-
-
-
-    </script>
+        </script>
+    {% endblock %}
 
 
 

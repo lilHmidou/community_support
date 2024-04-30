@@ -3,10 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Generator\UserGenerator\UserFormGenerator;
-use App\Generator\UserGenerator\UserMdpGenerator;
-use App\Security\UserAuthenticator;
-use Doctrine\ORM\EntityManagerInterface;
+use App\security\UserAuthenticator;
+use App\Service\SecurityService\LoginService\LoginServiceImpl;
+use App\Service\SecurityService\RegistrationService\RegistrationServiceImpl;
+use App\Service\SecurityService\SecurityFormServiceImpl;
+use App\Service\UserService\UserServiceImpl;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,107 +16,117 @@ use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class SecurityController extends AbstractController
 {
-    private $userFormGenerator;
-    private $userMdpGenerator;
+    private SecurityFormServiceImpl $securityFormService;
+    private UserServiceImpl $userService;
+    private RegistrationServiceImpl $registrationService;
 
-    public function __construct(UserFormGenerator $userFormGenerator, UserMdpGenerator $userMdpGenerator)
+    public function __construct(
+        SecurityFormServiceImpl $securityFormService,
+        UserServiceImpl         $userService,
+        RegistrationServiceImpl $registrationService,
+    )
     {
-        $this->userFormGenerator = $userFormGenerator;
-        $this->userMdpGenerator = $userMdpGenerator;
-
+        $this->securityFormService = $securityFormService;
+        $this->userService = $userService;
+        $this->registrationService = $registrationService;
     }
 
+    /**
+     * Affiche le formulaire de connexion et traite les erreurs de connexion.
+     *
+     * @param LoginServiceImpl $loginService Le service de gestion de connexion.
+     *
+     * @return Response
+     */
     #[Route(path: '/login', name: 'login')]
-    public function login(UserFormGenerator $userFormGenerator): Response
+    public function login(LoginServiceImpl $loginService): Response
     {
         $user = new User();
         // Si l'utilisateur est déjà connecté, redirigez-le vers la page d'accueil
-        if ($this->getUser()) {
+        if ($this->userService->isLogin()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté.');
             return $this->redirectToRoute('home');
         }
 
-        $error = $this->userFormGenerator->getErrors();
+        $form = $this->registrationService->createRegistrationForm($user);
+        $viewData = $this->securityFormService->prepareSecurityForm();
 
-        // Ajoutez un message flash en cas d'erreur
+        //Obligé de le mettre, car les 2 formulaires sont sur la même page
+        $viewData['registrationForm'] = $form;
+
+        $error = $loginService->getLastLoginError();
+
         if ($error) {
             $this->addFlash('error', 'Votre email ou mot de passe est incorrect. Veuillez réessayer.');
         }
 
-        $form = $userFormGenerator->createRegistrationForm($user);
-        $viewData = $userFormGenerator->prepareUserForm();
-        $viewData['registrationForm'] = $form;
-
-
-        return $this->render('security/login-signup.html.twig', $viewData);
+        return $this->render('security/login-register.html.twig', $viewData);
     }
 
-    #[Route('/register', name: 'signup')]
-    public function create(
-        Request $request,
+    /**
+     * Gère le processus d'inscription des utilisateurs.
+     *
+     * Affiche le formulaire d'inscription et traite les soumissions.
+     * Si le formulaire est validé, enregistre un nouvel utilisateur et authentifie
+     * l'utilisateur nouvellement enregistré.
+     *
+     * @param Request $request L'objet de requête HTTP.
+     * @param UserAuthenticatorInterface $userAuthenticator L'interface d'authentification utilisateur.
+     * @param UserAuthenticator $authenticator Le service d'authentification.
+     *
+     * @return Response La réponse HTTP résultante, généralement le rendu du formulaire ou une redirection.
+     */
+    #[Route('/register', name: 'register', methods: ['GET','POST'])]
+    public function register(
+        Request                    $request,
         UserAuthenticatorInterface $userAuthenticator,
-        UserAuthenticator $authenticator,
-        EntityManagerInterface $entityManager,
-        UserFormGenerator $userFormGenerator, // Injecté via le paramètre de la méthode
-        UserMdpGenerator $userMdpGenerator // Injecté via le paramètre de la méthode
+        UserAuthenticator          $authenticator
     ): Response
     {
 
         $user = new User();
-        $form = $userFormGenerator->createRegistrationForm($user, [
-            'validation_groups' => ['Default'], // Ignorer les contraintes de validation spéciales
-        ]);
-        $form->handleRequest($request);
 
-        //Si il est déjà connecté, on le redirige vers la page d'accueil
-        if ($this->getUser()) {
+        if ($this->userService->isLogin()) {
+            $this->addFlash('error', 'Vous êtes déjà connecté.');
             return $this->redirectToRoute('home');
         }
+
+        $form = $this->registrationService->createRegistrationForm(
+            $user,
+            ['validation_groups' => ['Default']]
+            // Ignorer les contraintes de validation spéciales
+        );
+        $viewData = $this->securityFormService->prepareSecurityForm();
+        $viewData['registrationForm'] = $form;
+
+        $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
-            // Vérifiez si l'adresse e-mail existe déjà
-            $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $user->getEmail()]);
-            if ($existingUser) {
-                $this->addFlash('error', 'L\'adresse e-mail existe déjà.');
-                return $this->redirectToRoute('signup');
+            // Enregistrer l'utilisateur et gérer les validations
+            $result = $this->registrationService->register($user, $form);
+
+            if (isset($result['error'])) {
+                $this->addFlash('error', $result['error'][0]);
             }
 
-            // Récupération des données de mot de passe via le service
-            $passwordData = $userMdpGenerator->getPasswordData($form, $request);
-
-            // Utilisation de checkPasswordMatch pour vérifier la correspondance des mots de passe
-            if (!$userMdpGenerator->checkPasswordMatch($passwordData)) {
-                $this->addFlash('error', 'Les mots de passe ne sont pas identiques ! Veuillez réessayer.');
-                return $this->redirectToRoute('signup');
-            }
-
-            // Hachage du mot de passe
-            $hashedPassword = $this->userMdpGenerator->hashPassword($user, $passwordData['plainPassword']);
-            $user->setPassword($hashedPassword);
-
-            $entityManager->persist($user);
-            $entityManager->flush();
+            elseif (isset($result['success'])) {
+                $this->addFlash('success', $result['success']);
 
             return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,
                 $request
             );
-        } elseif ($form->isSubmitted()) {
-            // Récupérer toutes les erreurs de validation du formulaire
-            foreach ($form->getErrors(true) as $error) {
-                $errors[] = $error->getMessage();
             }
         }
 
-        // Si des erreurs ont été trouvées, n'ajouter que la première erreur au flash error
-        if (!empty($errors)) {
-            $this->addFlash('error', $errors[0]);
+        if ($form->isSubmitted() && !$form->isValid()) {
+            $formErrors = $form->getErrors(true);
+            $this->addFlash('error', $formErrors[0]->getMessage());
         }
 
-        // Préparation des données pour le rendu de la vue
-        $viewData = $userFormGenerator->prepareUserForm();
         $viewData['isCheckboxChecked'] = true;
-        $viewData['registrationForm'] = $form;
 
-        return $this->render('security/login-signup.html.twig', $viewData);
+        return $this->render('security/login-register.html.twig', $viewData);
     }
 }

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Solidarity
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/solidarity.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <br><br>
+    <div class="d-flex justify-content-center">
+        <a href="{{ path('solidarity') }}">
+            <button class="purple">RETOURNER AUX ÉVÉNEMENTS</button>
+        </a>
+    </div>
+    <br><br>
+
+{% endblock %}

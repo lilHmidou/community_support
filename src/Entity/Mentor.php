@@ -3,39 +3,93 @@
 namespace App\Entity;
 
 use App\Repository\MentorRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MentorRepository::class)]
 class Mentor extends UserTutorat
 {
 
     #[ORM\Column(length: 20)]
-    private ?string $LevelExperience = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 20)]
+    private ?string $levelExperience = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Avaibility = null;
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
+    private ?string $availability = null;
+
+    #[ORM\OneToMany(mappedBy: 'mentor', targetEntity: Program::class)]
+    private Collection $programs;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->programs = new ArrayCollection();
+    }
 
     public function getLevelExperience(): ?string
     {
-        return $this->LevelExperience;
+        return $this->levelExperience;
     }
 
-    public function setLevelExperience(string $LevelExperience): static
+    public function setLevelExperience(string $levelExperience): static
     {
-        $this->LevelExperience = $LevelExperience;
+        $this->levelExperience = $levelExperience;
 
         return $this;
     }
 
-    public function getAvaibility(): ?string
+    public function getAvailability(): ?string
     {
-        return $this->Avaibility;
+        return $this->availability;
     }
 
-    public function setAvaibility(string $Avaibility): static
+    public function setAvailability(string $availability): static
     {
-        $this->Avaibility = $Avaibility;
+        $this->availability = $availability;
 
         return $this;
     }
+
+    /**
+     * @return Collection|Program[]
+     */
+    public function getMentorPrograms(): Collection
+    {
+        return $this->programs;
+    }
+
+    public function addMentorProgram(Program $program): static
+    {
+        if (!$this->programs->contains($program)) {
+            $this->programs[] = $program;
+            $program->setMentor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMentorProgram(Program $program): static
+    {
+        if ($this->programs->removeElement($program)) {
+            // set the owning side to null (unless already changed)
+            if ($program->getMentor() === $this) {
+                $program->setMentor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        $user = $this->getUser();
+        $fullName = $user->getFirstName() . ' ' . $user->getLastName();
+        return $fullName. ' - ' . parent::__toString() . ' - ' . $this->levelExperience . ' - ' . $this->availability;
+    }
+
 }

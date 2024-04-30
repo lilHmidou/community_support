@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription de l'étudiant{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/tutoratForm.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="section text-center">
+        <a href="{{ path('registerMentor') }}" class="btn btn-primary mr-2" style="margin-left: -500px;">
+            Devenir Mentor
+        </a>
+        <div class="container mt-5">
+            {{ form_start(etudiantForm) }}
+
+            <h4 class="mb-3 pb-3">Inscription du l'étudiant</h4>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.Domain) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.LearningChoice) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.Comments) }}
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.LevelStudies) }}
+            </div>
+            <div class="form-group mt-2" style="display: flex;">
+                <i class="input-icon fa-solid fa-wheelchair"></i>
+                <label style="margin-left: 50px; margin-top: 10px;">Avez-vous un handicap ?</label>
+                <div style="margin-left: 85px; margin-top: 10px;">
+                    <span>{{ form_row(etudiantForm.Disability) }}</span>
+                </div>
+            </div>
+            <div class="form-group mt-2">
+                {{ form_row(etudiantForm.Doc) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">S'inscrire</button>
+
+            {{ form_end(etudiantForm) }}
+        </div>
+    </div>
+{% endblock %}

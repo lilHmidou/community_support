@@ -16,9 +16,9 @@
             <div class="col-md-6">
                 <!-- Contenu texte à gauche -->
                 <div class="top">
-                    <h1>Offrir de l'aide<br>aux moins<br>chanceux</h1><br>
-                    <h5>Il s'agit de contribuer à la communauté et<br>d'améliorer le monde.</h5><br>
-                    <button class="purple">FAIRE UN DON</button>
+                    <h1>Offrir de l'aide aux<br> moins chanceux</h1><br>
+                    <h5>Offrir de l'aide aux moins chanceux, en se concentrant sur l'éducation, est un moyen crucial de bâtir un avenir meilleur. En investissant dans l'éducation des individus défavorisés, nous renforçons les bases d'une société plus éclairée, plus équitable et plus prospère.
+                    </h5>
                 </div>
             </div>
             <div class="col-md-6">
@@ -77,7 +77,6 @@
                 <p>$4,373</p>
                 <p class="grey">$10,000 goal</p>
                 <progress value="4373" max="10000"></progress><br><br>
-                <button class="purple">FAIRE UN DON</button>
             </div>
             <div class="col">
                 <img src="{{ asset ('images/home/food.jpeg') }}" style="width: 100%;"><br><br>
@@ -85,7 +84,6 @@
                 <p>$5,200</p>
                 <p class="grey">$7,000 goal</p>
                 <progress value="5200" max="7000"></progress><br><br>
-                <button class="purple">FAIRE UN DON</button>
             </div>
             <div class="col">
                 <img src="{{ asset ('images/home/humanity.jpeg') }}" style="width: 100%;"><br><br>
@@ -93,13 +91,9 @@
                 <p>$27,890</p>
                 <p class="grey">$50,000 goal</p>
                 <progress value="27890" max="50000"></progress><br><br>
-                <button class="purple">FAIRE UN DON</button>
             </div>
         </div>
         <br><br>
-        <div class="text-center">
-            <button class="explore">EXPLORER TOUT</button>
-        </div>
         <br><br><br>
 
         <div class="band">
@@ -107,8 +101,10 @@
             <h1 style="font-family: 'Times New Roman', serif; font-weight: bold;">Rejoignez notre mission</h1>
             <br>
             <div style="display: inline-block; vertical-align: middle;">
-                <button class="button3">DEVENIR BÉNÉVOLE &#x2764;</button>
-                <button class="button3" style="margin-left: 50px;">FAIRE UN DON &#x2764;</button>
+                <a href="{{ path('contact') }}">
+                    <button class="button3">DEVENIR BÉNÉVOLE ❤️</button>
+                </a>
+
             </div>
         </div>
 
@@ -120,22 +116,25 @@
             <div class="col">
                 <h5> <img src="{{ asset ('images/home/charity.jpeg') }}" width='60' height='80'>Charité</h5><br>
                 <p>Une association caritative doit avoir<br>un ou plusieurs des objectifs définis par la loi.</p>
+                <a href="{{ path('about') }}">
                 <br><button class="purple">EN SAVOIR PLUS</button>
+                </a>
             </div>
             <div class="col">
                 <h5><img src="{{ asset ('images/home/education.jpeg') }}" width='60' height='80'>Education</h5><br>
                 <p>Ces objectifs comprennent des<br>domaines tels que : soulager la<br>pauvreté, l'éducation.</p>
+                <a href={{ path('tutorat') }}>
                 <br><button class="purple">EN SAVOIR PLUS</button>
+                </a>
             </div>
             <div class="col">
                 <h5><img src="{{ asset ('images/home/solidarity.jpeg') }}" width='70' height='80'>Solidarité</h5><br>
                 <p>Education, environnement, bien-être animal, droits de l'homme<br> et développement communautaire.</p>
+                <a href="{{ path('solidarity') }}">
                 <br><button class="purple">EN SAVOIR PLUS</button>
+                </a>
             </div>
         </div><br><br>
-        <div class="text-center">
-            <button class="explore">EXPLORER TOUT</button>
-        </div>
         <br><br><br>
     </div>
     </body>

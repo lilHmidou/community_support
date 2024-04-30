@@ -5,9 +5,12 @@ namespace App\Form;
 use App\Entity\Mentor;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class MentorType extends AbstractType
 {
@@ -19,8 +22,13 @@ class MentorType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Domaine d\'études'
                 ],
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-book"></i>',
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255
+                    ])
+                ],
             ])
             ->add('LearningChoice', ChoiceType::class, [
                 'choices' => [
@@ -33,13 +41,12 @@ class MentorType extends AbstractType
                     'Santé et bien-être' => 'Santé et bien-être',
                     'Droit et justice' => 'Droit et justice',
                     'Autre' => 'Autre',
-                    // Ajoutez autant d'options que nécessaire
                 ],
                 'attr' => [
                     'class' => 'form-style',
                 ],
-                'placeholder' => 'Choisissez ce que vous voulez apprendre',
-                'label' => '<i class="fa-solid fa-book"></i>',
+                'placeholder' => 'Choisissez ce que vous voulez enseigner',
+                'label' => '<i class="input-icon fa-solid fa-chalkboard-teacher"></i>',  // Icône de professeur
                 'label_html' => true,
             ])
             ->add('Comments', TextType::class, [
@@ -47,8 +54,13 @@ class MentorType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Commentaires'
                 ],
-                'label' => '<i class="fa-solid fa-comment"></i>',
+                'label' => '<i class="input-icon fa-solid fa-comment"></i>', // Icône de commentaire
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255
+                    ])
+                ],
             ])
             ->add('LevelExperience', ChoiceType::class, [
                 'choices' => [
@@ -56,29 +68,44 @@ class MentorType extends AbstractType
                     'Intermédiaire' => 'Intermédiaire',
                     'Avancé' => 'Avancé',
                     'Expert' => 'Expert',
-                    // Ajoutez autant d'options que nécessaire
                 ],
                 'attr' => [
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Niveau d\'expérience',
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-graduation-cap"></i>', // Icône de chapeau de diplômé
                 'label_html' => true,
             ])
-            ->add('Avaibility', ChoiceType::class, [
+            ->add('Availability', ChoiceType::class, [
                 'choices' => [
                     'Matin' => 'Matin',
                     'Après-midi' => 'Après-midi',
                     'Soir' => 'Soir',
                     'Week-end' => 'Week-end',
-                    // Ajoutez autant d'options que nécessaire
                 ],
                 'attr' => [
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Disponibilité',
-                'label' => '<i class="fa-solid fa-clock"></i>',
+                'label' => '<i class="input-icon fa-solid fa-clock"></i>', // Icône de montre ou horloge
                 'label_html' => true,
+            ])
+            ->add('Doc', FileType::class, [
+                'attr' => [
+                    'class' => 'form-style',
+                ],
+                'label' => 'Télécharger votre CV : ',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide',
+                    ]),
+                ],
             ])
         ;
     }

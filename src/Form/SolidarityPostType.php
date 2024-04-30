@@ -4,10 +4,12 @@ namespace App\Form;
 
 use App\Entity\Post;
 use App\Entity\User;
+use App\Validator\BanWord;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -20,11 +22,18 @@ class SolidarityPostType extends AbstractType
     {
         $builder
             ->add('title', TextType::class)
-            ->add('description', TextareaType::class)
+            ->add('description', TextareaType::class, [
+                'constraints' => [
+                    new BanWord()
+                ]
+            ])
             ->add('created_at_p', HiddenType::class, [
                 'mapped' => false,
             ])
             ->add('location', TextType::class)
+            ->add('event_date', DateType::class)
+            ->add('start_time', TextType::class)
+            ->add('meeting_address', TextType::class)
             ->add('category', ChoiceType::class, [
                 'choices' => [
                     'Alimentaire' => 'alimentaire',

@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -17,33 +19,49 @@ class Post
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
     private ?string $Title = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
     private ?string $Description = null;
 
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 255)]
+    private ?string $meetingAddress = null;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
-    private ?\DateTimeImmutable $CreatedAt_P = null;
+    #[Assert\NotBlank]
+    private ?\DateTimeImmutable $eventDate = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
+    #[Assert\Length(max: 50)]
+    private ?string $startTime = null;
+
+
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
+    private ?\DateTimeImmutable $createdAtPost = null;
+
+    #[ORM\Column(length: 50)]
+    #[Assert\Length(max: 50)]
     private ?string $Location = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\Length(max: 30)]
     private ?string $Category = null;
 
     #[ORM\Column(type: 'integer')]
     private ?int $Nb_Like = null;
 
-
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Message::class)]
-    private Collection $Message;
-
     /**
      * @ORM\OneToMany(targetEntity=PostLike::class, mappedBy="post")
      */
     private $likes;
-
-    // Autres méthodes de l'entité...
 
     /**
      * @return Collection|Like[]
@@ -56,8 +74,7 @@ class Post
 
     public function __construct()
     {
-        $this->Message = new ArrayCollection();
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->createdAtPost = new \DateTimeImmutable();
         $this->likes = new ArrayCollection();
     }
 
@@ -90,22 +107,58 @@ class Post
         return $this;
     }
 
-    public function getCreatedAtP(): ?\DateTimeImmutable
+    public function getMeetingAddress(): ?string
     {
-        return $this->CreatedAt_P;
+        return $this->meetingAddress;
     }
 
-    public function setCreatedAtP(\DateTimeImmutable $CreatedAt_P): static
+    public function setMeetingAddress(?string $meetingAddress): static
     {
-        $this->CreatedAt_P = $CreatedAt_P;
+        $this->meetingAddress = $meetingAddress;
+
+        return $this;
+    }
+
+    public function getEventDate(): ?\DateTimeInterface
+    {
+        return $this->eventDate;
+    }
+
+    public function setEventDate(\DateTimeImmutable $eventDate): static
+    {
+        $this->eventDate = $eventDate;
+
+        return $this;
+    }
+
+    public function getStartTime(): ?String
+    {
+        return $this->startTime;
+    }
+
+    public function setStartTime(String $startTime): static
+    {
+        $this->startTime = $startTime;
+
+        return $this;
+    }
+
+    public function getCreatedAtPost(): ?\DateTimeImmutable
+    {
+        return $this->createdAtPost;
+    }
+
+    public function setCreatedAtPost(\DateTimeImmutable $createdAtPost): static
+    {
+        $this->createdAtPost = $createdAtPost;
 
         return $this;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAtPValue(): void
+    public function setCreatedAtPostValue(): void
     {
-        $this->CreatedAt_P = new \DateTimeImmutable();
+        $this->createdAtPost = new \DateTimeImmutable();
     }
 
     public function getLocation(): ?string
@@ -145,35 +198,11 @@ class Post
         return $this;
     }
 
-    /**
-     * @return Collection<int, Message>
-     */
-    public function getMessage(): Collection
+    public function __toString(): string
     {
-        return $this->Message;
+        return "Title: " . $this->Title . ", Description: " . $this->Description . ", Location: " . $this->Location . ", Category: " . $this->Category . ", Created At: " . $this->CreatedAt_Post->format('Y-m-d H:i:s');
     }
 
-    public function addMessage(Message $message): static
-    {
-        if (!$this->Message->contains($message)) {
-            $this->Message->add($message);
-            $message->setPost($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMessage(Message $message): static
-    {
-        if ($this->Message->removeElement($message)) {
-            // set the owning side to null (unless already changed)
-            if ($message->getPost() === $this) {
-                $message->setPost(null);
-            }
-        }
-
-        return $this;
-    }
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
@@ -187,6 +216,18 @@ class Post
     public function setUser(?User $user): static
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getNbLike(): ?int
+    {
+        return $this->Nb_Like;
+    }
+
+    public function setNbLike(int $Nb_Like): static
+    {
+        $this->Nb_Like = $Nb_Like;
 
         return $this;
     }

@@ -5,13 +5,18 @@ document.addEventListener('DOMContentLoaded', function() {
     const passwordLogInField = document.getElementById('passwordLogInField');
     const confirmPasswordField = document.getElementById('confirmPasswordField');
 
-    toggleRegistrationButton.addEventListener('click', function() {
-        togglePasswordFieldVisibility(passwordRegistrationField, toggleRegistrationButton);
-        togglePasswordFieldVisibility(confirmPasswordField, toggleRegistrationButton);
-    });
-    toggleLogInButton.addEventListener('click', function() {
-        togglePasswordFieldVisibility(passwordLogInField, toggleLogInButton);
-    });
+    if (toggleRegistrationButton && passwordRegistrationField && confirmPasswordField) {
+        toggleRegistrationButton.addEventListener('click', function() {
+            togglePasswordFieldVisibility(passwordRegistrationField, toggleRegistrationButton);
+            togglePasswordFieldVisibility(confirmPasswordField, toggleRegistrationButton);
+        });
+    }
+
+    if (toggleLogInButton && passwordLogInField) {
+        toggleLogInButton.addEventListener('click', function() {
+            togglePasswordFieldVisibility(passwordLogInField, toggleLogInButton);
+        });
+    }
 
     function togglePasswordFieldVisibility(field, button) {
         if (field.type === 'password') {

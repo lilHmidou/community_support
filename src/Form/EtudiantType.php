@@ -8,6 +8,9 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints as Assert;
 
 class EtudiantType extends AbstractType
 {
@@ -19,8 +22,14 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Domaine d\'études'
                 ],
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-book"></i>',
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Length([
+                        'max' => 100
+                    ])
+                ],
             ])
             ->add('LearningChoice', ChoiceType::class, [
                 'choices' => [
@@ -33,13 +42,12 @@ class EtudiantType extends AbstractType
                     'Santé et bien-être' => 'Santé et bien-être',
                     'Droit et justice' => 'Droit et justice',
                     'Autre' => 'Autre',
-                    // Ajoutez autant d'options que nécessaire
                 ],
                 'attr' => [
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Choisissez ce que vous voulez apprendre',
-                'label' => '<i class="fa-solid fa-book"></i>',
+                'label' => '<i class="input-icon fa-solid fa-chalkboard-teacher"></i>',  // Icône de professeur
                 'label_html' => true,
             ])
             ->add('Comments', TextType::class, [
@@ -47,8 +55,13 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                     'placeholder' => 'Commentaires'
                 ],
-                'label' => '<i class="fa-solid fa-comment"></i>',
+                'label' => '<i class="input-icon fa-solid fa-comment"></i>', // Icône de commentaire
                 'label_html' => true,
+                'constraints' => [
+                    new Assert\Length([
+                        'max' => 255
+                    ])
+                ],
             ])
             ->add('LevelStudies', ChoiceType::class, [
                 'choices' => [
@@ -64,18 +77,39 @@ class EtudiantType extends AbstractType
                     'class' => 'form-style',
                 ],
                 'placeholder' => 'Votre niveau d\'études : ',
-                'label' => '<i class="fa-solid fa-graduation-cap"></i>',
+                'label' => '<i class="input-icon fa-solid fa-graduation-cap"></i>', // Icône de chapeau de diplômé
                 'label_html' => true,
             ])
             ->add('Disability', ChoiceType::class, [
+                'attr' => [
+                    'class' => 'form-select',
+                ],
                 'choices' => [
                     'Oui' => true,
                     'Non' => false,
                 ],
-                'expanded' => true,
-                'label' => '<i class="fa-solid fa-wheelchair"></i>',
-                'label_html' => true,
-            ]);
+                'label' => false,
+                'expanded' => true,  // Cette option génère des boutons radio au lieu d'une liste déroulante
+                'multiple' => false, // Sélection unique
+            ])
+            ->add('Doc', FileType::class, [
+                'attr' => [
+                    'class' => 'form-style',
+                ],
+                'label' => 'Télécharger votre lettre de Motivation : ',
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                        ],
+                        'mimeTypesMessage' => 'Veuillez télécharger un document PDF valide',
+                    ])
+                ],
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

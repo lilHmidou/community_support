@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mes Likes {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/mesLikes.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="mes-likes-container">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{{ path('solidarity') }}" class="btn btn-primary">
+                Voir les posts
+            </a>
+        </div>
+
+        <h1>Mes Likes</h1>
+        {% for like in likedPosts %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ like.title }}</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">{{ like.createdAtPost|date('d/m/Y') }}</h6>
+                    <br>
+                    <p class="card-text">{{ like.description }}</p>
+                </div>
+            </div>
+            <br>
+        {% else %}
+            <p class="no-likes">Vous n'avez pas encore liké de posts.</p>
+            <br>
+        {% endfor %}
+    </div>
+
+
+{% endblock %}

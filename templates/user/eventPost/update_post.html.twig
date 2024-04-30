@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le Post{% endblock %}
+
+{% block body %}
+
+    <h1>Modifier le Post</h1>
+
+    {{ form_start(solidarityForm) }}
+    <input type="hidden" name="_token" value="{{ csrf_token('update' ~ post.id) }}">
+    {{ form_row(solidarityForm) }}
+    <button type="submit">Enregistrer</button>
+    {{ form_end(solidarityForm) }}
+
+{% endblock %}

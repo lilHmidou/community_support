@@ -1,0 +1,146 @@
+:root {
+    --primary-color: #3A1700;
+    --background-color: #E3E1CB;
+    --input-background: #f3f3ea;
+    --button-color: #cccab6;
+    --button-hover-color: #000000;
+    --border-color: #ccc;
+    --text-hover-color: #c4c3ca;
+}
+
+/* General body styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--background-color);
+    margin: 0;
+    padding: 10px;
+}
+
+body .container {
+    background-color: var(--background-color);
+    width: 90%;
+    max-width: 650px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    margin-bottom: 80px;
+}
+
+body .container {
+    display: block;
+    flex: none;
+}
+
+
+/* Styling for form elements */
+.form-control {
+    background-color: var(--input-background);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s ease-in-out;
+}
+
+/* Button styling */
+.button.btn, .button-submit {
+    background-color: var(--button-color);
+    color: var(--primary-color);
+    padding: 3px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: all 200ms linear;
+    display: block;
+    margin: 20px auto;
+    letter-spacing: 1px;
+    width: fit-content;
+}
+
+button.btn:hover, .button-submit:hover {
+    background-color: var(--button-hover-color);
+    color: var(--background-color);
+}
+
+/* Form validation styles */
+.needs-validation {
+    margin-bottom: 20px;
+}
+
+.form-check input {
+    margin-right: 5px;
+}
+
+/* Icons styling */
+.fa {
+    margin-right: 5px;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 600px) {
+    .container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    button.btn, .button-submit {
+        width: 100%;
+    }
+}
+
+.input-icon {
+    position: absolute;
+    color: #3A1700;
+    top: 10px;
+    left: 18px;
+    height: 48px;
+    font-size: 24px;
+    line-height: 48px;
+    text-align: left;
+    -webkit-transition: all 200ms linear;
+    transition: all 200ms linear;
+}
+
+.section{
+    position: relative;
+    width: 100%;
+    display: block;
+}
+
+.form-group{
+    position: relative;
+    display: block;
+    margin: 0;
+    padding: 0;
+}
+
+.form-style {
+    padding: 13px 20px;
+    padding-left: 55px;
+    height: 48px;
+    width: 100%;
+    font-weight: 500;
+    border-radius: 4px;
+    font-size: 14px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    outline: none;
+    color: #c4c3ca;
+    background-color: #f3f3ea;
+    border: none;
+    -webkit-transition: all 200ms linear;
+    transition: all 200ms linear;
+    box-shadow: 0 4px 8px 0 rgba(21,21,21,.2);
+}
+
+.form-select {
+    margin-left: -80px;
+    top: 0;
+}

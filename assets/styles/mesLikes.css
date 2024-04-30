@@ -1,0 +1,68 @@
+.mes-likes-container .d-flex .btn-primary {
+    background-color: #7E8AB8;
+    color: white;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+    border: 1px solid transparent; /* Bordure transparente par défaut */
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transition de la couleur de la bordure */
+}
+
+.mes-likes-container .d-flex .btn-primary:hover {
+    background-color: white;
+    color: #7E8AB8;
+    border-color: #7E8AB8;
+}
+
+
+/* Card Styles */
+.mes-likes-container .card {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    margin-left: auto; /* Centering the card */
+    margin-right: auto; /* Centering the card */
+    padding: 20px;
+    max-width: 920px; /* Limiting the card width */
+}
+
+.mes-likes-container .card-body {
+    padding: 20px;
+}
+
+/* Text and Heading Styles */
+.mes-likes-container h1 {
+    text-align: center;
+    color: #3A1700;
+    font-size: 36px;
+    padding-bottom: 30px;
+}
+
+.mes-likes-container h5.card-title {
+    color: #3A1700;
+    font-weight: bold;
+}
+
+.mes-likes-container h6.card-subtitle {
+    color: #777;
+    font-size: 14px;
+}
+
+.mes-likes-container p.card-text {
+    color: #3A1700;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.mes-likes-container p {
+    color: #3A1700;
+    font-size: 16px;
+    margin-top: 20px;
+}
+
+.mes-likes-container .no-likes {
+    padding-left: 80px;
+    color: #3A1700;
+    font-size: 16px;
+}

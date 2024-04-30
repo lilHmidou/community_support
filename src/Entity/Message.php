@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\MessageRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: MessageRepository::class)]
 class Message
@@ -14,13 +15,20 @@ class Message
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Assert\NotNull]
     private ?\DateTimeImmutable $SendAt = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: "Le contenu du message ne peut pas être plus long que {{ limit }} caractères."
+    )]
     private ?string $ContentM = null;
 
     #[ORM\ManyToOne(inversedBy: 'Message')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotNull]
     private ?Post $post = null;
 
 

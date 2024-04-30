@@ -1,0 +1,121 @@
+:root {
+    --primary-color: #3A1700;
+    --form-bg-color: #E3E1CB;
+    --background-color: #E3E1CB;
+    --input-background: #f2f2f2;
+    --button-color: #cccab6;
+    --button-hover-color: #000000;
+    --border-color: #ccc;
+    --text-hover-color: #c4c3ca;
+    --cancel-button-color: red; /* New variable for the cancel button color */
+    --submit-button-color: forestgreen; /* New variable for the submit button color */
+}
+
+/* Global settings */
+body {
+    font-family: 'Poppins', sans-serif;
+    color: var(--primary-color);
+    background-color: var(--background-color); /* This sets the background globally */
+}
+
+.form-container {
+    background-color: transparent;
+    padding: 20px;
+    max-width: 550px;
+    margin: auto;
+    margin-bottom: 120px;
+}
+
+/* Add this to your CSS if you want only the .form to have the yellow background */
+.form {
+    background-color: var(--form-bg-color);
+    padding: 20px; /* Or any other padding you prefer */
+    border-radius: 8px; /* To maintain the rounded corners */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+.title h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 35px;
+}
+
+.form-control, .form-select {
+    background-color: var(--input-background);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border 0.3s ease-in-out;
+}
+
+button, .button-submit, .button-cancel {
+    color: var(--primary-color);
+    background-color: var(--button-color);
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    text-transform: uppercase;
+    -webkit-transition: all 200ms linear;
+    transition: all 200ms linear;
+    padding: 3px 30px;
+    letter-spacing: 1px;
+    display: inline-block; /* Changed to inline-block for layout within columns */
+    margin: 10px 5px; /* Added margin for spacing between buttons */
+    width: auto; /* Changed to auto to fit text content */
+}
+
+button:hover, .button-submit:hover, .button-cancel:hover {
+    color: var(--background-color);
+    background-color: var(--button-hover-color);
+}
+
+.button-cancel {
+    background-color: var(--cancel-button-color); /* Specific style for cancel button */
+}
+
+.button-submit {
+    background-color: var(--submit-button-color); /* Specific style for submit button */
+}
+
+.form-check-label {
+    margin: 10px 0;
+}
+
+.criteria-list {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #000000; /* Main text color from your style */
+    padding-left: 20px; /* Indent items for better alignment */
+}
+
+.criteria-list li {
+    margin-bottom: 5px; /* Space between list items */
+}
+
+/* Specific styling for items that meet the criteria */
+.criteria-list li.criteria-met {
+    color: green; /* Darker color for emphasized visibility */
+    font-weight: 600; /* Making it bolder to highlight met criteria */
+}
+
+
+/* Specific styles for password input wrapper */
+.password-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.eye-toggle-button {
+    position: absolute;
+    right: 10px;
+    border: none;
+    background: transparent;
+    color: var(--primary-color);
+    cursor: pointer;
+}

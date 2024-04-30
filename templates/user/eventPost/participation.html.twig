@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Mes Participations {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/mesLikes.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <h1>Mes Participations</h1>
+    {% for participation in participations %}
+        <div class="card mb-3">
+            <div class="card-body">
+                <h5 class="card-title">{{ participation.title }}</h5>
+                <br>
+                <p class="card-text">L'événement a lieu à {{ participation.location }} le {{ participation.eventDate|date('d/m/Y') }}.</p>
+                <p class="card-text">Rendez-vous au {{ participation.meetingAddress }} à {{ participation.startTime }}.</p>
+            </div>
+        </div>
+        <br>
+    {% else %}
+        <p class="no-likes">Aucune participation enregistrée.</p>
+        <br>
+    {% endfor %}
+
+{% endblock %}

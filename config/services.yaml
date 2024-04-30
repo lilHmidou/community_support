@@ -4,6 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
+    docs_directory: '%kernel.project_dir%/public/uploads/docs' # Path to the directory where the generated documents will be stored
+
 
 services:
     # default configuration for services in *this* file
@@ -13,8 +15,15 @@ services:
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
+    App\Service\UserService\UserServiceImpl:
+        arguments:
+            $security: '@security.helper'
 
-    App\Generator\UserGenerator\UserFormGenerator:
+    App\Service\ContactService\ContactServiceImpl:
+        arguments:
+            $entityManager: '@doctrine.orm.entity_manager'
+
+    App\Service\SecurityService\SecurityFormServiceImpl:
         arguments:
             $formFactory: '@form.factory'
             $authenticationUtils: '@security.authentication_utils'

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use App\security\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -10,6 +11,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'L\'adresse e-mail existe déjà')]
@@ -21,21 +24,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $FirstName = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank]
     private ?string $LastName = null;
 
     #[ORM\Column(length: 150)]
+    #[Assert\NotBlank]
     private ?string $Address = null;
 
     #[ORM\Column(length: 15)]
+    #[Assert\NotBlank]
     private ?string $PhoneNumber = null;
 
     #[ORM\Column(length: 10)]
+    #[Assert\NotBlank]
     private ?string $Gender = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank]
+    #[Assert\Email]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -45,19 +55,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTime $DOB = null;
 
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeImmutable $CreatedAt_U = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: ContactMessage::class, orphanRemoval: true)]
     private Collection $ContactMessage;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserTutorat::class, orphanRemoval: true)]
-    private Collection $UserTutorat;
-
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?ConfigModule $ConfigModule = null;
+    #[ORM\OneToOne(mappedBy: 'user', targetEntity: UserTutorat::class, cascade: ['persist', 'remove'])]
+    private ?UserTutorat $UserTutorat = null;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Post::class, orphanRemoval: true)]
     private Collection $Post;
@@ -65,8 +74,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->ContactMessage = new ArrayCollection();
-        $this->UserTutorat = new ArrayCollection();
         $this->Post = new ArrayCollection();
+        $this->roles = [Role::ROLE_USER];
         $this->CreatedAt_U = new \DateTimeImmutable();
     }
 
@@ -193,9 +202,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles(): array
     {
         $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
         return array_unique($roles);
     }
 
@@ -204,6 +210,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->roles = $roles;
 
         return $this;
+    }
+
+    public function addRole(string $role): void
+    {
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    public function removeRole(string $role): void
+    {
+        $key = array_search($role, $this->roles, true);
+        if ($key !== false) {
+            unset($this->roles[$key]);
+        }
+    }
+
+    public function hasRole(string $role): bool
+    {
+        return in_array($role, $this->roles, true);
     }
 
     /**
@@ -219,6 +245,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->FirstName . ' ' . $this->LastName . ' - ' . $this->Address . ' - ' . $this->PhoneNumber . ' - ' . $this->Gender . ' - ' . $this->email;
+    }
+
+    public function setUserTutorat(?UserTutorat $UserTutorat): static
+    {
+        $this->UserTutorat = $UserTutorat;
+
+        return $this;
+    }
+
+    public function getUserTutorat(): ?UserTutorat
+    {
+        return $this->UserTutorat;
     }
 
     /**
@@ -247,48 +290,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $contactMessage->setUser(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, UserTutorat>
-     */
-    public function getUserTutorat(): Collection
-    {
-        return $this->UserTutorat;
-    }
-
-    public function addUserTutorat(UserTutorat $userTutorat): static
-    {
-        if (!$this->UserTutorat->contains($userTutorat)) {
-            $this->UserTutorat->add($userTutorat);
-            $userTutorat->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserTutorat(UserTutorat $userTutorat): static
-    {
-        if ($this->UserTutorat->removeElement($userTutorat)) {
-            // set the owning side to null (unless already changed)
-            if ($userTutorat->getUser() === $this) {
-                $userTutorat->setUser(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getConfigModule(): ?ConfigModule
-    {
-        return $this->ConfigModule;
-    }
-
-    public function setConfigModule(?ConfigModule $ConfigModule): static
-    {
-        $this->ConfigModule = $ConfigModule;
 
         return $this;
     }
